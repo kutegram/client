@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
+#include "library/telegramclient.h"
 
 namespace Ui {
     class MainWindow;
@@ -24,8 +25,11 @@ public:
     void setOrientation(ScreenOrientation orientation);
 
     void showExpanded();
+public slots:
+    void connectButton_clicked();
 
 private:
+    TelegramClient *client;
     Ui::MainWindow *ui;
 };
 

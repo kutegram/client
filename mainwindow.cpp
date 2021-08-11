@@ -4,13 +4,14 @@
 #include <QtCore/QCoreApplication>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+    : QMainWindow(parent), client(new TelegramClient), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
+    client->deleteLater();
     delete ui;
 }
 
@@ -60,10 +61,16 @@ void MainWindow::setOrientation(ScreenOrientation orientation)
 void MainWindow::showExpanded()
 {
 #if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
-    showFullScreen();
+    //showFullScreen();
+    showMaximized();
 #elif defined(Q_WS_MAEMO_5)
     showMaximized();
 #else
     show();
 #endif
+}
+
+void MainWindow::connectButton_clicked()
+{
+    client->start();
 }
