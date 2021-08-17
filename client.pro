@@ -22,14 +22,21 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # CONFIG += mobility
 # MOBILITY +=
 
-SOURCES += main.cpp mainwindow.cpp
-HEADERS += mainwindow.h
-FORMS += mainwindow.ui
+SOURCES += main.cpp mainwindow.cpp \
+    logintypedialog.cpp \
+    qrlogindialog.cpp
+HEADERS += mainwindow.h \
+    logintypedialog.h \
+    qrlogindialog.h
+FORMS += mainwindow.ui \
+    logintypedialog.ui \
+    qrlogindialog.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
 qtcAddDeployment()
 
+include(libqrencode/libqrencode.pri)
 include(library/library.pri)
 
 OTHER_FILES += \
@@ -40,3 +47,6 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog
+
+RESOURCES += \
+    resources.qrc

@@ -26,11 +26,17 @@ public:
 
     void showExpanded();
 public slots:
-    void connectButton_clicked();
+    void loginAction_triggered();
+    void client_stateChanged(State state);
 
+    void client_gotLoginToken(qint32 expired, QString tokenUrl);
+    void client_gotSentCode(QString phone_code_hash);
 private:
     TelegramClient *client;
     Ui::MainWindow *ui;
+    QString phoneNumber;
+
+    void showTypeDialog();
 };
 
 #endif // MAINWINDOW_H

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LoginTypeDialog</class>
+ <widget class="QDialog" name="LoginTypeDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>163</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QCommandLinkButton" name="qrButton">
+     <property name="text">
+      <string>Авторизоваться с помощью QR-кода</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCommandLinkButton" name="phoneButton">
+     <property name="text">
+      <string>Авторизоваться по номеру телефона</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>qrButton</sender>
+   <signal>clicked()</signal>
+   <receiver>LoginTypeDialog</receiver>
+   <slot>qrButton_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>phoneButton</sender>
+   <signal>clicked()</signal>
+   <receiver>LoginTypeDialog</receiver>
+   <slot>phoneButton_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>68</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>LoginTypeDialog</receiver>
+   <slot>buttonBox_rejected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>141</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>qrButton_clicked()</slot>
+  <slot>phoneButton_clicked()</slot>
+  <slot>buttonBox_rejected()</slot>
+ </slots>
+</ui>

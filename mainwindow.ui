@@ -6,57 +6,86 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
+    <width>261</width>
     <height>468</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Kutegram</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QPushButton" name="connectButton">
-      <property name="text">
-       <string>Connect</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <layout class="QVBoxLayout" name="verticalLayout"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>446</width>
+     <width>261</width>
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Основное</string>
+    </property>
+    <addaction name="loginAction"/>
+    <addaction name="separator"/>
+    <addaction name="action_3"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Действия</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>Помощь</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>Вид</string>
+    </property>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_4"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="loginAction">
+   <property name="text">
+    <string>Войти в аккаунт</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Выйти</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
   <connection>
-   <sender>connectButton</sender>
-   <signal>clicked()</signal>
+   <sender>loginAction</sender>
+   <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>connectButton_clicked()</slot>
+   <slot>loginAction_triggered()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>222</x>
-     <y>233</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>222</x>
+     <x>130</x>
      <y>233</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>connectButton_clicked()</slot>
+  <slot>loginAction_triggered()</slot>
  </slots>
 </ui>

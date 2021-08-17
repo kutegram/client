@@ -2,11 +2,24 @@
 #include "ui_mainwindow.h"
 
 #include <QtCore/QCoreApplication>
+#include "logintypedialog.h"
+#include "libqrencode/qrencode.h"
+#include "qrlogindialog.h"
+#include <QPainter>
+#include <QInputDialog>
+
+#ifndef QT_NO_DEBUG_OUTPUT
+#include <QtDebug>
+#endif
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), client(new TelegramClient), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect(client, SIGNAL(stateChanged(State)), this, SLOT(client_stateChanged(State)));
+    connect(client, SIGNAL(gotLoginToken(qint32,QString)), this, SLOT(client_gotLoginToken(qint32,QString)));
+    connect(client, SIGNAL(gotSentCode(QString)), this, SLOT(client_gotSentCode(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -70,7 +83,92 @@ void MainWindow::showExpanded()
 #endif
 }
 
-void MainWindow::connectButton_clicked()
+void MainWindow::showTypeDialog()
+{
+    LoginTypeDialog dialog(this);
+
+    switch (dialog.exec()) {
+    case 2:
+    {
+        //QR code
+        client->exportLoginToken();
+        break;
+    }
+    case 3:
+    {
+        //Phone number
+        QInputDialog phoneInput(this);
+        if (phoneInput.exec()) {
+            phoneNumber = phoneInput.textValue();
+            client->sendCode(phoneNumber);
+        }
+
+        break;
+    }
+    default:
+    {
+        break;
+    }
+    }
+}
+
+void MainWindow::loginAction_triggered()
 {
     client->start();
+    if (client->isConnected()) showTypeDialog();
+}
+
+void MainWindow::client_stateChanged(State state)
+{
+    switch (state) {
+    case INITED:
+    {
+        showTypeDialog();
+    }
+    default:
+    {
+        ui->statusBar->showMessage("Got state: " + QString::number(state), 5000);
+        break;
+    }
+    }
+}
+
+void MainWindow::client_gotLoginToken(qint32 expired, QString tokenUrl)
+{
+#ifndef QT_NO_DEBUG_OUTPUT
+    qDebug() << "Got qr token url:" << tokenUrl;
+#endif
+
+    QRcode* code = QRcode_encodeString(tokenUrl.toStdString().c_str(), 0, QR_ECLEVEL_Q, QR_MODE_8, 1);
+
+    if (code) {
+        QImage result(code->width + 8, code->width + 8, QImage::Format_RGB32);
+        result.fill(Qt::white);
+
+        QPainter painter;
+        painter.begin(&result);
+
+        painter.setPen(Qt::black);
+        for (qint32 y = 0; y < code->width; ++y) {
+            for (qint32 x = 0; x < code->width; ++x) {
+                if (code->data[y * code->width + x] & 1) painter.drawPoint(x + 4, y + 4);
+            }
+        }
+
+        painter.end();
+
+        result = result.scaled(code->width * 4, code->width * 4);
+        QRcode_free(code);
+
+        QRLoginDialog dialog(result, this);
+        dialog.exec();
+    }
+}
+
+void MainWindow::client_gotSentCode(QString phone_code_hash)
+{
+    QInputDialog phoneInput(this);
+    if (phoneInput.exec()) {
+        client->signIn(phoneNumber, phone_code_hash, phoneInput.textValue());
+    }
 }

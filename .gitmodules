@@ -1,3 +1,6 @@
 [submodule "library"]
 	path = library
 	url = https://github.com/kutegram/library.git
+[submodule "libqrencode"]
+	path = libqrencode
+	url = https://github.com/kutegram/libqrencode.git
