@@ -123,7 +123,13 @@ void MainWindow::client_stateChanged(State state)
     switch (state) {
     case INITED:
     {
-        showTypeDialog();
+        if (!client->isLoggedIn()) showTypeDialog();
+        break;
+    }
+    case LOGGED_IN:
+    {
+        client->getDialogs();
+        break;
     }
     default:
     {
