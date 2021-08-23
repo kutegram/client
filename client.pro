@@ -4,6 +4,9 @@
 # dir1.source = mydir
 DEPLOYMENTFOLDERS = # file1 dir1
 
+QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
+QMAKE_LFLAGS.GCCE += -Tdata 0xC00000
+
 symbian:TARGET.UID3 = 0xE0713D51
 
 # Smart Installer package's UID
@@ -14,7 +17,7 @@ symbian:TARGET.UID3 = 0xE0713D51
 #symbian:DEPLOYMENT.installer_header = 0x2002CCCF
 
 # Allow network access on Symbian
-symbian:TARGET.CAPABILITY += "ReadUserData WriteUserData Location UserEnvironment NetworkServices LocalServices"
+symbian:TARGET.CAPABILITY = ReadUserData WriteUserData UserEnvironment NetworkServices LocalServices
 
 # If your application uses the Qt Mobility libraries, uncomment
 # the following lines and add the respective components to the 

@@ -6,22 +6,107 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>261</width>
-    <height>468</height>
+    <width>274</width>
+    <height>532</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Kutegram</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout"/>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Все чаты</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QListWidget" name="listWidget">
+          <item>
+           <property name="text">
+            <string>Chat 1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 6</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 7</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 8</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 9</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Chat 0</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Новые</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Личные</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Каналы</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>261</width>
+     <width>274</width>
      <height>20</height>
     </rect>
    </property>
