@@ -8,6 +8,8 @@ namespace Ui {
     class MainWindow;
 }
 
+class DialogItemModel;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,16 +27,19 @@ public:
     void setOrientation(ScreenOrientation orientation);
 
     void showExpanded();
+
 public slots:
     void loginAction_triggered();
-    void client_stateChanged(State state);
 
+    void client_stateChanged(State state);
     void client_gotLoginToken(qint32 expired, QString tokenUrl);
     void client_gotSentCode(QString phone_code_hash);
+
 private:
     TelegramClient *client;
     Ui::MainWindow *ui;
     QString phoneNumber;
+    DialogItemModel *dialogModel;
 
     void showTypeDialog();
 };

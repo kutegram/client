@@ -15,89 +15,17 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>Все чаты</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QListWidget" name="listWidget">
-          <item>
-           <property name="text">
-            <string>Chat 1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 6</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 7</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 8</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 9</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Chat 0</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="tab_3">
-       <attribute name="title">
-        <string>Новые</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_4">
-       <attribute name="title">
-        <string>Личные</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Каналы</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2"/>
-      </widget>
-     </widget>
+     <widget class="QTabBar" name="tabBar" native="true"/>
+    </item>
+    <item>
+     <widget class="QListView" name="dialogView"/>
     </item>
    </layout>
   </widget>
@@ -116,7 +44,7 @@
     </property>
     <addaction name="loginAction"/>
     <addaction name="separator"/>
-    <addaction name="action_3"/>
+    <addaction name="exitAction"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -144,13 +72,21 @@
     <string>Войти в аккаунт</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="exitAction">
    <property name="text">
     <string>Выйти</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QTabBar</class>
+   <extends>QWidget</extends>
+   <header>qtabbar.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

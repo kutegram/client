@@ -2,20 +2,23 @@
 #include "ui_mainwindow.h"
 
 #include <QtCore/QCoreApplication>
-#include "logintypedialog.h"
-#include "libqrencode/qrencode.h"
-#include "qrlogindialog.h"
-#include <QPainter>
 #include <QInputDialog>
+#include "logintypedialog.h"
+#include "qrlogindialog.h"
+#include "dialogitemdelegate.h"
+#include "dialogitemmodel.h"
 
 #ifndef QT_NO_DEBUG_OUTPUT
 #include <QtDebug>
 #endif
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), client(new TelegramClient), ui(new Ui::MainWindow)
+    : QMainWindow(parent), client(new TelegramClient), ui(new Ui::MainWindow), phoneNumber(), dialogModel(0)
 {
     ui->setupUi(this);
+    ui->tabBar->setDrawBase(false);
+    ui->dialogView->setModel(dialogModel = new DialogItemModel(client, ui->dialogView));
+    ui->dialogView->setItemDelegate(new DialogItemDelegate(ui->dialogView));
 
     connect(client, SIGNAL(stateChanged(State)), this, SLOT(client_stateChanged(State)));
     connect(client, SIGNAL(gotLoginToken(qint32,QString)), this, SLOT(client_gotLoginToken(qint32,QString)));
@@ -124,12 +127,7 @@ void MainWindow::client_stateChanged(State state)
     case INITED:
     {
         if (!client->isLoggedIn()) showTypeDialog();
-        break;
-    }
-    case LOGGED_IN:
-    {
-        client->getDialogs();
-        break;
+        //break;
     }
     default:
     {
@@ -145,30 +143,8 @@ void MainWindow::client_gotLoginToken(qint32 expired, QString tokenUrl)
     qDebug() << "Got qr token url:" << tokenUrl;
 #endif
 
-    QRcode* code = QRcode_encodeString(tokenUrl.toStdString().c_str(), 0, QR_ECLEVEL_Q, QR_MODE_8, 1);
-
-    if (code) {
-        QImage result(code->width + 8, code->width + 8, QImage::Format_RGB32);
-        result.fill(Qt::white);
-
-        QPainter painter;
-        painter.begin(&result);
-
-        painter.setPen(Qt::black);
-        for (qint32 y = 0; y < code->width; ++y) {
-            for (qint32 x = 0; x < code->width; ++x) {
-                if (code->data[y * code->width + x] & 1) painter.drawPoint(x + 4, y + 4);
-            }
-        }
-
-        painter.end();
-
-        result = result.scaled(code->width * 4, code->width * 4);
-        QRcode_free(code);
-
-        QRLoginDialog dialog(result, this);
-        dialog.exec();
-    }
+    QRLoginDialog dialog(tokenUrl, this);
+    dialog.exec();
 }
 
 void MainWindow::client_gotSentCode(QString phone_code_hash)

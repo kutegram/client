@@ -27,10 +27,14 @@ symbian:TARGET.CAPABILITY = ReadUserData WriteUserData UserEnvironment NetworkSe
 
 SOURCES += main.cpp mainwindow.cpp \
     logintypedialog.cpp \
-    qrlogindialog.cpp
+    qrlogindialog.cpp \
+    dialogitemmodel.cpp \
+    dialogitemdelegate.cpp
 HEADERS += mainwindow.h \
     logintypedialog.h \
-    qrlogindialog.h
+    qrlogindialog.h \
+    dialogitemmodel.h \
+    dialogitemdelegate.h
 FORMS += mainwindow.ui \
     logintypedialog.ui \
     qrlogindialog.ui
