@@ -2,6 +2,7 @@
 #define DIALOGITEMMODEL_H
 
 #include <QAbstractItemModel>
+#include <QMutex>
 #include "library/tlmessages.h"
 
 class TelegramClient;
@@ -11,8 +12,11 @@ class DialogItemModel : public QAbstractItemModel
     Q_OBJECT
 public:
     QList<TLDialog> dialogs;
+    QMap<qint32, TLMessage> messages;
+    QMap<qint32, TLChat> chats;
+    QMap<qint32, TLUser> users;
     TelegramClient* client;
-    bool canRequest;
+    QMutex requestLock;
 
     explicit DialogItemModel(TelegramClient* cl, QObject *parent = 0);
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
@@ -21,8 +25,9 @@ public:
     virtual QModelIndex parent(const QModelIndex& index) const;
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual bool canFetchMore(const QModelIndex& parent) const;
-    virtual void fetchMore (const QModelIndex& parent);
+    virtual void fetchMore(const QModelIndex& parent);
 
+    QString getDialogTitle(qint32 i) const;
 signals:
 
 public slots:
