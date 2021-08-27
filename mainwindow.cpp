@@ -127,7 +127,12 @@ void MainWindow::client_stateChanged(State state)
     case INITED:
     {
         if (!client->isLoggedIn()) showTypeDialog();
-        //break;
+        break;
+    }
+    case LOGGED_IN:
+    {
+        if (dialogModel->canFetchMore(QModelIndex())) dialogModel->fetchMore(QModelIndex());
+        break;
     }
     default:
     {
