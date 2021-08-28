@@ -139,7 +139,8 @@ void MainWindow::client_stateChanged(State state)
     }
     default:
     {
-        ui->statusBar->showMessage("Got state: " + QString::number(state), 5000);
+        //TODO
+        setWindowTitle("Kutegram (ls: " + QString::number(state) + ")");
         break;
     }
     }

@@ -47,23 +47,32 @@ QString DialogItemModel::getDialogTitle(qint32 i) const
     return QString();
 }
 
+qint32 DialogItemModel::getDialogId(qint32 i) const
+{
+    return dialogs[i].peer.id;
+}
+
 QVariant DialogItemModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) return QVariant();
 
     //TODO
     switch (role) {
-    case Qt::DisplayRole:
+    case Qt::DisplayRole: //title
     {
         return getDialogTitle(index.row());
     }
-    case Qt::DecorationRole:
+    case Qt::DecorationRole: //avatar
     {
         return QVariant();
     }
-    case Qt::ToolTipRole:
+    case Qt::ToolTipRole: //last message
     {
         return QVariant();
+    }
+    case Qt::UserRole: //dialog id
+    {
+        return getDialogId(index.row());
     }
     }
 

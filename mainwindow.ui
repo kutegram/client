@@ -73,7 +73,6 @@
    <addaction name="menu_2"/>
    <addaction name="menu_3"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="loginAction">
    <property name="text">
     <string>Войти в аккаунт</string>

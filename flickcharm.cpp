@@ -61,8 +61,8 @@ void FlickCharm::activateOn(QWidget *widget)
 {
     QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
     if (scrollArea) {
-        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        //scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        //scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         QWidget *viewport = scrollArea->viewport();
         viewport->installEventFilter(this);
         scrollArea->installEventFilter(this);
@@ -75,8 +75,8 @@ void FlickCharm::activateOn(QWidget *widget)
     QWebView *webView = dynamic_cast<QWebView*>(widget);
     if (webView) {
         QWebFrame *frame = webView->page()->mainFrame();
-        frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
-        frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
+        //frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
+        //frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
         webView->installEventFilter(this);
         d->flickData.remove(webView);
         d->flickData[webView] = new FlickData;
