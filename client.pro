@@ -4,6 +4,8 @@
 # dir1.source = mydir
 DEPLOYMENTFOLDERS = # file1 dir1
 
+QT += webkit
+
 QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
 QMAKE_LFLAGS.GCCE += -Tdata 0xC00000
 
@@ -29,12 +31,14 @@ SOURCES += main.cpp mainwindow.cpp \
     logintypedialog.cpp \
     qrlogindialog.cpp \
     dialogitemmodel.cpp \
-    dialogitemdelegate.cpp
+    dialogitemdelegate.cpp \
+    flickcharm.cpp
 HEADERS += mainwindow.h \
     logintypedialog.h \
     qrlogindialog.h \
     dialogitemmodel.h \
-    dialogitemdelegate.h
+    dialogitemdelegate.h \
+    flickcharm.h
 FORMS += mainwindow.ui \
     logintypedialog.ui \
     qrlogindialog.ui

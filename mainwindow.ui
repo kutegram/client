@@ -25,7 +25,14 @@
      <widget class="QTabBar" name="tabBar" native="true"/>
     </item>
     <item>
-     <widget class="QListView" name="dialogView"/>
+     <widget class="QListView" name="dialogView">
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="horizontalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

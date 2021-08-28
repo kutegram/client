@@ -13,9 +13,12 @@
 #endif
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), client(new TelegramClient), ui(new Ui::MainWindow), phoneNumber(), dialogModel(0)
+    : QMainWindow(parent), client(new TelegramClient), ui(new Ui::MainWindow), phoneNumber(), dialogModel(0), flickcharm()
 {
     ui->setupUi(this);
+
+    flickcharm.activateOn(ui->dialogView);
+
     ui->tabBar->setDrawBase(false);
     ui->dialogView->setModel(dialogModel = new DialogItemModel(client, ui->dialogView));
     ui->dialogView->setItemDelegate(new DialogItemDelegate(ui->dialogView));

@@ -3,6 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include "library/telegramclient.h"
+#include "flickcharm.h"
 
 namespace Ui {
     class MainWindow;
@@ -36,6 +37,7 @@ public slots:
     void client_gotSentCode(QString phone_code_hash);
 
 private:
+    FlickCharm flickcharm;
     TelegramClient *client;
     Ui::MainWindow *ui;
     QString phoneNumber;
