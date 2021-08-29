@@ -15,6 +15,7 @@ public:
     QMap<qint32, TLMessage> messages;
     QMap<qint32, TLChat> chats;
     QMap<qint32, TLUser> users;
+    QMap<qint32, QVariant> avatars;
     TelegramClient* client;
     QMutex requestLock;
     qint32 offsetId;
@@ -37,6 +38,7 @@ signals:
 
 public slots:
     void client_gotDialogs(qint32 count, QList<TLDialog> dialogs, QList<TLMessage> messages, QList<TLChat> chats, QList<TLUser> users);
+    void client_gotFile(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes);
 };
 
 #endif // DIALOGITEMMODEL_H

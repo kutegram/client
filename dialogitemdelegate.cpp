@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QApplication>
+#include <QPixmap>
 
 DialogItemDelegate::DialogItemDelegate(QObject *parent) :
     QAbstractItemDelegate(parent)
@@ -48,20 +49,25 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     x += padding;
     y += padding;
 
-    QColor circleColor;
+    QPixmap avatar = index.data(Qt::DecorationRole).value<QPixmap>();
     QRect circleRect(x, y, avatarSize, avatarSize);
-    circleColor.setHsl(index.data(Qt::UserRole).toInt() % 360, 140, 140);
-    painter->setBrush(circleColor);
-    painter->setPen(circleColor);
-    painter->setRenderHint(QPainter::Antialiasing);
-    painter->drawEllipse(circleRect);
+    if (avatar.isNull()) {
+        QColor circleColor;
+        circleColor.setHsl(index.data(Qt::UserRole).toInt() % 360, 140, 140);
+        painter->setBrush(circleColor);
+        painter->setPen(circleColor);
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->drawEllipse(circleRect);
 
-    QFont circleFont = option.font;
-    circleFont.setBold(true);
-    circleFont.setPixelSize(avatarSize / 3);
-    painter->setFont(circleFont);
-    painter->setPen(Qt::white);
-    painter->drawText(circleRect, Qt::AlignHCenter | Qt::AlignVCenter, getAvatarText(title), &circleRect);
+        QFont circleFont = option.font;
+        circleFont.setBold(true);
+        circleFont.setPixelSize(avatarSize / 3);
+        painter->setFont(circleFont);
+        painter->setPen(Qt::white);
+        painter->drawText(circleRect, Qt::AlignHCenter | Qt::AlignVCenter, getAvatarText(title), &circleRect);
+    } else {
+        painter->drawPixmap(circleRect, avatar);
+    }
 
     x += avatarSize + padding + padding;
     y += padding;

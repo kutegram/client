@@ -1,11 +1,13 @@
 #include "dialogitemmodel.h"
 
 #include "library/telegramclient.h"
+#include <QPixmap>
 
 DialogItemModel::DialogItemModel(TelegramClient *cl, QObject *parent) :
-    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(false)
+    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), avatars(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(false)
 {
     connect(client, SIGNAL(gotDialogs(qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)), this, SLOT(client_gotDialogs(qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)));
+    connect(client, SIGNAL(gotFile(qint64,TLType::Types,qint32,QByteArray)), this, SLOT(client_gotFile(qint64,TLType::Types,qint32,QByteArray)));
 }
 
 QModelIndex DialogItemModel::index(int row, int column, const QModelIndex &parent) const
@@ -64,7 +66,7 @@ QVariant DialogItemModel::data(const QModelIndex &index, int role) const
     }
     case Qt::DecorationRole: //avatar
     {
-        return QVariant();
+        return avatars[getDialogId(index.row())];
     }
     case Qt::ToolTipRole: //last message
     {
@@ -103,8 +105,16 @@ void DialogItemModel::client_gotDialogs(qint32 count, QList<TLDialog> d, QList<T
     dialogs.append(d);
 
     for (qint32 i = 0; i < m.size(); ++i) messages.insert(m[i].id, m[i]);
-    for (qint32 i = 0; i < c.size(); ++i) chats.insert(c[i].id, c[i]);
-    for (qint32 i = 0; i < u.size(); ++i) users.insert(u[i].id, u[i]);
+    for (qint32 i = 0; i < c.size(); ++i) {
+        TLChat item = c[i];
+        if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false)));
+        chats.insert(item.id, item);
+    }
+    for (qint32 i = 0; i < u.size(); ++i) {
+        TLUser item = u[i];
+        if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false)));
+        users.insert(item.id, item);
+    }
 
     for (qint32 i = 0; i < d.size(); ++i) {
         TLMessage topMessage = messages[d[i].topMessage];
@@ -112,20 +122,25 @@ void DialogItemModel::client_gotDialogs(qint32 count, QList<TLDialog> d, QList<T
             offsetDate = topMessage.date;
             offsetId = topMessage.id;
 
-            qint64 accessHash = 0;
             switch (topMessage.peer.type) {
+            case TLType::PeerChat:
             case TLType::PeerChannel:
-                accessHash = chats[topMessage.peer.id].accessHash;
+                offsetPeer = TLInputPeer(chats[topMessage.peer.id]);
                 break;
             case TLType::PeerUser:
-                accessHash = users[topMessage.peer.id].accessHash;
+                offsetPeer = TLInputPeer(users[topMessage.peer.id]);
                 break;
             }
 
-            offsetPeer = TLInputPeer(topMessage.peer, accessHash);
+
         }
     }
 
     endInsertRows();
     requestLock.unlock();
+}
+
+void DialogItemModel::client_gotFile(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes)
+{
+    avatars.insert(avatars.key(mtMessageId), QPixmap::fromImage(QImage::fromData(bytes)));
 }

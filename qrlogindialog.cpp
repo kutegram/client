@@ -14,7 +14,7 @@ QRLoginDialog::QRLoginDialog(QString encode, QWidget *parent) :
     QRcode* code = QRcode_encodeString(encode.toStdString().c_str(), 0, QR_ECLEVEL_Q, QR_MODE_8, 1);
 
     if (code) {
-        QImage result(code->width + 8, code->width + 8, QImage::Format_Indexed8);
+        QImage result(code->width + 8, code->width + 8, QImage::Format_RGB32);
         result.fill(Qt::white);
 
         QPainter painter;
