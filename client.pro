@@ -32,16 +32,19 @@ SOURCES += main.cpp mainwindow.cpp \
     qrlogindialog.cpp \
     dialogitemmodel.cpp \
     dialogitemdelegate.cpp \
-    flickcharm.cpp
+    flickcharm.cpp \
+    dialogwindow.cpp
 HEADERS += mainwindow.h \
     logintypedialog.h \
     qrlogindialog.h \
     dialogitemmodel.h \
     dialogitemdelegate.h \
-    flickcharm.h
+    flickcharm.h \
+    dialogwindow.h
 FORMS += mainwindow.ui \
     logintypedialog.ui \
-    qrlogindialog.ui
+    qrlogindialog.ui \
+    dialogwindow.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)

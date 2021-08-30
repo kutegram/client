@@ -49,6 +49,24 @@ QString DialogItemModel::getDialogTitle(qint32 i) const
     return QString();
 }
 
+QString DialogItemModel::getMessageString(qint32 i) const
+{
+    TLMessage m = messages[dialogs[i].topMessage];
+
+    if (!m.message.isEmpty()) {
+        return m.message;
+    }
+    else if (GETID(m.action)) {
+        return "MessageAction#" + QString::number(GETID(m.action));
+    }
+    else if (GETID(m.media)){
+        return "MessageMedia#" + QString::number(GETID(m.media));
+    }
+    else {
+        return "Message#" + QString::number(m.id);
+    }
+}
+
 qint32 DialogItemModel::getDialogId(qint32 i) const
 {
     return dialogs[i].peer.id;
@@ -70,7 +88,7 @@ QVariant DialogItemModel::data(const QModelIndex &index, int role) const
     }
     case Qt::ToolTipRole: //last message
     {
-        return QVariant();
+        return getMessageString(index.row());
     }
     case Qt::UserRole: //dialog id
     {
@@ -107,12 +125,12 @@ void DialogItemModel::client_gotDialogs(qint32 count, QList<TLDialog> d, QList<T
     for (qint32 i = 0; i < m.size(); ++i) messages.insert(m[i].id, m[i]);
     for (qint32 i = 0; i < c.size(); ++i) {
         TLChat item = c[i];
-        if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false)));
+        //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false)));
         chats.insert(item.id, item);
     }
     for (qint32 i = 0; i < u.size(); ++i) {
         TLUser item = u[i];
-        if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false)));
+        //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false)));
         users.insert(item.id, item);
     }
 

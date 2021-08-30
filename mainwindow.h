@@ -4,6 +4,7 @@
 #include <QtGui/QMainWindow>
 #include "library/telegramclient.h"
 #include "flickcharm.h"
+#include <QModelIndex>
 
 namespace Ui {
     class MainWindow;
@@ -31,6 +32,7 @@ public:
 
 public slots:
     void loginAction_triggered();
+    void dialogView_activated(QModelIndex index);
 
     void client_stateChanged(State state);
     void client_gotLoginToken(qint32 expired, QString tokenUrl);

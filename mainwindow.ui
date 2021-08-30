@@ -111,8 +111,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>dialogView</sender>
+   <signal>activated(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>dialogView_activated(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loginAction_triggered()</slot>
+  <slot>dialogView_activated(QModelIndex)</slot>
  </slots>
 </ui>

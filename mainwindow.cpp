@@ -7,6 +7,7 @@
 #include "qrlogindialog.h"
 #include "dialogitemdelegate.h"
 #include "dialogitemmodel.h"
+#include "dialogwindow.h"
 
 #ifndef QT_NO_DEBUG_OUTPUT
 #include <QtDebug>
@@ -30,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    client->stop();
     client->deleteLater();
     delete ui;
 }
@@ -162,4 +164,12 @@ void MainWindow::client_gotSentCode(QString phone_code_hash)
     if (phoneInput.exec()) {
         client->signIn(phoneNumber, phone_code_hash, phoneInput.textValue());
     }
+}
+
+void MainWindow::dialogView_activated(QModelIndex index)
+{
+    if (!index.isValid()) return;
+
+    DialogWindow* window = new DialogWindow(this);
+    window->show();
 }

@@ -31,6 +31,8 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     //TODO
     if (!index.isValid()) return;
 
+    QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &option, painter);
+
     qint32 x = option.rect.x();
     qint32 y = option.rect.y();
     qint32 w = option.rect.width();
@@ -72,7 +74,7 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     x += avatarSize + padding + padding;
     y += padding;
 
-    painter->setPen(QApplication::palette().text().color());
+    painter->setPen((option.state & QStyle::State_HasFocus) == QStyle::State_HasFocus ? option.palette.brightText().color() : option.palette.text().color());
 
     font.setBold(true);
     painter->setFont(font);
@@ -80,9 +82,11 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
     y += fontHeight + padding;
 
+    QString tooltip = index.data(Qt::ToolTipRole).toString();
+
     font.setBold(false);
     painter->setFont(font);
-    painter->drawText(x, y, w, h, Qt::TextSingleLine, fm.elidedText("<нет сообщения>", Qt::ElideRight, w - x - padding)); //TODO
+    painter->drawText(x, y, w, h, Qt::TextSingleLine, fm.elidedText(tooltip, Qt::ElideRight, w - x - padding));
 }
 
 QSize DialogItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
