@@ -16,3 +16,4 @@ client_stub.pkg
 ABLD.BAT
 client_0xE0713D51.mmp
 *.mk
+*.autosave

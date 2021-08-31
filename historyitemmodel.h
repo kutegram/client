@@ -1,5 +1,5 @@
-#ifndef DIALOGITEMMODEL_H
-#define DIALOGITEMMODEL_H
+#ifndef HISTORYITEMMODEL_H
+#define HISTORYITEMMODEL_H
 
 #include <QAbstractItemModel>
 #include <QMutex>
@@ -7,23 +7,21 @@
 
 class TelegramClient;
 
-class DialogItemModel : public QAbstractItemModel
+class HistoryItemModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    QList<TLDialog> dialogs;
-    QMap<qint32, TLMessage> messages;
-    QMap<qint32, TLChat> chats;
-    QMap<qint32, TLUser> users;
-    QMap<qint32, QVariant> avatars;
+    QList<TLMessage> messages;
+    QList<TLChat> chats;
+    QList<TLUser> users;
     TelegramClient* client;
+    TLInputPeer peer;
     QMutex requestLock;
+    bool gotFull;
     qint32 offsetId;
     qint32 offsetDate;
-    TLInputPeer offsetPeer;
-    bool gotFull;
 
-    explicit DialogItemModel(TelegramClient* cl, QObject *parent = 0);
+    explicit HistoryItemModel(TelegramClient* cl, TLInputPeer input, QObject *parent = 0);
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
@@ -32,15 +30,12 @@ public:
     virtual bool canFetchMore(const QModelIndex& parent) const;
     virtual void fetchMore(const QModelIndex& parent);
 
-    QString getDialogTitle(qint32 i) const;
     QString getMessageString(qint32 i) const;
-    qint32 getDialogId(qint32 i) const;
-    TLInputPeer getInputPeer(qint32 i) const;
 signals:
-
+    
 public slots:
-    void client_gotDialogs(qint32 count, QList<TLDialog> dialogs, QList<TLMessage> messages, QList<TLChat> chats, QList<TLUser> users);
-    void client_gotFile(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes);
+    void client_gotMessages(qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    
 };
 
-#endif // DIALOGITEMMODEL_H
+#endif // HISTORYITEMMODEL_H

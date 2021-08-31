@@ -33,18 +33,25 @@ SOURCES += main.cpp mainwindow.cpp \
     dialogitemmodel.cpp \
     dialogitemdelegate.cpp \
     flickcharm.cpp \
-    dialogwindow.cpp
+    historyitemdelegate.cpp \
+    historyitemmodel.cpp \
+    historywindow.cpp \
+    historyview.cpp
 HEADERS += mainwindow.h \
     logintypedialog.h \
     qrlogindialog.h \
     dialogitemmodel.h \
     dialogitemdelegate.h \
     flickcharm.h \
-    dialogwindow.h
+    historyitemdelegate.h \
+    historyitemmodel.h \
+    historywindow.h \
+    historyview.h \
+    main.h
 FORMS += mainwindow.ui \
     logintypedialog.ui \
     qrlogindialog.ui \
-    dialogwindow.ui
+    historywindow.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
