@@ -22,6 +22,7 @@ public:
     qint32 offsetDate;
     TLInputPeer offsetPeer;
     bool gotFull;
+    bool requested;
 
     explicit DialogItemModel(TelegramClient* cl, QObject *parent = 0);
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;

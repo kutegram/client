@@ -4,7 +4,7 @@
 #include <QPixmap>
 
 DialogItemModel::DialogItemModel(TelegramClient *cl, QObject *parent) :
-    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), avatars(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull()
+    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), avatars(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(), requested()
 {
     connect(client, SIGNAL(gotDialogs(qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)), this, SLOT(client_gotDialogs(qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)));
     connect(client, SIGNAL(gotFile(qint64,TLType::Types,qint32,QByteArray)), this, SLOT(client_gotFile(qint64,TLType::Types,qint32,QByteArray)));
@@ -121,7 +121,9 @@ bool DialogItemModel::canFetchMore(const QModelIndex &parent) const
 void DialogItemModel::fetchMore(const QModelIndex &parent)
 {
     if (!requestLock.tryLock()) return;
+    if (requested) return;
 
+    requested = true;
     client->getDialogs(offsetDate, offsetId, offsetPeer, 40);
 
     requestLock.unlock();
@@ -131,6 +133,8 @@ void DialogItemModel::client_gotDialogs(qint32 count, QList<TLDialog> d, QList<T
 {
     requestLock.lock();
     beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);
+
+    requested = false;
 
     if (!count) gotFull = true;
     else gotFull |= (d.count() != 40);

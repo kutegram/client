@@ -4,7 +4,7 @@
 #include <QPixmap>
 
 HistoryItemModel::HistoryItemModel(TelegramClient *cl, TLInputPeer input, QObject *parent) :
-    QAbstractItemModel(parent), messages(), users(), chats(), client(cl), requestLock(QMutex::Recursive), gotFull(), peer(input), offsetId(), offsetDate()
+    QAbstractItemModel(parent), messages(), users(), chats(), client(cl), requestLock(QMutex::Recursive), gotFull(), peer(input), offsetId(), offsetDate(), requested()
 {
     connect(client, SIGNAL(gotMessages(qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)));
 }
@@ -85,7 +85,9 @@ bool HistoryItemModel::canFetchMore(const QModelIndex& parent) const
 void HistoryItemModel::fetchMore(const QModelIndex& parent)
 {
     if (!requestLock.tryLock()) return;
+    if (requested) return;
 
+    requested = true;
     client->getHistory(peer, offsetId, offsetId, 0, 40);
 
     requestLock.unlock();
@@ -95,6 +97,8 @@ void HistoryItemModel::client_gotMessages(qint32 count, QList<TLMessage> m, QLis
 {
     requestLock.lock();
     beginInsertRows(QModelIndex(), messages.size(), messages.size() + m.size() - 1);
+
+    requested = false;
 
     if (!count) gotFull = true;
     else gotFull |= (m.count() != 40);

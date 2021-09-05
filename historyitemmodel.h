@@ -20,6 +20,7 @@ public:
     bool gotFull;
     qint32 offsetId;
     qint32 offsetDate;
+    bool requested;
 
     explicit HistoryItemModel(TelegramClient* cl, TLInputPeer input, QObject *parent = 0);
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
