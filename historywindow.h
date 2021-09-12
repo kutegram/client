@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "library/tlmessages.h"
+#include "flickcharm.h"
 
 namespace Ui {
 class HistoryWindow;
@@ -20,6 +21,7 @@ public:
     
 private:
     Ui::HistoryWindow *ui;
+    FlickCharm flickcharm;
 };
 
 #endif // HISTORYWINDOW_H
