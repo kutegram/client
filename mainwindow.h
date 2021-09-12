@@ -21,6 +21,7 @@ public:
 
 public slots:
     void loginAction_triggered();
+    void logoutAction_triggered();
     void dialogView_activated(QModelIndex index);
 
     void client_stateChanged(State state);

@@ -50,6 +50,7 @@
      <string>Основное</string>
     </property>
     <addaction name="loginAction"/>
+    <addaction name="logoutAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
@@ -81,6 +82,11 @@
   <action name="exitAction">
    <property name="text">
     <string>Выйти</string>
+   </property>
+  </action>
+  <action name="logoutAction">
+   <property name="text">
+    <string>Выйти из аккаунта</string>
    </property>
   </action>
  </widget>
@@ -127,9 +133,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>logoutAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>logoutAction_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loginAction_triggered()</slot>
   <slot>dialogView_activated(QModelIndex)</slot>
+  <slot>logoutAction_triggered()</slot>
  </slots>
 </ui>

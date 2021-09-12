@@ -69,7 +69,11 @@ void MainWindow::showTypeDialog()
 void MainWindow::loginAction_triggered()
 {
     client->start();
-    if (client->isConnected()) showTypeDialog();
+}
+
+void MainWindow::logoutAction_triggered()
+{
+    client->reset();
 }
 
 void MainWindow::client_stateChanged(State state)
