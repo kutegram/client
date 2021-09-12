@@ -31,12 +31,9 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_2">
-        <property name="text">
-         <string>...</string>
+       <widget class="QLineEdit" name="lineEdit">
+        <property name="placeholderText">
+         <string>Type a message...</string>
         </property>
        </widget>
       </item>
@@ -61,7 +58,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>

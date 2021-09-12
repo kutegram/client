@@ -42,7 +42,7 @@ void HistoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     y += cloudPart;
 
     //painter->setPen((option.state & QStyle::State_HasFocus) == QStyle::State_HasFocus ? option.palette.brightText().color() : option.palette.text().color());
-    painter->setPen(option.palette.text().color());
+    painter->setPen(Qt::black);
     painter->drawText(QRect(x, y, option.rect.width() - padding - cloudPart - padding - cloudPart, option.rect.height()), Qt::TextWordWrap, text);
 }
 
