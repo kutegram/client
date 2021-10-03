@@ -25,8 +25,8 @@ public slots:
     void dialogView_activated(QModelIndex index);
 
     void client_stateChanged(State state);
-    void client_gotLoginToken(qint32 expired, QString tokenUrl);
-    void client_gotSentCode(QString phone_code_hash);
+    void client_gotLoginToken(qint64 mtm, qint32 expired, QString tokenUrl);
+    void client_gotSentCode(qint64 mtm, QString phone_code_hash);
 
 private:
     FlickCharm flickcharm;

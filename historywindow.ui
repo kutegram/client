@@ -31,14 +31,14 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="messageEdit">
         <property name="placeholderText">
          <string>Type a message...</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton">
+       <widget class="QToolButton" name="sendButton">
         <property name="text">
          <string>...</string>
         </property>
@@ -67,5 +67,25 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>sendButton</sender>
+   <signal>clicked()</signal>
+   <receiver>HistoryWindow</receiver>
+   <slot>sendButton_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>486</x>
+     <y>485</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>254</x>
+     <y>252</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>sendButton_clicked()</slot>
+ </slots>
 </ui>

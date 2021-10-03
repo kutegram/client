@@ -26,8 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->dialogView->setItemDelegate(new DialogItemDelegate(ui->dialogView));
 
     connect(client, SIGNAL(stateChanged(State)), this, SLOT(client_stateChanged(State)));
-    connect(client, SIGNAL(gotLoginToken(qint32,QString)), this, SLOT(client_gotLoginToken(qint32,QString)));
-    connect(client, SIGNAL(gotSentCode(QString)), this, SLOT(client_gotSentCode(QString)));
+    connect(client, SIGNAL(gotLoginToken(qint64,qint32,QString)), this, SLOT(client_gotLoginToken(qint64,qint32,QString)));
+    connect(client, SIGNAL(gotSentCode(qint64,QString)), this, SLOT(client_gotSentCode(qint64,QString)));
 }
 
 MainWindow::~MainWindow()
@@ -98,7 +98,7 @@ void MainWindow::client_stateChanged(State state)
     }
 }
 
-void MainWindow::client_gotLoginToken(qint32 expired, QString tokenUrl)
+void MainWindow::client_gotLoginToken(qint64 mtm, qint32 expired, QString tokenUrl)
 {
 #ifndef QT_NO_DEBUG_OUTPUT
     qDebug() << "Got qr token url:" << tokenUrl;
@@ -108,7 +108,7 @@ void MainWindow::client_gotLoginToken(qint32 expired, QString tokenUrl)
     dialog.exec();
 }
 
-void MainWindow::client_gotSentCode(QString phone_code_hash)
+void MainWindow::client_gotSentCode(qint64 mtm, QString phone_code_hash)
 {
     QInputDialog phoneInput(this);
     if (phoneInput.exec()) {

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "library/tlmessages.h"
 #include "flickcharm.h"
+#include "historyitemmodel.h"
 
 namespace Ui {
 class HistoryWindow;
@@ -18,10 +19,15 @@ class HistoryWindow : public QMainWindow
 public:
     explicit HistoryWindow(TelegramClient *client, TLInputPeer input, QWidget *parent = 0);
     ~HistoryWindow();
-    
+
+public slots:
+    void sendButton_clicked();
+
 private:
     Ui::HistoryWindow *ui;
     FlickCharm flickcharm;
+    TelegramClient* client;
+    HistoryItemModel* model;
 };
 
 #endif // HISTORYWINDOW_H
