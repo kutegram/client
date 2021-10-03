@@ -6,8 +6,8 @@
 DialogItemModel::DialogItemModel(TelegramClient *cl, QObject *parent) :
     QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), avatars(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(), requested()
 {
-    connect(client, SIGNAL(gotDialogs(qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)), this, SLOT(client_gotDialogs(qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)));
-    connect(client, SIGNAL(gotFile(qint64,TLType::Types,qint32,QByteArray)), this, SLOT(client_gotFile(qint64,TLType::Types,qint32,QByteArray)));
+    connect(client, SIGNAL(gotDialogs(qint64,qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)), this, SLOT(client_gotDialogs(qint64,qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)));
+    connect(client, SIGNAL(gotFilePart(qint64,TLType::Types,qint32,QByteArray)), this, SLOT(client_gotFilePart(qint64,TLType::Types,qint32,QByteArray)));
 }
 
 QModelIndex DialogItemModel::index(int row, int column, const QModelIndex &parent) const
@@ -129,7 +129,7 @@ void DialogItemModel::fetchMore(const QModelIndex &parent)
     requestLock.unlock();
 }
 
-void DialogItemModel::client_gotDialogs(qint32 count, QList<TLDialog> d, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u)
+void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog> d, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u)
 {
     requestLock.lock();
     beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);
@@ -174,7 +174,7 @@ void DialogItemModel::client_gotDialogs(qint32 count, QList<TLDialog> d, QList<T
     requestLock.unlock();
 }
 
-void DialogItemModel::client_gotFile(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes)
+void DialogItemModel::client_gotFilePart(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes)
 {
     avatars.insert(avatars.key(mtMessageId), QPixmap::fromImage(QImage::fromData(bytes)));
 }

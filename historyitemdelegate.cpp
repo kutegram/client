@@ -25,7 +25,7 @@ void HistoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     QFont font = option.font;
 
     qint32 padding = 4;
-    qint32 cloudPart = option.fontMetrics.height() / 2;
+    qint32 cloudPart = option.fontMetrics.height() / 3;
 
     x += padding;
     y += padding;
@@ -36,7 +36,7 @@ void HistoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     painter->setBrush(QColor(240, 240, 240));
     painter->setPen(Qt::transparent);
     painter->setRenderHint(QPainter::Antialiasing);
-    painter->drawRoundedRect(QRect(x, y, cloudPart + cloudPart + textRect.width(), cloudPart + cloudPart + textRect.height()), padding, padding);
+    painter->drawRoundedRect(QRect(x, y, cloudPart + cloudPart + textRect.width(), cloudPart + cloudPart + textRect.height()), cloudPart, cloudPart);
 
     x += cloudPart;
     y += cloudPart;
@@ -50,7 +50,7 @@ QSize HistoryItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
 {
     //TODO
     qint32 padding = 8;
-    qint32 cloudPart = option.fontMetrics.height() & ~1;
+    qint32 cloudPart = option.fontMetrics.height() / 3 * 2;
     qint32 stringHeight = option.fontMetrics.boundingRect(QRect(option.rect.x(), option.rect.y(), option.rect.width() - padding - cloudPart, option.rect.height()), Qt::TextWordWrap, index.data().toString()).height();
 
     return QSize(option.rect.width(), padding + cloudPart + stringHeight);

@@ -40,8 +40,8 @@ public:
 signals:
 
 public slots:
-    void client_gotDialogs(qint32 count, QList<TLDialog> dialogs, QList<TLMessage> messages, QList<TLChat> chats, QList<TLUser> users);
-    void client_gotFile(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes);
+    void client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog> dialogs, QList<TLMessage> messages, QList<TLChat> chats, QList<TLUser> users);
+    void client_gotFilePart(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes);
 };
 
 #endif // DIALOGITEMMODEL_H
