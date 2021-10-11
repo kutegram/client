@@ -31,11 +31,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="messageEdit">
-        <property name="placeholderText">
-         <string>Type a message...</string>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="messageEdit"/>
       </item>
       <item>
        <widget class="QToolButton" name="sendButton">
@@ -54,7 +50,7 @@
      <x>0</x>
      <y>0</y>
      <width>509</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

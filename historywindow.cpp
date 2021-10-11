@@ -17,6 +17,10 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TLInputPeer input, QWidget 
 
     ui->historyView->setModel(model = new HistoryItemModel(client, input, ui->historyView));
     ui->historyView->setItemDelegate(new HistoryItemDelegate(ui->historyView));
+
+#if QT_VERSION >= 0x040702
+    ui->messageEdit->setPlaceholderText(QApplication::translate("HistoryWindow", "Type a message...", 0, QApplication::UnicodeUTF8));
+#endif
 }
 
 HistoryWindow::~HistoryWindow()
