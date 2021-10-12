@@ -4,7 +4,7 @@
 #include <QPixmap>
 
 HistoryItemModel::HistoryItemModel(TelegramClient *cl, TLInputPeer input, QObject *parent) :
-    QAbstractItemModel(parent), messages(), users(), chats(), client(cl), requestLock(QMutex::Recursive), gotFull(), peer(input), offsetId(), offsetDate(), requested()
+    QAbstractItemModel(parent), messages(), users(), chats(), client(cl), requestLock(QMutex::Recursive), gotFull(), peer(input), offsetId(), offsetDate(), requestId()
 {
     connect(client, SIGNAL(gotMessages(qint64,qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)));
 }
@@ -85,10 +85,9 @@ bool HistoryItemModel::canFetchMore(const QModelIndex& parent) const
 void HistoryItemModel::fetchMore(const QModelIndex& parent)
 {
     if (!requestLock.tryLock()) return;
-    if (requested) return;
+    if (requestId) return;
 
-    requested = true;
-    client->getHistory(peer, offsetId, offsetId, 0, 40);
+    requestId = client->getHistory(peer, offsetId, offsetId, 0, 40);
 
     requestLock.unlock();
 }
@@ -96,9 +95,14 @@ void HistoryItemModel::fetchMore(const QModelIndex& parent)
 void HistoryItemModel::client_gotMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
 {
     requestLock.lock();
+    if (requestId != mtm) {
+        requestLock.unlock();
+        return;
+    }
+
     beginInsertRows(QModelIndex(), messages.size(), messages.size() + m.size() - 1);
 
-    requested = false;
+    requestId = 0;
 
     if (!count) gotFull = true;
     else gotFull |= (m.count() != 40);
