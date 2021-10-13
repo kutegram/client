@@ -78,11 +78,20 @@ QVariant HistoryItemModel::data(const QModelIndex& index, int role) const
 
 bool HistoryItemModel::canFetchMore(const QModelIndex& parent) const
 {
+    return false;
+}
+
+void HistoryItemModel::fetchMore(const QModelIndex& parent)
+{
+
+}
+
+bool HistoryItemModel::canFetchMoreUpwards(const QModelIndex& parent) const
+{
     return client->apiReady() && !gotFull;
 }
 
-//TODO: FIXME: first and second request have duplicate results
-void HistoryItemModel::fetchMore(const QModelIndex& parent)
+void HistoryItemModel::fetchMoreUpwards(const QModelIndex& parent)
 {
     if (!requestLock.tryLock()) return;
     if (requestId) return;
@@ -100,14 +109,14 @@ void HistoryItemModel::client_gotMessages(qint64 mtm, qint32 count, QList<TLMess
         return;
     }
 
-    beginInsertRows(QModelIndex(), messages.size(), messages.size() + m.size() - 1);
+    beginInsertRows(QModelIndex(), 0, m.size() - 1);
 
     requestId = 0;
 
     if (!count) gotFull = true;
     else gotFull |= (m.count() != 40);
 
-    messages.append(m);
+    for (qint32 i = 0; i < m.size(); ++i) messages.insert(0, m[i]);
     chats.append(c);
     users.append(u);
 

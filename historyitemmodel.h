@@ -31,6 +31,9 @@ public:
     virtual bool canFetchMore(const QModelIndex& parent) const;
     virtual void fetchMore(const QModelIndex& parent);
 
+    virtual bool canFetchMoreUpwards(const QModelIndex& parent) const;
+    virtual void fetchMoreUpwards(const QModelIndex& parent);
+
     QString getMessageString(qint32 i) const;
 signals:
     

@@ -91,7 +91,6 @@ void MainWindow::client_stateChanged(State state)
     }
     default:
     {
-        //TODO
         setWindowTitle("Kutegram (ls: " + QString::number(state) + ")");
         break;
     }

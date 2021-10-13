@@ -3,6 +3,7 @@
 
 #include "historyitemdelegate.h"
 #include "library/telegramclient.h"
+#include <QScrollBar>
 
 HistoryWindow::HistoryWindow(TelegramClient *client, TLInputPeer input, QWidget *parent) :
     QMainWindow(parent),
@@ -12,15 +13,17 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TLInputPeer input, QWidget 
     model(0)
 {
     ui->setupUi(this);
+#if QT_VERSION >= 0x040702
+    ui->messageEdit->setPlaceholderText(QApplication::translate("HistoryWindow", "Type a message...", 0, QApplication::UnicodeUTF8));
+#endif
 
     flickcharm.activateOn(ui->historyView);
 
     ui->historyView->setModel(model = new HistoryItemModel(client, input, ui->historyView));
     ui->historyView->setItemDelegate(new HistoryItemDelegate(ui->historyView));
 
-#if QT_VERSION >= 0x040702
-    ui->messageEdit->setPlaceholderText(QApplication::translate("HistoryWindow", "Type a message...", 0, QApplication::UnicodeUTF8));
-#endif
+    if (model->canFetchMoreUpwards(QModelIndex())) model->fetchMoreUpwards(QModelIndex());
+    if (model->canFetchMore(QModelIndex())) model->fetchMore(QModelIndex());
 }
 
 HistoryWindow::~HistoryWindow()
