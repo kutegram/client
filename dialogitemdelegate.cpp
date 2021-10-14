@@ -6,7 +6,8 @@
 #include <QPixmap>
 
 DialogItemDelegate::DialogItemDelegate(QObject *parent) :
-    QAbstractItemDelegate(parent)
+    QAbstractItemDelegate(parent),
+    thumbnails()
 {
 }
 
@@ -31,14 +32,15 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     qint32 height = padding + avatarSize + padding;
 
     QString title = index.data().toString();
+    qint64 id = index.data(Qt::UserRole).toLongLong();
 
     x += padding;
     y += padding;
 
     QPixmap avatar = index.data(Qt::DecorationRole).value<QPixmap>();
     QRect circleRect(x, y, avatarSize, avatarSize);
-    //TODO: Cache it.
-    if (avatar.isNull()) avatar = Avatars::generateThumbnail(index.data(Qt::UserRole).toLongLong(), title, avatarSize);
+    if (avatar.isNull()) avatar = thumbnails[id];
+    if (avatar.isNull()) avatar = thumbnails[id] = Avatars::generateThumbnail(id, title, avatarSize);
     painter->drawPixmap(circleRect, avatar);
 
     x += avatarSize + padding + padding;
