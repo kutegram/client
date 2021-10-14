@@ -1,5 +1,6 @@
 #include "dialogitemdelegate.h"
 
+#include "avatars.h"
 #include <QPainter>
 #include <QApplication>
 #include <QPixmap>
@@ -7,23 +8,6 @@
 DialogItemDelegate::DialogItemDelegate(QObject *parent) :
     QAbstractItemDelegate(parent)
 {
-}
-
-QString getAvatarText(QString title)
-{
-    QStringList split = title.split(" ", QString::SkipEmptyParts);
-    QString result;
-
-    for (qint32 i = 0; i < split.size(); ++i) {
-        if (result.size() > 1) break;
-        QString item = split[i];
-        if (item.isEmpty() || !item[0].isLetterOrNumber()) continue;
-        result += item[0].toUpper();
-    }
-
-    if (result.isEmpty() && !title.isEmpty()) result += title[0].toUpper();
-
-    return result;
 }
 
 void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -53,23 +37,9 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
     QPixmap avatar = index.data(Qt::DecorationRole).value<QPixmap>();
     QRect circleRect(x, y, avatarSize, avatarSize);
-    if (avatar.isNull()) {
-        QColor circleColor;
-        circleColor.setHsl(index.data(Qt::UserRole).toInt() % 360, 140, 140);
-        painter->setBrush(circleColor);
-        painter->setPen(circleColor);
-        painter->setRenderHint(QPainter::Antialiasing);
-        painter->drawEllipse(circleRect);
-
-        QFont circleFont = option.font;
-        circleFont.setBold(true);
-        circleFont.setPixelSize(avatarSize / 3);
-        painter->setFont(circleFont);
-        painter->setPen(Qt::white);
-        painter->drawText(circleRect, Qt::AlignHCenter | Qt::AlignVCenter, getAvatarText(title), &circleRect);
-    } else {
-        painter->drawPixmap(circleRect, avatar);
-    }
+    //TODO: Cache it.
+    if (avatar.isNull()) avatar = Avatars::generateThumbnail(index.data(Qt::UserRole).toLongLong(), title, avatarSize);
+    painter->drawPixmap(circleRect, avatar);
 
     x += avatarSize + padding + padding;
     y += padding;

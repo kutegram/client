@@ -36,7 +36,8 @@ SOURCES += main.cpp mainwindow.cpp \
     historyitemdelegate.cpp \
     historyitemmodel.cpp \
     historywindow.cpp \
-    historyview.cpp
+    historyview.cpp \
+    avatars.cpp
 HEADERS += mainwindow.h \
     logintypedialog.h \
     qrlogindialog.h \
@@ -47,7 +48,8 @@ HEADERS += mainwindow.h \
     historyitemmodel.h \
     historywindow.h \
     historyview.h \
-    main.h
+    main.h \
+    avatars.h
 FORMS += mainwindow.ui \
     logintypedialog.ui \
     qrlogindialog.ui \

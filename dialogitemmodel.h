@@ -35,7 +35,7 @@ public:
 
     QString getDialogTitle(qint32 i) const;
     QString getMessageString(qint32 i) const;
-    qint32 getDialogId(qint32 i) const;
+    qint64 getDialogId(qint32 i) const;
     TLInputPeer getInputPeer(qint32 i) const;
 signals:
 

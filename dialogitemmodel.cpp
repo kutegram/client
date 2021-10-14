@@ -80,7 +80,7 @@ QString DialogItemModel::getMessageString(qint32 i) const
     }
 }
 
-qint32 DialogItemModel::getDialogId(qint32 i) const
+qint64 DialogItemModel::getDialogId(qint32 i) const
 {
     return dialogs[i].peer.id;
 }
