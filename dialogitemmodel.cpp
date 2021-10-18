@@ -1,10 +1,12 @@
 #include "dialogitemmodel.h"
 
+#include "avatars.h"
 #include "library/telegramclient.h"
-#include <QPixmap>
+#include <QFontMetrics>
+#include <QApplication>
 
 DialogItemModel::DialogItemModel(TelegramClient *cl, QObject *parent) :
-    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), avatars(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(), requestId()
+    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), avatars(), thumbnails(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(), requestId()
 {
     connect(client, SIGNAL(gotDialogs(qint64,qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)), this, SLOT(client_gotDialogs(qint64,qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)));
     connect(client, SIGNAL(gotFilePart(qint64,TLType::Types,qint32,QByteArray)), this, SLOT(client_gotFilePart(qint64,TLType::Types,qint32,QByteArray)));
@@ -97,7 +99,10 @@ QVariant DialogItemModel::data(const QModelIndex &index, int role) const
     }
     case Qt::DecorationRole: //avatar
     {
-        return avatars[getDialogId(index.row())];
+        qint64 id = getDialogId(index.row());
+        QPixmap avatar = avatars[id].value<QPixmap>();
+        if (avatar.isNull()) avatar = thumbnails[id];
+        return avatar;
     }
     case Qt::ToolTipRole: //last message
     {
@@ -144,15 +149,21 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog
     else gotFull |= (d.count() != 40);
     dialogs.append(d);
 
+    qint32 fH = QApplication::fontMetrics().height();
+    fH += fH;
+    fH += 12;
+
     for (qint32 i = 0; i < m.size(); ++i) messages.insert(m[i].id, m[i]);
     for (qint32 i = 0; i < c.size(); ++i) {
         TLChat item = c[i];
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
+        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.title, fH));
         chats.insert(item.id, item);
     }
     for (qint32 i = 0; i < u.size(); ++i) {
         TLUser item = u[i];
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
+        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.firstName + " " + item.lastName, fH));
         users.insert(item.id, item);
     }
 
@@ -180,5 +191,7 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog
 
 void DialogItemModel::client_gotFilePart(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes)
 {
-    avatars.insert(avatars.key(mtMessageId), QPixmap::fromImage(QImage::fromData(bytes)));
+    qint64 id = avatars.key(mtMessageId);
+    avatars.insert(id, QPixmap::fromImage(QImage::fromData(bytes)));
+    thumbnails.remove(id);
 }

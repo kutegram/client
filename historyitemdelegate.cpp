@@ -21,18 +21,18 @@ void HistoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     qint32 w = option.rect.width();
     qint32 h = option.rect.height();
 
-    QFontMetrics fm = option.fontMetrics;
-    QFont font = option.font;
+    QFontMetrics fm = QApplication::fontMetrics();
+    QFont font = QApplication::font();
 
     qint32 padding = 4;
-    qint32 cloudPart = option.fontMetrics.height() / 3;
+    qint32 cloudPart = fm.height() / 3;
 
     x += padding;
     y += padding;
 
     QString text = index.data().toString();
 
-    QRect textRect = option.fontMetrics.boundingRect(QRect(option.rect.x(), option.rect.y(), option.rect.width() - padding - cloudPart - padding - cloudPart, option.rect.height()), Qt::TextWordWrap, text);
+    QRect textRect = fm.boundingRect(QRect(option.rect.x(), option.rect.y(), option.rect.width() - padding - cloudPart - padding - cloudPart, option.rect.height()), Qt::TextWordWrap, text);
     painter->setBrush(QColor(240, 240, 240));
     painter->setPen(Qt::transparent);
     painter->setRenderHint(QPainter::Antialiasing);
@@ -50,8 +50,9 @@ QSize HistoryItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
 {
     //TODO
     qint32 padding = 8;
-    qint32 cloudPart = option.fontMetrics.height() / 3 * 2;
-    qint32 stringHeight = option.fontMetrics.boundingRect(QRect(option.rect.x(), option.rect.y(), option.rect.width() - padding - cloudPart, option.rect.height()), Qt::TextWordWrap, index.data().toString()).height();
+    QFontMetrics fm = QApplication::fontMetrics();
+    qint32 cloudPart = fm.height() / 3 * 2;
+    qint32 stringHeight = fm.boundingRect(QRect(option.rect.x(), option.rect.y(), option.rect.width() - padding - cloudPart, option.rect.height()), Qt::TextWordWrap, index.data().toString()).height();
 
     return QSize(option.rect.width(), padding + cloudPart + stringHeight);
 }

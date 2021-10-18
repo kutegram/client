@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QMutex>
+#include <QPixmap>
 #include "library/tlmessages.h"
 
 class TelegramClient;
@@ -12,10 +13,11 @@ class DialogItemModel : public QAbstractItemModel
     Q_OBJECT
 public:
     QList<TLDialog> dialogs;
-    QMap<qint32, TLMessage> messages;
-    QMap<qint32, TLChat> chats;
-    QMap<qint32, TLUser> users;
-    QMap<qint32, QVariant> avatars;
+    QMap<qint64, TLMessage> messages;
+    QMap<qint64, TLChat> chats;
+    QMap<qint64, TLUser> users;
+    QMap<qint64, QVariant> avatars;
+    QMap<qint64, QPixmap> thumbnails;
     TelegramClient* client;
     QMutex requestLock;
     qint32 offsetId;

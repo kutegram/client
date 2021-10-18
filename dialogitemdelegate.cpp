@@ -1,13 +1,11 @@
 #include "dialogitemdelegate.h"
 
-#include "avatars.h"
 #include <QPainter>
 #include <QApplication>
 #include <QPixmap>
 
 DialogItemDelegate::DialogItemDelegate(QObject *parent) :
-    QAbstractItemDelegate(parent),
-    thumbnails()
+    QAbstractItemDelegate(parent)
 {
 }
 
@@ -23,8 +21,8 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     qint32 w = option.rect.width();
     qint32 h = option.rect.height();
 
-    QFontMetrics fm = option.fontMetrics;
-    QFont font = option.font;
+    QFontMetrics fm = QApplication::fontMetrics();
+    QFont font = QApplication::font();
 
     qint32 padding = 4;
     qint32 fontHeight = fm.height();
@@ -38,10 +36,7 @@ void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     y += padding;
 
     QPixmap avatar = index.data(Qt::DecorationRole).value<QPixmap>();
-    QRect circleRect(x, y, avatarSize, avatarSize);
-    if (avatar.isNull()) avatar = thumbnails[id];
-    if (avatar.isNull()) avatar = thumbnails[id] = Avatars::generateThumbnail(id, title, avatarSize);
-    painter->drawPixmap(circleRect, avatar);
+    if (!avatar.isNull()) painter->drawPixmap(QRect(x, y, avatarSize, avatarSize), avatar);
 
     x += avatarSize + padding + padding;
     y += padding;
@@ -65,10 +60,8 @@ QSize DialogItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QMo
 {
     if (!index.isValid()) return option.rect.size();
 
-    QFontMetrics fm = option.fontMetrics;
-
     qint32 padding = 4;
-    qint32 fontHeight = fm.height();
+    qint32 fontHeight = QApplication::fontMetrics().height();
 
     return QSize(option.rect.width(), padding + padding + fontHeight + padding + fontHeight + padding + padding);
 }

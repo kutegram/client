@@ -2,7 +2,6 @@
 
 #include <QPainter>
 #include <QPixmap>
-#include <QApplication>
 #include <QFont>
 #include <QFontMetrics>
 #include <QStyle>
@@ -41,7 +40,7 @@ QPixmap Avatars::generateThumbnail(qint64 id, QString name, qint32 size)
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawEllipse(circleRect);
 
-    QFont font = QApplication::font();
+    QFont font;
     font.setBold(true);
     font.setPixelSize(size / 3);
     painter.setFont(font);

@@ -2,14 +2,10 @@
 #define DIALOGITEMDELEGATE_H
 
 #include <QAbstractItemDelegate>
-#include <QPixmap>
-#include <QMap>
 
 class DialogItemDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
-private:
-    QMap<qint64, QPixmap> thumbnails;
 public:
     explicit DialogItemDelegate(QObject *parent = 0);
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
