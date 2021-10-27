@@ -89,8 +89,6 @@ qint64 DialogItemModel::getDialogId(qint32 i) const
 
 QVariant DialogItemModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid()) return QVariant();
-
     //TODO
     switch (role) {
     case Qt::DisplayRole: //title
@@ -149,11 +147,13 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog
     else gotFull |= (d.count() != 40);
     dialogs.append(d);
 
+    for (qint32 i = 0; i < m.size(); ++i) messages.insert(m[i].id, m[i]);
+
+
     qint32 fH = QApplication::fontMetrics().height();
     fH += fH;
     fH += 12;
 
-    for (qint32 i = 0; i < m.size(); ++i) messages.insert(m[i].id, m[i]);
     for (qint32 i = 0; i < c.size(); ++i) {
         TLChat item = c[i];
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO

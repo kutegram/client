@@ -2,9 +2,12 @@
 
 #include "library/telegramclient.h"
 #include <QPixmap>
+#include <QApplication>
+#include <QFontMetrics>
+#include "avatars.h"
 
 HistoryItemModel::HistoryItemModel(TelegramClient *cl, TLInputPeer input, QObject *parent) :
-    QAbstractItemModel(parent), messages(), users(), chats(), client(cl), requestLock(QMutex::Recursive), gotFull(), peer(input), offsetId(), offsetDate(), requestId()
+    QAbstractItemModel(parent), messages(), users(), chats(), client(cl), requestLock(QMutex::Recursive), gotFull(), peer(input), offsetId(), offsetDate(), requestId(), thumbnails()
 {
     connect(client, SIGNAL(gotMessages(qint64,qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)));
 }
@@ -29,47 +32,27 @@ QModelIndex HistoryItemModel::parent(const QModelIndex& index) const
     return QModelIndex();
 }
 
-//TODO Unify
-//TODO move users and chats to client inner DB
-QString HistoryItemModel::getMessageString(qint32 i) const
-{
-    TLMessage m = messages[i];
-
-    if (!m.message.isEmpty()) {
-        return m.message;
-    }
-    else if (GETID(m.action)) {
-        return "MessageAction#" + QString::number(GETID(m.action));
-    }
-    else if (GETID(m.media)){
-        return "MessageMedia#" + QString::number(GETID(m.media));
-    }
-    else {
-        return "Message#" + QString::number(m.id);
-    }
-}
-
 QVariant HistoryItemModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid()) return QVariant();
-
-    //TODO
     switch (role) {
-    case Qt::DisplayRole: //text
+    case Qt::DisplayRole:
     {
-        return getMessageString(index.row());
+        return QVariant::fromValue(messages[index.row()]);
     }
-    case Qt::DecorationRole: //avatar
+    case Qt::DecorationRole:
     {
-        return QVariant();
+        return thumbnails[messages[index.row()].from.id];
     }
-    case Qt::ToolTipRole: //user title
+    case Qt::UserRole:
     {
-        return QVariant();
-    }
-    case Qt::UserRole: //message date
-    {
-        return QVariant();
+        TLMessage m = messages[index.row()];
+        switch (m.from.type) {
+        case TLType::PeerChannel:
+        case TLType::PeerChat:
+            return QVariant::fromValue(chats[m.from.id]);
+        case TLType::PeerUser:
+            return QVariant::fromValue(users[m.from.id]);
+        }
     }
     }
 
@@ -117,8 +100,23 @@ void HistoryItemModel::client_gotMessages(qint64 mtm, qint32 count, QList<TLMess
     else gotFull |= (m.count() != 40);
 
     for (qint32 i = 0; i < m.size(); ++i) messages.insert(0, m[i]);
-    chats.append(c);
-    users.append(u);
+    for (qint32 i = 0; i < c.size(); ++i) chats.insert(c[i].id, c[i]);
+    for (qint32 i = 0; i < u.size(); ++i) users.insert(u[i].id, u[i]);
+
+    qint32 fH = QApplication::fontMetrics().height();
+    fH += fH;
+    fH += 4;
+
+    for (qint32 i = 0; i < c.size(); ++i) {
+        TLChat item = c[i];
+        //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
+        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.title, fH));
+    }
+    for (qint32 i = 0; i < u.size(); ++i) {
+        TLUser item = u[i];
+        //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
+        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.firstName + " " + item.lastName, fH));
+    }
 
     for (qint32 i = 0; i < m.size(); ++i) {
         TLMessage msg = m[i];

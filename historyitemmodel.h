@@ -4,6 +4,8 @@
 #include <QAbstractItemModel>
 #include <QMutex>
 #include "library/tlmessages.h"
+#include <QMap>
+#include <QPixmap>
 
 class TelegramClient;
 
@@ -12,8 +14,9 @@ class HistoryItemModel : public QAbstractItemModel
     Q_OBJECT
 public:
     QList<TLMessage> messages;
-    QList<TLChat> chats;
-    QList<TLUser> users;
+    QMap<qint64, TLChat> chats;
+    QMap<qint64, TLUser> users;
+    QMap<qint64, QPixmap> thumbnails; //what about collision?
     TelegramClient* client;
     TLInputPeer peer;
     QMutex requestLock;

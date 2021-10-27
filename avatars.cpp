@@ -1,10 +1,13 @@
 #include "avatars.h"
 
 #include <QPainter>
-#include <QPixmap>
 #include <QFont>
 #include <QFontMetrics>
 #include <QStyle>
+
+QColor Avatars::userColor(qint64 id) {
+   return QColor::fromHsl(id % 360, 140, 140);
+}
 
 QString getAvatarText(QString title)
 {
@@ -33,8 +36,7 @@ QPixmap Avatars::generateThumbnail(qint64 id, QString name, qint32 size)
 
     QRect circleRect(0, 0, size, size);
 
-    QColor circleColor;
-    circleColor.setHsl(id % 360, 140, 140);
+    QColor circleColor = userColor(id);
     painter.setBrush(circleColor);
     painter.setPen(circleColor);
     painter.setRenderHint(QPainter::Antialiasing);

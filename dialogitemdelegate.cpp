@@ -12,8 +12,6 @@ DialogItemDelegate::DialogItemDelegate(QObject *parent) :
 void DialogItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     //TODO
-    if (!index.isValid()) return;
-
     QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &option, painter);
 
     qint32 x = option.rect.x();
