@@ -13,10 +13,11 @@ class HistoryItemModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    QList<TLMessage> messages;
+    QList<qint32> history;
+    QMap<qint32, TLMessage> messages;
     QMap<qint64, TLChat> chats;
     QMap<qint64, TLUser> users;
-    QMap<qint64, QPixmap> thumbnails; //what about collision?
+    QMap<qint64, QPixmap> thumbnails; //what about user and chat collision?
     TelegramClient* client;
     TLInputPeer peer;
     QMutex requestLock;
@@ -24,6 +25,8 @@ public:
     qint32 offsetId;
     qint32 offsetDate;
     qint64 requestId;
+    qint64 replyRequestId;
+    QList<qint32> replies;
 
     explicit HistoryItemModel(TelegramClient* cl, TLInputPeer input, QObject *parent = 0);
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
@@ -42,7 +45,8 @@ signals:
     
 public slots:
     void client_gotMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
-    
+    void gotHistoryMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    void gotReplyMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
 };
 
 #endif // HISTORYITEMMODEL_H

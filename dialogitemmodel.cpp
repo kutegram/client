@@ -139,16 +139,15 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog
         return;
     }
 
-    beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);
-
     requestId = 0;
 
     if (!count) gotFull = true;
     else gotFull |= (d.count() != 40);
-    dialogs.append(d);
 
-    for (qint32 i = 0; i < m.size(); ++i) messages.insert(m[i].id, m[i]);
-
+    for (qint32 i = 0; i < m.size(); ++i) {
+        TLMessage msg = m[i];
+        messages.insert(msg.id, msg);
+    }
 
     qint32 fH = QApplication::fontMetrics().height();
     fH += fH;
@@ -156,15 +155,15 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog
 
     for (qint32 i = 0; i < c.size(); ++i) {
         TLChat item = c[i];
+        chats.insert(item.id, item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
         thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.title, fH));
-        chats.insert(item.id, item);
     }
     for (qint32 i = 0; i < u.size(); ++i) {
         TLUser item = u[i];
+        users.insert(item.id, item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
         thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.firstName + " " + item.lastName, fH));
-        users.insert(item.id, item);
     }
 
     for (qint32 i = 0; i < d.size(); ++i) {
@@ -185,7 +184,12 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog
         }
     }
 
+    beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);
+
+    dialogs.append(d);
+
     endInsertRows();
+
     requestLock.unlock();
 }
 
