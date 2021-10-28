@@ -64,7 +64,7 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
         replyMessage = index.data(Qt::ToolTipRole).value<TLMessage>();
         if (replyMessage.type) {
             replyText = fm.elidedText(replyMessage.message, Qt::ElideLeft, qMax(initWidth, maxWidth));
-            maxWidth = qMax(maxWidth, fm.width(replyText) + padding + padding);
+            maxWidth = qMax(maxWidth, fm.width(replyText) + padding / 2 + padding);
 
             QVariant replyPeer = index.data(Qt::ToolTipPropertyRole);
             TLUser replyUser = qvariant_cast<TLUser>(replyPeer);
@@ -75,10 +75,10 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
             }
 
             replyPeerName = fm.elidedText(replyPeerName, Qt::ElideLeft, qMax(initWidth, maxWidth));
-            maxWidth = qMax(maxWidth, fm.width(replyPeerName) + padding + padding);
+            maxWidth = qMax(maxWidth, fm.width(replyPeerName) + padding / 2 + padding);
         } else {
             replyText = replyPeerName = fm.elidedText(QApplication::translate("HistoryWindow", "Loading...", 0, QApplication::UnicodeUTF8), Qt::ElideLeft, qMax(initWidth, maxWidth));
-            maxWidth = qMax(maxWidth, fm.width(replyText) + padding + padding);
+            maxWidth = qMax(maxWidth, fm.width(replyText) + padding / 2 + padding);
         }
 
         contentHeight += padding + nameFM.height() + padding + fm.height();
