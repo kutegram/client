@@ -9,6 +9,7 @@
 #include "dialogitemmodel.h"
 #include "historywindow.h"
 #include "main.h"
+#include <QMessageBox>
 
 #ifndef QT_NO_DEBUG_OUTPUT
 #include <QtDebug>
@@ -28,6 +29,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(client, SIGNAL(stateChanged(State)), this, SLOT(client_stateChanged(State)));
     connect(client, SIGNAL(gotLoginToken(qint64,qint32,QString)), this, SLOT(client_gotLoginToken(qint64,qint32,QString)));
     connect(client, SIGNAL(gotSentCode(qint64,QString)), this, SLOT(client_gotSentCode(qint64,QString)));
+
+    connect(client, SIGNAL(gotSocketError(QAbstractSocket::SocketError)), this, SLOT(client_gotSocketError(QAbstractSocket::SocketError)));
+    connect(client, SIGNAL(gotMTError(qint32)), this, SLOT(client_gotMTError(qint32)));
+    connect(client, SIGNAL(gotDHError(bool)), this, SLOT(client_gotDHError(bool)));
+    connect(client, SIGNAL(gotMessageError(qint64,qint32)), this, SLOT(client_gotMessageError(qint64,qint32)));
+    connect(client, SIGNAL(gotRPCError(qint64,qint32,QString)), this, SLOT(client_gotRPCError(qint64,qint32,QString)));
 }
 
 MainWindow::~MainWindow()
@@ -74,6 +81,52 @@ void MainWindow::loginAction_triggered()
 void MainWindow::logoutAction_triggered()
 {
     client->reset();
+}
+
+void MainWindow::exitAction_triggered()
+{
+    QApplication::quit();
+}
+
+void MainWindow::aboutAction_triggered()
+{
+    //TODO: localization
+    QMessageBox::about(this, "Kutegram", "Kutegram by curoviyxru\nAn unofficial Qt-based client for Telegram messenger.\nProject's website: http://kg.curoviyx.ru\nTelegram channel: https://t.me/kutegram\nTelegram chat: https://t.me/kutegramchat");
+}
+
+void MainWindow::aboutQt_triggered()
+{
+    QMessageBox::aboutQt(this);
+}
+
+void MainWindow::client_gotSocketError(QAbstractSocket::SocketError error)
+{
+    //TODO: localization
+    QMessageBox::critical(this, "Error", "Got socket error: " + QString::number(error));
+}
+
+void MainWindow::client_gotMTError(qint32 error_code)
+{
+    //TODO: localization
+    QMessageBox::critical(this, "Error", "Got MT error: " + QString::number(error_code));
+}
+
+void MainWindow::client_gotDHError(bool fail)
+{
+    //TODO: localization
+    QMessageBox::critical(this, "Error", "Got DH error: " + QString::number(fail));
+}
+
+void MainWindow::client_gotMessageError(qint64 mtm, qint32 error_code)
+{
+    //TODO: localization
+    QMessageBox::critical(this, "Error", "Got message error: " + QString::number(mtm) + " / " + QString::number(error_code));
+}
+
+void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message)
+{
+    //TODO: localization
+    QMessageBox::critical(this, "Error", "Got message error: " + QString::number(mtm) + " / " + QString::number(error_code) + " / " + error_message);
 }
 
 void MainWindow::client_stateChanged(State state)

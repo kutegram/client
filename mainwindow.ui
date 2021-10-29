@@ -42,37 +42,27 @@
      <x>0</x>
      <y>0</y>
      <width>274</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="actionsMenu">
     <property name="title">
-     <string>Основное</string>
+     <string>Действия</string>
     </property>
     <addaction name="loginAction"/>
     <addaction name="logoutAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
-    <property name="title">
-     <string>Действия</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menu_3">
+   <widget class="QMenu" name="helpMenu">
     <property name="title">
      <string>Помощь</string>
     </property>
+    <addaction name="aboutAction"/>
+    <addaction name="aboutQt"/>
    </widget>
-   <widget class="QMenu" name="menu_4">
-    <property name="title">
-     <string>Вид</string>
-    </property>
-   </widget>
-   <addaction name="menu"/>
-   <addaction name="menu_4"/>
-   <addaction name="menu_2"/>
-   <addaction name="menu_3"/>
+   <addaction name="actionsMenu"/>
+   <addaction name="helpMenu"/>
   </widget>
   <action name="loginAction">
    <property name="text">
@@ -87,6 +77,16 @@
   <action name="logoutAction">
    <property name="text">
     <string>Выйти из аккаунта</string>
+   </property>
+  </action>
+  <action name="aboutAction">
+   <property name="text">
+    <string>О Kutegram...</string>
+   </property>
+  </action>
+  <action name="aboutQt">
+   <property name="text">
+    <string>O Qt...</string>
    </property>
   </action>
  </widget>
@@ -149,10 +149,61 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>exitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>exitAction_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aboutAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>aboutAction_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aboutQt</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>aboutQt_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loginAction_triggered()</slot>
   <slot>dialogView_activated(QModelIndex)</slot>
   <slot>logoutAction_triggered()</slot>
+  <slot>exitAction_triggered()</slot>
+  <slot>aboutAction_triggered()</slot>
+  <slot>aboutQt_triggered()</slot>
  </slots>
 </ui>
