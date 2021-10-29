@@ -129,20 +129,18 @@ void HistoryItemModel::gotHistoryMessages(qint64 mtm, qint32 count, QList<TLMess
     else gotFull |= (m.count() != 40);
 
     qint32 fH = QApplication::fontMetrics().height();
-    fH += fH;
-    fH += 4;
 
     for (qint32 i = 0; i < c.size(); ++i) {
         TLChat item = c[i];
         chats.insert(item.id, item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.title, fH));
+        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.title, fH + fH));
     }
     for (qint32 i = 0; i < u.size(); ++i) {
         TLUser item = u[i];
         users.insert(item.id, item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.firstName + " " + item.lastName, fH));
+        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.firstName + " " + item.lastName, fH + fH));
     }
 
     beginInsertRows(QModelIndex(), 0, m.size() - 1);
@@ -165,8 +163,8 @@ void HistoryItemModel::gotHistoryMessages(qint64 mtm, qint32 count, QList<TLMess
         if (!reply.reply.type || history.contains(reply.reply.msgId)) continue;
 
         TLInputMessage input;
-        input.type = TLType::InputMessageReplyTo;
-        input.id = reply.id;
+        input.type = TLType::InputMessageID;
+        input.id = reply.reply.msgId;
         notFoundReplies.append(input);
         replies.append(reply.id);
     }
@@ -188,6 +186,7 @@ void HistoryItemModel::gotReplyMessages(qint64 mtm, qint32 count, QList<TLMessag
         TLChat item = c[i];
         chats.insert(item.id, item);
     }
+
     for (qint32 i = 0; i < u.size(); ++i) {
         TLUser item = u[i];
         users.insert(item.id, item);

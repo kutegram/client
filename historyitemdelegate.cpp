@@ -24,10 +24,11 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
 
     qint32 padding = 4;
     qint32 cloudPart = fm.height() / 3;
+    qint32 spacePadding = fm.width(' ');
     TLMessage message = index.data().value<TLMessage>();
 
     QPixmap avatar = index.data(Qt::DecorationRole).value<QPixmap>();
-    qint32 avatarSize = fm.height() * 2 + padding;
+    qint32 avatarSize = fm.height(); avatarSize += avatarSize;
 
     qint32 maxWidth;
     qint32 initWidth = w - cloudPart - cloudPart - padding - padding - padding - avatarSize;
@@ -63,8 +64,8 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     if (message.reply.type) {
         replyMessage = index.data(Qt::ToolTipRole).value<TLMessage>();
         if (replyMessage.type) {
-            replyText = fm.elidedText(replyMessage.message, Qt::ElideLeft, qMax(initWidth, maxWidth));
-            maxWidth = qMax(maxWidth, fm.width(replyText) + padding / 2 + padding);
+            replyText = fm.elidedText(replyMessage.message, Qt::ElideLeft, qMax(initWidth, maxWidth) - spacePadding - padding);
+            maxWidth = qMax(maxWidth, fm.width(replyText) + spacePadding + padding);
 
             QVariant replyPeer = index.data(Qt::ToolTipPropertyRole);
             TLUser replyUser = qvariant_cast<TLUser>(replyPeer);
@@ -74,11 +75,11 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
                 replyPeerName = replyChat.title;
             }
 
-            replyPeerName = fm.elidedText(replyPeerName, Qt::ElideLeft, qMax(initWidth, maxWidth));
-            maxWidth = qMax(maxWidth, fm.width(replyPeerName) + padding / 2 + padding);
+            replyPeerName = fm.elidedText(replyPeerName, Qt::ElideLeft, qMax(initWidth, maxWidth) - spacePadding - padding);
+            maxWidth = qMax(maxWidth, fm.width(replyPeerName) + spacePadding + padding);
         } else {
-            replyText = replyPeerName = fm.elidedText(QApplication::translate("HistoryWindow", "Loading...", 0, QApplication::UnicodeUTF8), Qt::ElideLeft, qMax(initWidth, maxWidth));
-            maxWidth = qMax(maxWidth, fm.width(replyText) + padding / 2 + padding);
+            replyText = replyPeerName = fm.elidedText(QApplication::translate("HistoryWindow", "Loading...", 0, QApplication::UnicodeUTF8), Qt::ElideLeft, qMax(initWidth, maxWidth) - spacePadding - padding);
+            maxWidth = qMax(maxWidth, fm.width(replyText) + spacePadding + padding);
         }
 
         contentHeight += padding + nameFM.height() + padding + fm.height();
@@ -124,9 +125,9 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
         QColor replyPeerColor = Avatars::userColor(replyMessage.from.id);
         painter->setBrush(replyPeerColor);
         painter->setPen(Qt::transparent);
-        painter->drawRect(QRect(x, y, padding / 2, nameFM.height() + padding + fm.height()));
+        painter->drawRect(QRect(x, y, spacePadding, nameFM.height() + padding + fm.height()));
 
-        x += padding / 2 + padding;
+        x += spacePadding + padding;
 
         painter->setFont(nameFont);
         painter->setPen(replyPeerColor);

@@ -26,7 +26,7 @@ QString getAvatarText(QString title)
     return result;
 }
 
-QPixmap Avatars::generateThumbnail(qint64 id, QString name, qint32 size)
+QPixmap Avatars::generateThumbnail(qint64 id, QString name, qint32 size, qint32 fontSize)
 {
     QPixmap pixmap(size, size);
     pixmap.fill(Qt::transparent);
@@ -44,7 +44,8 @@ QPixmap Avatars::generateThumbnail(qint64 id, QString name, qint32 size)
 
     QFont font;
     font.setBold(true);
-    font.setPixelSize(size / 3);
+    if (!fontSize) fontSize = size / 3;
+    font.setPixelSize(fontSize);
     painter.setFont(font);
     painter.setPen(Qt::white);
     painter.drawText(circleRect, Qt::AlignHCenter | Qt::AlignVCenter, getAvatarText(name), &circleRect);
