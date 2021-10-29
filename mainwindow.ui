@@ -47,7 +47,7 @@
    </property>
    <widget class="QMenu" name="actionsMenu">
     <property name="title">
-     <string>Действия</string>
+     <string>Actions</string>
     </property>
     <addaction name="loginAction"/>
     <addaction name="logoutAction"/>
@@ -56,7 +56,7 @@
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="title">
-     <string>Помощь</string>
+     <string>Help</string>
     </property>
     <addaction name="aboutAction"/>
     <addaction name="aboutQt"/>
@@ -66,27 +66,27 @@
   </widget>
   <action name="loginAction">
    <property name="text">
-    <string>Войти в аккаунт</string>
+    <string>Log in</string>
    </property>
   </action>
   <action name="exitAction">
    <property name="text">
-    <string>Выйти</string>
+    <string>Quit</string>
    </property>
   </action>
   <action name="logoutAction">
    <property name="text">
-    <string>Выйти из аккаунта</string>
+    <string>Log out</string>
    </property>
   </action>
   <action name="aboutAction">
    <property name="text">
-    <string>О Kutegram...</string>
+    <string>About Kutegram</string>
    </property>
   </action>
   <action name="aboutQt">
    <property name="text">
-    <string>O Qt...</string>
+    <string>About Qt</string>
    </property>
   </action>
  </widget>
