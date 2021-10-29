@@ -120,7 +120,7 @@ void MainWindow::client_gotDHError(bool fail)
 void MainWindow::client_gotMessageError(qint64 mtm, qint32 error_code)
 {
     //TODO: localization
-    QMessageBox::critical(this, "Error", "Got message error: " + QString::number(mtm) + " / " + QString::number(error_code));
+    //QMessageBox::critical(this, "Error", "Got message error: " + QString::number(mtm) + " / " + QString::number(error_code));
 }
 
 void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message)
