@@ -46,6 +46,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Kutegram</source>
         <translation></translation>
     </message>
@@ -83,6 +84,47 @@
         <location filename="../mainwindow.ui" line="89"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="97"/>
+        <source>Kutegram by curoviyxru
+An unofficial Qt-based client for Telegram messenger.
+Project&apos;s website: http://kg.curoviyx.ru
+Telegram channel: https://t.me/kutegram
+Telegram chat: https://t.me/kutegramchat</source>
+        <translation>Kutegram, сделан curoviyxru
+Неофициальный клиент Telegram, основанный на Qt.
+Сайт проекта: http://kg.curoviyx.ru
+Канал Telegraml: https://t.me/kutegram
+Чат Telegram: https://t.me/kutegramchat</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="110"/>
+        <location filename="../mainwindow.cpp" line="120"/>
+        <location filename="../mainwindow.cpp" line="130"/>
+        <location filename="../mainwindow.cpp" line="146"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="111"/>
+        <source>Got socket error: %1</source>
+        <translation>Ошибка сокета: %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="121"/>
+        <source>Got MT error: %1</source>
+        <translation>Ошибка MT: %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="131"/>
+        <source>Got DH error: %1</source>
+        <translation>Ошибка DH: %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="147"/>
+        <source>Got RPC error: %1, %2, %3</source>
+        <translation>Ошибка RPC: %1, %2, %3</translation>
     </message>
 </context>
 <context>

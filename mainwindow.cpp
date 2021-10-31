@@ -91,7 +91,6 @@ void MainWindow::exitAction_triggered()
 
 void MainWindow::aboutAction_triggered()
 {
-    //TODO: localization
     QMessageBox::about(
                 this,
                 QApplication::translate("MainWindow", "Kutegram", 0, QApplication::UnicodeUTF8),
@@ -106,7 +105,6 @@ void MainWindow::aboutQt_triggered()
 
 void MainWindow::client_gotSocketError(QAbstractSocket::SocketError error)
 {
-    //TODO: localization
     QMessageBox::critical(
                 this,
                 QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
@@ -117,7 +115,6 @@ void MainWindow::client_gotSocketError(QAbstractSocket::SocketError error)
 
 void MainWindow::client_gotMTError(qint32 error_code)
 {
-    //TODO: localization
     QMessageBox::critical(
                 this,
                 QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
@@ -128,7 +125,6 @@ void MainWindow::client_gotMTError(qint32 error_code)
 
 void MainWindow::client_gotDHError(bool fail)
 {
-    //TODO: localization
     QMessageBox::critical(
                 this,
                 QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
@@ -139,17 +135,16 @@ void MainWindow::client_gotDHError(bool fail)
 
 void MainWindow::client_gotMessageError(qint64 mtm, qint32 error_code)
 {
-
+    //TODO: do we need message error?
 }
 
 void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message)
 {
-    //TODO: localization
     qint32 conId = qFromLittleEndian<qint32>((const uchar*) client->message(mtm).mid(0, 4).constData());
     QMessageBox::critical(
                 this,
                 QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
-                QApplication::translate("MainWindow", "Got message error: %1, %2, %3", 0, QApplication::UnicodeUTF8)
+                QApplication::translate("MainWindow", "Got RPC error: %1, %2, %3", 0, QApplication::UnicodeUTF8)
                 .arg(QString::number(conId)).arg(QString::number(error_code)).arg(error_message)
                 );
 }

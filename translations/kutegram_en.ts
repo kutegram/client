@@ -46,6 +46,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Kutegram</source>
         <translation type="unfinished"></translation>
     </message>
@@ -82,6 +83,43 @@
     <message>
         <location filename="../mainwindow.ui" line="89"/>
         <source>About Qt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="97"/>
+        <source>Kutegram by curoviyxru
+An unofficial Qt-based client for Telegram messenger.
+Project&apos;s website: http://kg.curoviyx.ru
+Telegram channel: https://t.me/kutegram
+Telegram chat: https://t.me/kutegramchat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="110"/>
+        <location filename="../mainwindow.cpp" line="120"/>
+        <location filename="../mainwindow.cpp" line="130"/>
+        <location filename="../mainwindow.cpp" line="146"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="111"/>
+        <source>Got socket error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="121"/>
+        <source>Got MT error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="131"/>
+        <source>Got DH error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="147"/>
+        <source>Got RPC error: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
