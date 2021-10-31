@@ -1,3 +1,6 @@
 <RCC>
     <qresource prefix="/icons"/>
+    <qresource prefix="/">
+        <file>stylesheet.css</file>
+    </qresource>
 </RCC>

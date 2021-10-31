@@ -6,6 +6,8 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
+#include <QFile>
+#include <QTextStream>
 
 void setOrientation(QMainWindow* window, ScreenOrientation orientation)
 {
@@ -80,6 +82,12 @@ int main(int argc, char *argv[])
     QTranslator myappTranslator;
     myappTranslator.load(QLocale(), "kutegram", "_", ":/translations/");
     app.installTranslator(&myappTranslator);
+
+    QFile stylesheetFile(":/stylesheet.css");
+    if (stylesheetFile.open(QFile::ReadOnly)) {
+        app.setStyleSheet(QTextStream(&stylesheetFile).readAll());
+        stylesheetFile.close();
+    }
 
     MainWindow mainWindow;
     setOrientation(&mainWindow, ScreenOrientationAuto);
