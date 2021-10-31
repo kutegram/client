@@ -10,6 +10,7 @@
 #include "historywindow.h"
 #include "main.h"
 #include <QMessageBox>
+#include <QtEndian>
 
 #ifndef QT_NO_DEBUG_OUTPUT
 #include <QtDebug>
@@ -91,7 +92,11 @@ void MainWindow::exitAction_triggered()
 void MainWindow::aboutAction_triggered()
 {
     //TODO: localization
-    QMessageBox::about(this, "Kutegram", "Kutegram by curoviyxru\nAn unofficial Qt-based client for Telegram messenger.\nProject's website: http://kg.curoviyx.ru\nTelegram channel: https://t.me/kutegram\nTelegram chat: https://t.me/kutegramchat");
+    QMessageBox::about(
+                this,
+                QApplication::translate("MainWindow", "Kutegram", 0, QApplication::UnicodeUTF8),
+                QApplication::translate("MainWindow", "Kutegram by curoviyxru\nAn unofficial Qt-based client for Telegram messenger.\nProject's website: http://kg.curoviyx.ru\nTelegram channel: https://t.me/kutegram\nTelegram chat: https://t.me/kutegramchat", 0, QApplication::UnicodeUTF8)
+                       );
 }
 
 void MainWindow::aboutQt_triggered()
@@ -102,31 +107,51 @@ void MainWindow::aboutQt_triggered()
 void MainWindow::client_gotSocketError(QAbstractSocket::SocketError error)
 {
     //TODO: localization
-    QMessageBox::critical(this, "Error", "Got socket error: " + QString::number(error));
+    QMessageBox::critical(
+                this,
+                QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
+                QApplication::translate("MainWindow", "Got socket error: %1", 0, QApplication::UnicodeUTF8)
+                .arg(QString::number(error))
+                );
 }
 
 void MainWindow::client_gotMTError(qint32 error_code)
 {
     //TODO: localization
-    QMessageBox::critical(this, "Error", "Got MT error: " + QString::number(error_code));
+    QMessageBox::critical(
+                this,
+                QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
+                QApplication::translate("MainWindow", "Got MT error: %1", 0, QApplication::UnicodeUTF8)
+                .arg(QString::number(error_code))
+                );
 }
 
 void MainWindow::client_gotDHError(bool fail)
 {
     //TODO: localization
-    QMessageBox::critical(this, "Error", "Got DH error: " + QString::number(fail));
+    QMessageBox::critical(
+                this,
+                QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
+                QApplication::translate("MainWindow", "Got DH error: %1", 0, QApplication::UnicodeUTF8)
+                .arg(QString::number(fail))
+                );
 }
 
 void MainWindow::client_gotMessageError(qint64 mtm, qint32 error_code)
 {
-    //TODO: localization
-    //QMessageBox::critical(this, "Error", "Got message error: " + QString::number(mtm) + " / " + QString::number(error_code));
+
 }
 
 void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message)
 {
     //TODO: localization
-    QMessageBox::critical(this, "Error", "Got message error: " + QString::number(mtm) + " / " + QString::number(error_code) + " / " + error_message);
+    qint32 conId = qFromLittleEndian<qint32>((const uchar*) client->message(mtm).mid(0, 4).constData());
+    QMessageBox::critical(
+                this,
+                QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
+                QApplication::translate("MainWindow", "Got message error: %1, %2, %3", 0, QApplication::UnicodeUTF8)
+                .arg(QString::number(conId)).arg(QString::number(error_code)).arg(error_message)
+                );
 }
 
 void MainWindow::client_stateChanged(State state)
