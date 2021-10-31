@@ -76,11 +76,11 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(codec);
 
     QTranslator qtTranslator;
-    qtTranslator.load(QLocale(), "qt", "_", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     app.installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
-    myappTranslator.load(QLocale(), "kutegram", "_", ":/translations/");
+    myappTranslator.load(":/translations/kutegram_" + QLocale::system().name());
     app.installTranslator(&myappTranslator);
 
     QFile stylesheetFile(":/stylesheet.css");
