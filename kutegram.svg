@@ -1,20 +1,66 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="ORANGE_BACKGROUNDS" width="96" height="96" enable-background="new 0 0 96 96" version="1.1" viewBox="0 0 96 96" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="linearGradient5098" x1="48" x2="48" y1="8.0107" y2="87.99" gradientUnits="userSpaceOnUse"><stop stop-color="#63B3E0" offset=".0364"/><stop stop-color="#59ACDA" offset=".204"/><stop stop-color="#3F99C9" offset=".4875"/><stop stop-color="#147BAE" offset=".8499"/><stop stop-color="#006DA2" offset="1"/></linearGradient></defs>
-
-
-<g><rect width="96" height="96" fill-opacity="0"/><path id="SHADOW" d="m88.023 49c0 29.633-10.364 40-40 40-29.635 0-40-10.367-40-40 0-29.634 10.366-40 40-40 29.636 0 40 10.365 40 40z" opacity=".4"/>
-	<g id="BLUE_2_2_">
-		
-		<path id="BLUE_2_1_" d="m8 47.989c0 29.633 10.365 40 40 40 29.637 0 40-10.367 40-40 0-28.985-9.926-39.53-38.091-39.979h-3.817c-28.164 0.449-38.092 10.994-38.092 39.979z" fill="url(#linearGradient5098)"/>
-		<linearGradient id="HIGHLIGHT_BLU2_1_" x1="48" x2="48" y1="8.2559" y2="87.504" gradientUnits="userSpaceOnUse">
-			<stop stop-color="#fff" offset=".0364"/>
-			<stop stop-color="#F5F9FB" offset=".1233"/>
-			<stop stop-color="#DBE7F0" offset=".2704"/>
-			<stop stop-color="#AFCBDD" offset=".4598"/>
-			<stop stop-color="#73A4C4" offset=".6841"/>
-			<stop stop-color="#2873A4" offset=".9352"/>
-			<stop stop-color="#13659B" offset="1"/>
-		</linearGradient>
-		<path d="m48 8c-29.635 0-40 10.365-40 40 0 29.633 10.365 40 40 40 29.637 0 40-10.367 40-40 0-29.635-10.363-40-40-40zm0 79.023c-29.158 0-39-9.847-39-39.023s9.842-39.023 39-39.023 39 9.847 39 39.023-9.842 39.023-39 39.023z" fill="url(#HIGHLIGHT_BLU2_1_)" opacity=".25"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="ORANGE_BACKGROUNDS" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="96px" height="96px"
+	 viewBox="0 0 96 96" enable-background="new 0 0 96 96" xml:space="preserve">
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1" gridtolerance="1" guidetolerance="1" id="namedview3065" inkscape:current-layer="layer2" inkscape:cx="38.5" inkscape:cy="53.5" inkscape:guide-bbox="true" inkscape:pagecheckerboard="0" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="1017" inkscape:window-maximized="1" inkscape:window-width="1920" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:zoom="1" objecttolerance="1" pagecolor="#ffffff" showgrid="false" showguides="true">
+	<inkscape:grid  empspacing="5" enabled="true" id="grid3071" snapvisiblegridlinesonly="true" type="xygrid" visible="true">
+		</inkscape:grid>
+	<sodipodi:guide  id="guide3020" orientation="0,1" position="49.320698,75"></sodipodi:guide>
+	<sodipodi:guide  id="guide3022" orientation="0,1" position="75,21"></sodipodi:guide>
+	<sodipodi:guide  id="guide3024" orientation="1,0" position="20.96875,75"></sodipodi:guide>
+	<sodipodi:guide  id="guide3026" orientation="1,0" position="74.992187,21"></sodipodi:guide>
+</sodipodi:namedview>
+<g id="layer5" inkscape:groupmode="layer" inkscape:label="DO NOT EDIT -  Bounding Box" sodipodi:insensitive="true">
+	<rect id="rect3119" fill-opacity="0" width="96" height="96"/>
+</g>
+<g id="layer4" inkscape:groupmode="layer" inkscape:label="DO NOT EDIT -  Shadow" sodipodi:insensitive="true">
+	<path id="SHADOW" inkscape:connector-curvature="0" opacity="0.4" enable-background="new    " d="M88.023,49
+		c0,29.633-10.364,40-40,40c-29.635,0-40-10.367-40-40c0-29.634,10.366-40,40-40C77.659,9,88.023,19.365,88.023,49z"/>
+</g>
+<g id="layer23" inkscape:groupmode="layer" inkscape:label="COLOURED BACKGROUND: Blue2 (DELETE IF NOT USED)" sodipodi:insensitive="true">
+	<g id="BLUE_BACKGROUNDS-2">
+		<g id="BLUE_2_2_">
+			
+				<linearGradient id="BLUE_2_00000068635622457410276860000008815712291560058020_" gradientUnits="userSpaceOnUse" x1="48" y1="89.99" x2="48" y2="10.011" gradientTransform="matrix(1 0 0 -1 0 98)">
+				<stop  offset="0.0364" style="stop-color:#63B3E0"/>
+				<stop  offset="0.204" style="stop-color:#59ACDA"/>
+				<stop  offset="0.4875" style="stop-color:#3F99C9"/>
+				<stop  offset="0.8499" style="stop-color:#147BAE"/>
+				<stop  offset="1" style="stop-color:#006DA2"/>
+			</linearGradient>
+			
+				<path id="BLUE_2_1_" inkscape:connector-curvature="0" fill="url(#BLUE_2_00000068635622457410276860000008815712291560058020_)" d="
+				M8,47.989c0,29.633,10.365,40,40,40c29.637,0,40-10.367,40-40c0-28.985-9.926-39.53-38.091-39.979h-3.817
+				C17.928,8.459,8,19.004,8,47.989z"/>
+			
+				<linearGradient id="HIGHLIGHT_BLU2_00000152975385262020712000000008138719025973011374_" gradientUnits="userSpaceOnUse" x1="48" y1="89.7441" x2="48" y2="10.4957" gradientTransform="matrix(1 0 0 -1 0 98)">
+				<stop  offset="0.0364" style="stop-color:#FFFFFF"/>
+				<stop  offset="0.1233" style="stop-color:#F5F9FB"/>
+				<stop  offset="0.2704" style="stop-color:#DBE7F0"/>
+				<stop  offset="0.4598" style="stop-color:#AFCBDD"/>
+				<stop  offset="0.6841" style="stop-color:#73A4C4"/>
+				<stop  offset="0.9352" style="stop-color:#2873A4"/>
+				<stop  offset="1" style="stop-color:#13659B"/>
+			</linearGradient>
+			
+				<path id="HIGHLIGHT_BLU2" inkscape:connector-curvature="0" opacity="0.25" fill="url(#HIGHLIGHT_BLU2_00000152975385262020712000000008138719025973011374_)" enable-background="new    " d="
+				M48,8C18.365,8,8,18.365,8,48c0,29.633,10.365,40,40,40c29.637,0,40-10.367,40-40C88,18.365,77.637,8,48,8z M48,87.023
+				C18.842,87.023,9,77.176,9,48S18.842,8.977,48,8.977S87,18.824,87,48S77.158,87.023,48,87.023z"/>
+		</g>
 	</g>
-<g transform="matrix(2.1942 0 0 2.1942 21.632 21.726)" fill="#fff"><g id="icons" fill="#fff"><path id="send" d="m21.5 11.1-17.9-9c-0.9-0.4-1.9 0.4-1.5 1.3l2.5 6.7 11.4 1.9-11.4 1.9-2.5 6.7c-0.3 0.9 0.6 1.7 1.5 1.2l17.9-9c0.7-0.3 0.7-1.3 0-1.7z" fill="#fff"/></g></g></g></svg>
+</g>
+<g id="layer7" inkscape:groupmode="layer" inkscape:label="CREATE INNER SHADOW HERE">
+</g>
+<g id="layer2" inkscape:groupmode="layer" inkscape:label="PLACE YOUR GRAPHIC HERE">
+	<g id="g893" transform="matrix(2.1941924,0,0,2.1941924,21.632043,21.726332)">
+		<g id="info">
+		</g>
+		<g id="icons">
+			<path id="send" fill="#FFFFFF" d="M21.5,11.1l-17.9-9C2.7,1.7,1.7,2.5,2.1,3.4l2.5,6.7L16,12L4.6,13.9l-2.5,6.7
+				c-0.3,0.9,0.6,1.7,1.5,1.2l17.9-9C22.2,12.5,22.2,11.5,21.5,11.1z"/>
+		</g>
+	</g>
+</g>
+</svg>

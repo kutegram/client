@@ -57,8 +57,8 @@ FORMS += mainwindow.ui \
     logintypedialog.ui \
     qrlogindialog.ui \
     historywindow.ui
-TRANSLATIONS += kutegram_en.ts \
-    kutegram_ru.ts
+TRANSLATIONS += translations/kutegram_en.ts \
+    translations/kutegram_ru.ts
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)

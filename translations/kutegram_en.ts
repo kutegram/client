@@ -4,22 +4,22 @@
 <context>
     <name>HistoryWindow</name>
     <message>
-        <location filename="historywindow.ui" line="14"/>
+        <location filename="../historywindow.ui" line="14"/>
         <source>Kutegram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="historywindow.ui" line="39"/>
+        <location filename="../historywindow.ui" line="39"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="historyitemdelegate.cpp" line="81"/>
+        <location filename="../historyitemdelegate.cpp" line="81"/>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="historywindow.cpp" line="17"/>
+        <location filename="../historywindow.cpp" line="17"/>
         <source>Type a message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -27,17 +27,17 @@
 <context>
     <name>LoginTypeDialog</name>
     <message>
-        <location filename="logintypedialog.ui" line="14"/>
+        <location filename="../logintypedialog.ui" line="14"/>
         <source>Log in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="logintypedialog.ui" line="24"/>
+        <location filename="../logintypedialog.ui" line="24"/>
         <source>Phone number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="logintypedialog.ui" line="34"/>
+        <location filename="../logintypedialog.ui" line="34"/>
         <source>QR-code</source>
         <translation type="unfinished"></translation>
     </message>
@@ -45,42 +45,42 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.ui" line="14"/>
+        <location filename="../mainwindow.ui" line="14"/>
         <source>Kutegram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="50"/>
+        <location filename="../mainwindow.ui" line="50"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="59"/>
+        <location filename="../mainwindow.ui" line="59"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="69"/>
+        <location filename="../mainwindow.ui" line="69"/>
         <source>Log in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="74"/>
+        <location filename="../mainwindow.ui" line="74"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="79"/>
+        <location filename="../mainwindow.ui" line="79"/>
         <source>Log out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="84"/>
+        <location filename="../mainwindow.ui" line="84"/>
         <source>About Kutegram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="89"/>
+        <location filename="../mainwindow.ui" line="89"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
@@ -88,7 +88,7 @@
 <context>
     <name>QRLoginDialog</name>
     <message>
-        <location filename="qrlogindialog.ui" line="14"/>
+        <location filename="../qrlogindialog.ui" line="14"/>
         <source>QR-code login</source>
         <translation type="unfinished"></translation>
     </message>
