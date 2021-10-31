@@ -131,6 +131,7 @@ void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error
 
 void MainWindow::client_stateChanged(State state)
 {
+    setWindowTitle("Kutegram (ls: " + QString::number(state) + ")");
     switch (state) {
     case INITED:
     {
@@ -140,11 +141,6 @@ void MainWindow::client_stateChanged(State state)
     case LOGGED_IN:
     {
         if (dialogModel->canFetchMore(QModelIndex())) dialogModel->fetchMore(QModelIndex());
-        break;
-    }
-    default:
-    {
-        setWindowTitle("Kutegram (ls: " + QString::number(state) + ")");
         break;
     }
     }

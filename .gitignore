@@ -18,3 +18,7 @@ client_0xE0713D51.mmp
 *.mk
 *.autosave
 *.3pre1
+*.pkg
+*.rss
+*.loc
+*.qm

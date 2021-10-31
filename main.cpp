@@ -3,6 +3,9 @@
 #include "main.h"
 #include <QtGui/QApplication>
 #include <QTextCodec>
+#include <QTranslator>
+#include <QLocale>
+#include <QLibraryInfo>
 
 void setOrientation(QMainWindow* window, ScreenOrientation orientation)
 {
@@ -69,6 +72,14 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForTr(codec);
     QTextCodec::setCodecForCStrings(codec);
     QTextCodec::setCodecForLocale(codec);
+
+    QTranslator qtTranslator;
+    qtTranslator.load(QLocale(), "qt", "_", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app.installTranslator(&qtTranslator);
+
+    QTranslator myappTranslator;
+    myappTranslator.load(QLocale(), "kutegram", "_", ":/translations/");
+    app.installTranslator(&myappTranslator);
 
     MainWindow mainWindow;
     setOrientation(&mainWindow, ScreenOrientationAuto);

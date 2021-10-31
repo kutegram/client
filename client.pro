@@ -1,3 +1,5 @@
+TARGET = Kutegram
+
 # Add files and directories to ship with the application 
 # by adapting the examples below.
 # file1.source = myfile
@@ -20,6 +22,7 @@ symbian:TARGET.UID3 = 0xE0713D51
 
 # Allow network access on Symbian
 symbian:TARGET.CAPABILITY = ReadUserData WriteUserData UserEnvironment NetworkServices LocalServices
+symbian:ICON = kutegram.svg
 
 # If your application uses the Qt Mobility libraries, uncomment
 # the following lines and add the respective components to the 
@@ -54,6 +57,8 @@ FORMS += mainwindow.ui \
     logintypedialog.ui \
     qrlogindialog.ui \
     historywindow.ui
+TRANSLATIONS += kutegram_en.ts \
+    kutegram_ru.ts
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
@@ -72,4 +77,5 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/changelog
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    translations.qrc
