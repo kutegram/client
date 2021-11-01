@@ -5,6 +5,7 @@
 #include "library/tlmessages.h"
 #include "flickcharm.h"
 #include "historyitemmodel.h"
+#include <QAction>
 
 namespace Ui {
 class HistoryWindow;
@@ -22,12 +23,14 @@ public:
 
 public slots:
     void sendButton_clicked();
+    void backAction_triggered();
 
 private:
     Ui::HistoryWindow *ui;
     FlickCharm flickcharm;
     TelegramClient* client;
     HistoryItemModel* model;
+    QAction backAction;
 };
 
 #endif // HISTORYWINDOW_H

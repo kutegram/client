@@ -16,10 +16,22 @@
 #include <QtDebug>
 #endif
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), client(new TelegramClient), ui(new Ui::MainWindow), phoneNumber(), dialogModel(0), flickcharm()
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    client(new TelegramClient),
+    ui(new Ui::MainWindow),
+    phoneNumber(),
+    dialogModel(0),
+    flickcharm(),
+    backAction(this)
 {
     ui->setupUi(this);
+
+    connect(&backAction, SIGNAL(triggered()), this, SLOT(backAction_triggered()));
+    backAction.setText(QApplication::translate("MainWindow", "Back", 0, QApplication::UnicodeUTF8));
+    backAction.setIcon(QIcon(":/icons/back.svg"));
+    backAction.setSoftKeyRole(QAction::NegativeSoftKey);
+    addAction(&backAction);
 
     flickcharm.activateOn(ui->dialogView);
 
@@ -36,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(client, SIGNAL(gotDHError(bool)), this, SLOT(client_gotDHError(bool)));
     connect(client, SIGNAL(gotMessageError(qint64,qint32)), this, SLOT(client_gotMessageError(qint64,qint32)));
     connect(client, SIGNAL(gotRPCError(qint64,qint32,QString)), this, SLOT(client_gotRPCError(qint64,qint32,QString)));
+
+    if (client->isLoggedIn()) client->start();
 }
 
 MainWindow::~MainWindow()
@@ -87,6 +101,11 @@ void MainWindow::logoutAction_triggered()
 void MainWindow::exitAction_triggered()
 {
     QApplication::quit();
+}
+
+void MainWindow::backAction_triggered()
+{
+    close();
 }
 
 void MainWindow::aboutAction_triggered()

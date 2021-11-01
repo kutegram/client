@@ -8,7 +8,7 @@ CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 # dir1.source = mydir
 DEPLOYMENTFOLDERS = # file1 dir1
 
-QT += webkit
+QT += webkit svg
 
 QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
 QMAKE_LFLAGS.GCCE += -Tdata 0xC00000

@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include "flickcharm.h"
 #include "library/telegramclient.h"
+#include <QAction>
 
 namespace Ui {
     class MainWindow;
@@ -37,12 +38,15 @@ public slots:
     void client_gotMessageError(qint64 mtm, qint32 error_code);
     void client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message);
 
+    void backAction_triggered();
+
 private:
     FlickCharm flickcharm;
     TelegramClient *client;
     Ui::MainWindow *ui;
     QString phoneNumber;
     DialogItemModel *dialogModel;
+    QAction backAction;
 
     void showTypeDialog();
 };
