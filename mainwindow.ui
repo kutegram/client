@@ -119,7 +119,7 @@
   </connection>
   <connection>
    <sender>dialogView</sender>
-   <signal>clicked(QModelIndex)</signal>
+   <signal>activated(QModelIndex)</signal>
    <receiver>MainWindow</receiver>
    <slot>dialogView_activated(QModelIndex)</slot>
    <hints>
