@@ -93,5 +93,10 @@ int main(int argc, char *argv[])
     setOrientation(&mainWindow, ScreenOrientationAuto);
     showExpanded(&mainWindow);
 
+//    foreach (QWidget* widget, QApplication::allWidgets())
+//        widget->setContextMenuPolicy(Qt::NoContextMenu);
+
+//    app.setQuitOnLastWindowClosed(false);
+
     return app.exec();
 }

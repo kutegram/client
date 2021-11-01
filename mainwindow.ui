@@ -73,6 +73,9 @@
    <property name="text">
     <string>Quit</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
   </action>
   <action name="logoutAction">
    <property name="text">
@@ -83,10 +86,16 @@
    <property name="text">
     <string>About Kutegram</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
   </action>
   <action name="aboutQt">
    <property name="text">
     <string>About Qt</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutQtRole</enum>
    </property>
   </action>
  </widget>
