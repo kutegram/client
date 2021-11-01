@@ -31,7 +31,7 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     qint32 avatarSize = fm.height(); avatarSize += avatarSize;
 
     qint32 maxWidth;
-    qint32 initWidth = w - cloudPart - cloudPart - padding - padding - padding - avatarSize;
+    qint32 initWidth = w - cloudPart - cloudPart - padding - padding - padding - avatarSize - padding; //extra - padding for safety
 
     QRect textRect = fm.boundingRect(x, y, initWidth, h, Qt::TextWordWrap, message.message);
     maxWidth = textRect.width();
