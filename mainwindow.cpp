@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     connect(&backAction, SIGNAL(triggered()), this, SLOT(backAction_triggered()));
-    backAction.setText(QApplication::translate("MainWindow", "Back", 0, QApplication::UnicodeUTF8));
+    backAction.setText(QApplication::translate("MainWindow", "Quit", 0, QApplication::UnicodeUTF8));
     backAction.setIcon(QIcon(":/icons/back.svg"));
     backAction.setSoftKeyRole(QAction::NegativeSoftKey);
     addAction(&backAction);

@@ -19,8 +19,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../historywindow.cpp" line="17"/>
+        <location filename="../historywindow.cpp" line="18"/>
         <source>Type a message...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../historywindow.cpp" line="22"/>
+        <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -46,7 +51,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../mainwindow.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="115"/>
         <source>Kutegram</source>
         <translation type="unfinished"></translation>
     </message>
@@ -67,26 +72,27 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="74"/>
+        <location filename="../mainwindow.cpp" line="31"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="79"/>
+        <location filename="../mainwindow.ui" line="82"/>
         <source>Log out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="84"/>
+        <location filename="../mainwindow.ui" line="87"/>
         <source>About Kutegram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="89"/>
+        <location filename="../mainwindow.ui" line="95"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="97"/>
+        <location filename="../mainwindow.cpp" line="116"/>
         <source>Kutegram by curoviyxru
 An unofficial Qt-based client for Telegram messenger.
 Project&apos;s website: http://kg.curoviyx.ru
@@ -95,30 +101,30 @@ Telegram chat: https://t.me/kutegramchat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="110"/>
-        <location filename="../mainwindow.cpp" line="120"/>
-        <location filename="../mainwindow.cpp" line="130"/>
-        <location filename="../mainwindow.cpp" line="146"/>
+        <location filename="../mainwindow.cpp" line="129"/>
+        <location filename="../mainwindow.cpp" line="139"/>
+        <location filename="../mainwindow.cpp" line="149"/>
+        <location filename="../mainwindow.cpp" line="164"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="111"/>
+        <location filename="../mainwindow.cpp" line="130"/>
         <source>Got socket error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="121"/>
+        <location filename="../mainwindow.cpp" line="140"/>
         <source>Got MT error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="131"/>
+        <location filename="../mainwindow.cpp" line="150"/>
         <source>Got DH error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="147"/>
+        <location filename="../mainwindow.cpp" line="165"/>
         <source>Got RPC error: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>
