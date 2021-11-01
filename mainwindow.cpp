@@ -140,12 +140,11 @@ void MainWindow::client_gotMessageError(qint64 mtm, qint32 error_code)
 
 void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message)
 {
-    qint32 conId = qFromLittleEndian<qint32>((const uchar*) client->message(mtm).mid(0, 4).constData());
     QMessageBox::critical(
                 this,
                 QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
                 QApplication::translate("MainWindow", "Got RPC error: %1, %2, %3", 0, QApplication::UnicodeUTF8)
-                .arg(QString::number(conId)).arg(QString::number(error_code)).arg(error_message)
+                .arg(QString::number(client->messageConstructor(mtm))).arg(QString::number(error_code)).arg(error_message)
                 );
 }
 
