@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QApplication::setApplicationVersion("0.9.0");
+    QApplication::setApplicationVersion("0.0.2");
     QApplication::setApplicationName("Kutegram");
     QApplication::setOrganizationName("curoviyxru");
     QApplication::setOrganizationDomain("kg.curoviyx.ru");
