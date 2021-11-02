@@ -10,6 +10,9 @@
     <height>163</height>
    </rect>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>Log in</string>
   </property>
@@ -20,6 +23,9 @@
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QCommandLinkButton" name="phoneButton">
+         <property name="contextMenuPolicy">
+          <enum>Qt::NoContextMenu</enum>
+         </property>
          <property name="text">
           <string>Phone number</string>
          </property>
@@ -29,6 +35,9 @@
         <widget class="QCommandLinkButton" name="qrButton">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::NoContextMenu</enum>
          </property>
          <property name="text">
           <string>QR-code</string>
@@ -67,6 +76,9 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

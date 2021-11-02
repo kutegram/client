@@ -170,7 +170,7 @@ void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error
 
 void MainWindow::client_stateChanged(State state)
 {
-    setWindowTitle("Kutegram (ls: " + QString::number(state) + ")");
+    //setWindowTitle("Kutegram (ls: " + QString::number(state) + ")");
     switch (state) {
     case INITED:
     {
@@ -205,8 +205,6 @@ void MainWindow::client_gotSentCode(qint64 mtm, QString phone_code_hash)
 
 void MainWindow::dialogView_activated(QModelIndex index)
 {
-    if (!index.isValid()) return;
-
     HistoryWindow* window = new HistoryWindow(client, dialogModel->getInputPeer(index.row()), this);
     setOrientation(window, ScreenOrientationAuto);
     showExpanded(window);

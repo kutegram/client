@@ -10,10 +10,16 @@
     <height>532</height>
    </rect>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>Kutegram</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
      <number>0</number>
@@ -22,10 +28,17 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTabBar" name="tabBar" native="true"/>
+     <widget class="QTabBar" name="tabBar" native="true">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QListView" name="dialogView">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
       <property name="verticalScrollMode">
        <enum>QAbstractItemView::ScrollPerPixel</enum>
       </property>
@@ -45,7 +58,13 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <widget class="QMenu" name="actionsMenu">
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
     <property name="title">
      <string>Actions</string>
     </property>
@@ -55,6 +74,9 @@
     <addaction name="exitAction"/>
    </widget>
    <widget class="QMenu" name="helpMenu">
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
     <property name="title">
      <string>Help</string>
     </property>
