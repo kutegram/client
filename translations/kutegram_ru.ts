@@ -101,7 +101,7 @@ Telegram chat: https://t.me/kutegramchat</source>
         <translation>Kutegram, сделан curoviyxru
 Неофициальный клиент Telegram, основанный на Qt.
 Сайт проекта: http://kg.curoviyx.ru
-Канал Telegraml: https://t.me/kutegram
+Канал Telegram: https://t.me/kutegram
 Чат Telegram: https://t.me/kutegramchat</translation>
     </message>
     <message>
