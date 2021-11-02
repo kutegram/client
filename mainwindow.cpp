@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(gotMTError(qint32)), this, SLOT(client_gotMTError(qint32)));
     connect(client, SIGNAL(gotDHError(bool)), this, SLOT(client_gotDHError(bool)));
     connect(client, SIGNAL(gotMessageError(qint64,qint32)), this, SLOT(client_gotMessageError(qint64,qint32)));
-    connect(client, SIGNAL(gotRPCError(qint64,qint32,QString)), this, SLOT(client_gotRPCError(qint64,qint32,QString)));
+    connect(client, SIGNAL(gotRPCError(qint64,qint32,QString,bool)), this, SLOT(client_gotRPCError(qint64,qint32,QString,bool)));
 
     if (client->isLoggedIn()) client->start();
 }
@@ -157,8 +157,9 @@ void MainWindow::client_gotMessageError(qint64 mtm, qint32 error_code)
     //TODO: do we need message error?
 }
 
-void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message)
+void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message, bool handled)
 {
+    if (handled) return;
     QMessageBox::critical(
                 this,
                 QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),

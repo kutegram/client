@@ -36,7 +36,7 @@ public slots:
     void client_gotMTError(qint32 error_code);
     void client_gotDHError(bool fail);
     void client_gotMessageError(qint64 mtm, qint32 error_code);
-    void client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message);
+    void client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message, bool handled);
 
     void backAction_triggered();
 
