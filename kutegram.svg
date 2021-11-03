@@ -1,66 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1"
-	 id="ORANGE_BACKGROUNDS" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="96px" height="96px"
-	 viewBox="0 0 96 96" enable-background="new 0 0 96 96" xml:space="preserve">
-<sodipodi:namedview  bordercolor="#666666" borderopacity="1" gridtolerance="1" guidetolerance="1" id="namedview3065" inkscape:current-layer="layer2" inkscape:cx="38.5" inkscape:cy="53.5" inkscape:guide-bbox="true" inkscape:pagecheckerboard="0" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="1017" inkscape:window-maximized="1" inkscape:window-width="1920" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:zoom="1" objecttolerance="1" pagecolor="#ffffff" showgrid="false" showguides="true">
-	<inkscape:grid  empspacing="5" enabled="true" id="grid3071" snapvisiblegridlinesonly="true" type="xygrid" visible="true">
-		</inkscape:grid>
-	<sodipodi:guide  id="guide3020" orientation="0,1" position="49.320698,75"></sodipodi:guide>
-	<sodipodi:guide  id="guide3022" orientation="0,1" position="75,21"></sodipodi:guide>
-	<sodipodi:guide  id="guide3024" orientation="1,0" position="20.96875,75"></sodipodi:guide>
-	<sodipodi:guide  id="guide3026" orientation="1,0" position="74.992187,21"></sodipodi:guide>
-</sodipodi:namedview>
-<g id="layer5" inkscape:groupmode="layer" inkscape:label="DO NOT EDIT -  Bounding Box" sodipodi:insensitive="true">
-	<rect id="rect3119" fill-opacity="0" width="96" height="96"/>
-</g>
-<g id="layer4" inkscape:groupmode="layer" inkscape:label="DO NOT EDIT -  Shadow" sodipodi:insensitive="true">
-	<path id="SHADOW" inkscape:connector-curvature="0" opacity="0.4" enable-background="new    " d="M88.023,49
-		c0,29.633-10.364,40-40,40c-29.635,0-40-10.367-40-40c0-29.634,10.366-40,40-40C77.659,9,88.023,19.365,88.023,49z"/>
-</g>
-<g id="layer23" inkscape:groupmode="layer" inkscape:label="COLOURED BACKGROUND: Blue2 (DELETE IF NOT USED)" sodipodi:insensitive="true">
-	<g id="BLUE_BACKGROUNDS-2">
-		<g id="BLUE_2_2_">
-			
-				<linearGradient id="BLUE_2_00000068635622457410276860000008815712291560058020_" gradientUnits="userSpaceOnUse" x1="48" y1="89.99" x2="48" y2="10.011" gradientTransform="matrix(1 0 0 -1 0 98)">
-				<stop  offset="0.0364" style="stop-color:#63B3E0"/>
-				<stop  offset="0.204" style="stop-color:#59ACDA"/>
-				<stop  offset="0.4875" style="stop-color:#3F99C9"/>
-				<stop  offset="0.8499" style="stop-color:#147BAE"/>
-				<stop  offset="1" style="stop-color:#006DA2"/>
-			</linearGradient>
-			
-				<path id="BLUE_2_1_" inkscape:connector-curvature="0" fill="url(#BLUE_2_00000068635622457410276860000008815712291560058020_)" d="
-				M8,47.989c0,29.633,10.365,40,40,40c29.637,0,40-10.367,40-40c0-28.985-9.926-39.53-38.091-39.979h-3.817
-				C17.928,8.459,8,19.004,8,47.989z"/>
-			
-				<linearGradient id="HIGHLIGHT_BLU2_00000152975385262020712000000008138719025973011374_" gradientUnits="userSpaceOnUse" x1="48" y1="89.7441" x2="48" y2="10.4957" gradientTransform="matrix(1 0 0 -1 0 98)">
-				<stop  offset="0.0364" style="stop-color:#FFFFFF"/>
-				<stop  offset="0.1233" style="stop-color:#F5F9FB"/>
-				<stop  offset="0.2704" style="stop-color:#DBE7F0"/>
-				<stop  offset="0.4598" style="stop-color:#AFCBDD"/>
-				<stop  offset="0.6841" style="stop-color:#73A4C4"/>
-				<stop  offset="0.9352" style="stop-color:#2873A4"/>
-				<stop  offset="1" style="stop-color:#13659B"/>
-			</linearGradient>
-			
-				<path id="HIGHLIGHT_BLU2" inkscape:connector-curvature="0" opacity="0.25" fill="url(#HIGHLIGHT_BLU2_00000152975385262020712000000008138719025973011374_)" enable-background="new    " d="
-				M48,8C18.365,8,8,18.365,8,48c0,29.633,10.365,40,40,40c29.637,0,40-10.367,40-40C88,18.365,77.637,8,48,8z M48,87.023
-				C18.842,87.023,9,77.176,9,48S18.842,8.977,48,8.977S87,18.824,87,48S77.158,87.023,48,87.023z"/>
-		</g>
-	</g>
-</g>
-<g id="layer7" inkscape:groupmode="layer" inkscape:label="CREATE INNER SHADOW HERE">
-</g>
-<g id="layer2" inkscape:groupmode="layer" inkscape:label="PLACE YOUR GRAPHIC HERE">
-	<g id="g893" transform="matrix(2.1941924,0,0,2.1941924,21.632043,21.726332)">
-		<g id="info">
-		</g>
-		<g id="icons">
-			<path id="send" fill="#FFFFFF" d="M21.5,11.1l-17.9-9C2.7,1.7,1.7,2.5,2.1,3.4l2.5,6.7L16,12L4.6,13.9l-2.5,6.7
-				c-0.3,0.9,0.6,1.7,1.5,1.2l17.9-9C22.2,12.5,22.2,11.5,21.5,11.1z"/>
-		</g>
-	</g>
-</g>
+<!-- Generator: Adobe Illustrator 24.1.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="500px" height="500px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+<path opacity="0.4" fill="#283745" enable-background="new    " d="M458.33301,255.20802
+	c0,154.34901-53.95801,208.334-208.33301,208.334c-154.3385,0-208.3333-53.98499-208.3333-208.334S95.6615,46.87503,250,46.87503
+	C404.33899,46.87503,458.33301,100.87003,458.33301,255.20802z"/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="249.99985" y1="458.88449" x2="249.99985" y2="42.21817" gradientTransform="matrix(1 0 0 -1 0 500.55121)">
+	<stop  offset="0" style="stop-color:#35B2E6"/>
+	<stop  offset="1" style="stop-color:#1595C9"/>
+</linearGradient>
+<path fill="url(#SVGID_1_)" d="M458.33301,250.00003c0,154.349-53.95801,208.33301-208.33301,208.33301
+	c-154.3385,0-208.3333-53.98401-208.3333-208.33301S95.6615,41.66673,250,41.66673
+	C404.33899,41.66673,458.33301,95.66153,458.33301,250.00003z"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="249.99985" y1="457.65009" x2="249.99985" y2="44.91519" gradientTransform="matrix(1 0 0 -1 0 500.55121)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#FFFFFF"/>
+</linearGradient>
+<path opacity="0.15" fill="url(#SVGID_2_)" enable-background="new    " d="M250,41.66673
+	c-154.3385,0-208.3333,53.9948-208.3333,208.3333c0,154.33899,53.9948,208.33301,208.3333,208.33301
+	c154.375,0,208.33301-53.98401,208.33301-208.33301S404.35901,41.66673,250,41.66673z M250,453.12503
+	c-151.8645,0-203.12491-51.26001-203.12491-203.125C46.8751,98.13553,98.1355,46.87513,250,46.87513
+	c151.86499,0,203.125,51.2604,203.125,203.12489C453.125,401.86502,401.875,453.12503,250,453.12503z"/>
+<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="242.99974" y1="360.55127" x2="242.99974" y2="131.45845" gradientTransform="matrix(1 0 0 -1 0 500.55121)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#D8D6D7"/>
+</linearGradient>
+<path fill-rule="evenodd" clip-rule="evenodd" fill="url(#SVGID_3_)" d="M353.93701,144.24603
+	c10.664-3.41301,15.996-5.119,19.22498-3.8c2.80402,1.145,4.90302,3.548,5.66101,6.48
+	c0.87399,3.37801-1.53299,8.43201-6.34698,18.541l-90.15802,189.33202c-3.68698,7.74298-5.53,11.61398-8.237,13.104
+	c-2.36099,1.29999-5.16098,1.547-7.71298,0.67999c-2.92603-0.99402-5.418-4.483-10.40201-11.461l-44.66-62.52301
+	c-3.85001-5.38998-2.601-12.88101,2.78799-16.73099c5.39-3.85001,12.88101-2.60101,16.731,2.789l32.35201,45.293
+	c1.246,1.74399,1.86899,2.616,2.60001,2.86499c0.63898,0.21701,1.33899,0.155,1.92899-0.17001
+	c0.677-0.37299,1.13699-1.34,2.05902-3.276L334.612,189.19102c2.40601-5.054,3.60999-7.58099,3.173-9.26999
+	c-0.379-1.466-1.42801-2.66701-2.83002-3.24001c-1.61499-0.659-4.28098,0.194-9.61298,1.89999l-145.132,46.442
+	c-3.73601,1.19501-5.60301,1.793-6.06201,2.653c-0.39499,0.742-0.373,1.63701,0.058,2.35901c0.5,0.836,2.395,1.341,6.18501,2.35199
+	l91.73799,24.46301c6.39999,1.707,10.20502,8.27899,8.49802,14.67899s-8.27802,10.20401-14.67902,8.49802l-132.84999-35.427
+	c-15.16-4.043-22.74001-6.06401-24.73901-9.408c-1.726-2.88701-1.814-6.467-0.231-9.436c1.832-3.438,9.304-5.82899,24.24599-10.61
+	L353.93701,144.24603z"/>
 </svg>
