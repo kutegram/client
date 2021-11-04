@@ -1,14 +1,8 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Symbian build
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -16,6 +10,15 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Secret test
+        shell: cmd
+        env:
+          KUTEGRAM_APP_HASH: ${{ secrets.KUTEGRAM_APP_HASH }}
+          KUTEGRAM_APP_ID: ${{ secrets.KUTEGRAM_APP_ID }}
+        run: |
+          echo %KUTEGRAM_APP_HASH%
+          echo %KUTEGRAM_APP_ID%
+    
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -24,8 +27,8 @@ jobs:
       - name: Fill API secrets
         shell: cmd
         env:
-          TG_API_HASH: ${{ secrets.TG_API_HASH }}
-          TG_API_ID: ${{ secrets.TG_API_ID }}
+          TG_API_HASH: ${{ secrets.KUTEGRAM_APP_HASH }}
+          TG_API_ID: ${{ secrets.KUTEGRAM_APP_ID }}
         run: |
           fillSecrets.bat
       

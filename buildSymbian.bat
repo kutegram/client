@@ -7,4 +7,5 @@ cd ..
 lrelease client.pro
 qmake.exe client.pro -r -spec symbian-abld "CONFIG+=release" -after "OBJECTS_DIR=obj" "MOC_DIR=moc" "UI_DIR=ui" "RCC_DIR=rcc"
 make.exe release-gcce -w in .
-make.exe clean -w in .
+make.exe sis .
+::make.exe clean -w in .
