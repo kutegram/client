@@ -33,9 +33,6 @@
        </item>
        <item>
         <widget class="QCommandLinkButton" name="qrButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
          <property name="contextMenuPolicy">
           <enum>Qt::NoContextMenu</enum>
          </property>
