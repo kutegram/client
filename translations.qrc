@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>translations/kutegram_en.qm</file>
         <file>translations/kutegram_ru.qm</file>
+        <file>translations/kutegram_uk.qm</file>
     </qresource>
 </RCC>
