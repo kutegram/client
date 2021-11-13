@@ -20,7 +20,11 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TLInputPeer input, QWidget 
 
     connect(&backAction, SIGNAL(triggered()), this, SLOT(backAction_triggered()));
     backAction.setText(QApplication::translate("HistoryWindow", "Back", 0, QApplication::UnicodeUTF8));
-    backAction.setIcon(QIcon(":/icons/back.svg"));
+    // Softkeys with icon are on Symbian Belle and higher
+    if (QSysInfo::s60Version() > QSysInfo::SV_S60_5_2)
+    {
+        backAction.setIcon(QIcon(":/icons/back.svg"));
+    }
     backAction.setSoftKeyRole(QAction::NegativeSoftKey);
     addAction(&backAction);
 
