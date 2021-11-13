@@ -47,6 +47,9 @@ private:
     QString phoneNumber;
     DialogItemModel *dialogModel;
     QAction backAction;
+#if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
+    QAction optionsAction;
+#endif
 
     void showTypeDialog();
 };

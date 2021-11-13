@@ -31,6 +31,9 @@ private:
     TelegramClient* client;
     HistoryItemModel* model;
     QAction backAction;
+#if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
+    QAction optionsAction;
+#endif
 };
 
 #endif // HISTORYWINDOW_H
