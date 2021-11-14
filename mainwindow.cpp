@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
     optionsAction(this),
 #endif
-    backAction(this)
+    exitAction(this)
 {
     ui->setupUi(this);
 
@@ -50,15 +50,15 @@ MainWindow::MainWindow(QWidget *parent) :
     addAction(&optionsAction);
 #endif
 
-    connect(&backAction, SIGNAL(triggered()), this, SLOT(backAction_triggered()));
-    backAction.setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
+    connect(&exitAction, SIGNAL(triggered()), this, SLOT(exitAction_triggered()));
+    exitAction.setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
     // Softkeys with icon are on Symbian Belle and higher
     if (QSysInfo::s60Version() > QSysInfo::SV_S60_5_2)
     {
-        backAction.setIcon(QIcon(":/icons/back.svg"));
+        exitAction.setIcon(QIcon(":/icons/back.svg"));
     }
-    backAction.setSoftKeyRole(QAction::NegativeSoftKey);
-    addAction(&backAction);
+    exitAction.setSoftKeyRole(QAction::NegativeSoftKey);
+    addAction(&exitAction);
 
     flickcharm.activateOn(ui->dialogView);
 
@@ -125,12 +125,12 @@ void MainWindow::logoutAction_triggered()
     client->reset();
 }
 
-void MainWindow::exitAction_triggered()
+void MainWindow::quitAction_triggered()
 {
     QApplication::quit();
 }
 
-void MainWindow::backAction_triggered()
+void MainWindow::exitAction_triggered()
 {
     close();
 }
