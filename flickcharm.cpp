@@ -33,6 +33,9 @@
 #include <QWebFrame>
 #include <QWebView>
 #include <QDebug>
+
+const int fingerAccuracyThreshold = 10;
+
 struct FlickData {
     typedef enum { Steady, Pressed, ManualScroll, AutoScroll, Stop } State;
     State state;
@@ -159,6 +162,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
     if (!viewport || !data || data->ignored.removeAll(event))
         return false;
     bool consumed = false;
+    QPoint delta;
     switch (data->state) {
     case FlickData::Steady:
         if (mouseEvent->type() == QEvent::MouseButtonPress)
@@ -182,7 +186,10 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
             QApplication::postEvent(object, event1);
             QApplication::postEvent(object, event2);
         }
-        if (mouseEvent->type() == QEvent::MouseMove) {
+        delta = data->pressPos - mouseEvent->pos();
+        if (mouseEvent->type() == QEvent::MouseMove &&
+                (qAbs(delta.x()) > fingerAccuracyThreshold ||
+                 qAbs(delta.y()) > fingerAccuracyThreshold)) {
             consumed = true;
             data->state = FlickData::ManualScroll;
             data->dragPos = QCursor::pos();
