@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.0" language="uk_UA">
 <context>
     <name>HistoryWindow</name>
     <message>
@@ -16,17 +16,17 @@
     <message>
         <location filename="../historyitemdelegate.cpp" line="81"/>
         <source>Loading...</source>
-        <translation>Загрузка...</translation>
+        <translation>Завантаження...</translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="21"/>
         <source>Type a message...</source>
-        <translation>Написать сообщение...</translation>
+        <translation>Написати повідомлення...</translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="30"/>
         <source>Options</source>
-        <translation>Функции</translation>
+        <translation>Опції</translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="44"/>
@@ -39,12 +39,12 @@
     <message>
         <location filename="../logintypedialog.ui" line="17"/>
         <source>Log in</source>
-        <translation>Авторизация</translation>
+        <translation>Авторизація</translation>
     </message>
     <message>
         <location filename="../logintypedialog.ui" line="30"/>
         <source>Phone number</source>
-        <translation>Номер телефона</translation>
+        <translation>Номер телефону</translation>
     </message>
     <message>
         <location filename="../logintypedialog.ui" line="40"/>
@@ -63,47 +63,47 @@
     <message>
         <location filename="../mainwindow.ui" line="69"/>
         <source>Actions</source>
-        <translation>Действия</translation>
+        <translation>Дії</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="81"/>
         <source>Help</source>
-        <translation>Помощь</translation>
+        <translation>Допомога</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="91"/>
         <source>Log in</source>
-        <translation>Авторизоваться</translation>
+        <translation>Авторизуватись</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="96"/>
+        <location filename="../mainwindow.cpp" line="54"/>
+        <source>Exit</source>
+        <translation>Вихід</translation>
+    </message>
+    <message>
         <source>Quit</source>
-        <translation>Выйти</translation>
+        <translation type="obsolete">Вийти</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="104"/>
         <source>Log out</source>
-        <translation>Выйти из аккаунта</translation>
+        <translation>Вийти з акауту</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="109"/>
         <source>About Kutegram</source>
-        <translation>О Kutegram</translation>
+        <translation>Про Kutegram</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="117"/>
         <source>About Qt</source>
-        <translation>О Qt</translation>
+        <translation>Про Qt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="39"/>
         <source>Options</source>
-        <translation>Функции</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="54"/>
-        <source>Exit</source>
-        <translation>Выход</translation>
+        <translation>Опції</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="143"/>
@@ -112,9 +112,9 @@ An unofficial Qt-based client for Telegram messenger.
 Project&apos;s website: http://kg.curoviyx.ru
 Telegram channel: https://t.me/kutegram
 Telegram chat: https://t.me/kutegramchat</source>
-        <translation>Kutegram, сделан curoviyxru
-Неофициальный клиент Telegram, основанный на Qt.
-Сайт проекта: http://kg.curoviyx.ru
+        <translation>Kutegram, зробленний curoviyxru
+Неофіційний клієнт Telegram, оснований на Qt.
+Сайт проекту: http://kg.curoviyx.ru
 Канал Telegram: https://t.me/kutegram
 Чат Telegram: https://t.me/kutegramchat</translation>
     </message>
@@ -124,27 +124,27 @@ Telegram chat: https://t.me/kutegramchat</source>
         <location filename="../mainwindow.cpp" line="176"/>
         <location filename="../mainwindow.cpp" line="192"/>
         <source>Error</source>
-        <translation>Ошибка</translation>
+        <translation>Помилка</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="157"/>
         <source>Got socket error: %1</source>
-        <translation>Ошибка сокета: %1</translation>
+        <translation>Помилка сокету: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="167"/>
         <source>Got MT error: %1</source>
-        <translation>Ошибка MT: %1</translation>
+        <translation>Помилка МТ: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="177"/>
         <source>Got DH error: %1</source>
-        <translation>Ошибка DH: %1</translation>
+        <translation>Помилка DH: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="193"/>
         <source>Got RPC error: %1, %2, %3</source>
-        <translation>Ошибка RPC: %1, %2, %3</translation>
+        <translation>Помилка RPC: %1, %2, %3</translation>
     </message>
 </context>
 <context>
@@ -152,7 +152,7 @@ Telegram chat: https://t.me/kutegramchat</source>
     <message>
         <location filename="../qrlogindialog.ui" line="17"/>
         <source>QR-code login</source>
-        <translation>Авторизация по QR-коду</translation>
+        <translation>Авторизація за QR-кодом</translation>
     </message>
 </context>
 </TS>

@@ -71,7 +71,7 @@
     <addaction name="loginAction"/>
     <addaction name="logoutAction"/>
     <addaction name="separator"/>
-    <addaction name="exitAction"/>
+    <addaction name="quitAction"/>
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="contextMenuPolicy">
@@ -91,7 +91,7 @@
     <string>Log in</string>
    </property>
   </action>
-  <action name="exitAction">
+  <action name="quitAction">
    <property name="text">
     <string>Quit</string>
    </property>
@@ -181,10 +181,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>exitAction</sender>
+   <sender>quitAction</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>exitAction_triggered()</slot>
+   <slot>quitAction_triggered()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -233,7 +233,7 @@
   <slot>loginAction_triggered()</slot>
   <slot>dialogView_activated(QModelIndex)</slot>
   <slot>logoutAction_triggered()</slot>
-  <slot>exitAction_triggered()</slot>
+  <slot>quitAction_triggered()</slot>
   <slot>aboutAction_triggered()</slot>
   <slot>aboutQt_triggered()</slot>
  </slots>

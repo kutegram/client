@@ -67,7 +67,8 @@ FORMS += mainwindow.ui \
     qrlogindialog.ui \
     historywindow.ui
 TRANSLATIONS += translations/kutegram_en.ts \
-    translations/kutegram_ru.ts
+    translations/kutegram_ru.ts \
+    translations/kutegram_uk.ts
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)

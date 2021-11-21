@@ -23,7 +23,7 @@ public:
 public slots:
     void loginAction_triggered();
     void logoutAction_triggered();
-    void exitAction_triggered();
+    void quitAction_triggered();
     void aboutAction_triggered();
     void aboutQt_triggered();
     void dialogView_activated(QModelIndex index);
@@ -38,7 +38,7 @@ public slots:
     void client_gotMessageError(qint64 mtm, qint32 error_code);
     void client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message, bool handled);
 
-    void backAction_triggered();
+    void exitAction_triggered();
 
 private:
     FlickCharm flickcharm;
@@ -46,7 +46,10 @@ private:
     Ui::MainWindow *ui;
     QString phoneNumber;
     DialogItemModel *dialogModel;
-    QAction backAction;
+    QAction exitAction;
+#if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
+    QAction optionsAction;
+#endif
 
     void showTypeDialog();
 };

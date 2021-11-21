@@ -23,15 +23,42 @@ MainWindow::MainWindow(QWidget *parent) :
     phoneNumber(),
     dialogModel(0),
     flickcharm(),
-    backAction(this)
+#if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
+    optionsAction(this),
+#endif
+    exitAction(this)
 {
     ui->setupUi(this);
 
-    connect(&backAction, SIGNAL(triggered()), this, SLOT(backAction_triggered()));
-    backAction.setText(QApplication::translate("MainWindow", "Quit", 0, QApplication::UnicodeUTF8));
-    backAction.setIcon(QIcon(":/icons/back.svg"));
-    backAction.setSoftKeyRole(QAction::NegativeSoftKey);
-    addAction(&backAction);
+#if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
+    /**
+      * Qt installer for Symbian does not contain translation files (*.qm):
+      * https://bugreports.qt.io/browse/QTBUG-4919
+      * Create a custom "Options" softkey and localize it on the application level.
+      */
+    optionsAction.setText(QApplication::translate("MainWindow", "Options", 0, QApplication::UnicodeUTF8));
+    QMenu* optionsMenu = new QMenu(this);
+    optionsMenu->addAction(ui->actionsMenu->menuAction());
+    optionsMenu->addAction(ui->helpMenu->menuAction());
+    optionsAction.setMenu(optionsMenu);
+    // Softkeys with icon are on Symbian Belle and higher
+    if (QSysInfo::s60Version() > QSysInfo::SV_S60_5_2)
+    {
+        optionsAction.setIcon(QIcon(":/icons/options.svg"));
+    }
+    optionsAction.setSoftKeyRole(QAction::PositiveSoftKey);
+    addAction(&optionsAction);
+#endif
+
+    connect(&exitAction, SIGNAL(triggered()), this, SLOT(exitAction_triggered()));
+    exitAction.setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
+    // Softkeys with icon are on Symbian Belle and higher
+    if (QSysInfo::s60Version() > QSysInfo::SV_S60_5_2)
+    {
+        exitAction.setIcon(QIcon(":/icons/back.svg"));
+    }
+    exitAction.setSoftKeyRole(QAction::NegativeSoftKey);
+    addAction(&exitAction);
 
     flickcharm.activateOn(ui->dialogView);
 
@@ -98,12 +125,12 @@ void MainWindow::logoutAction_triggered()
     client->reset();
 }
 
-void MainWindow::exitAction_triggered()
+void MainWindow::quitAction_triggered()
 {
     QApplication::quit();
 }
 
-void MainWindow::backAction_triggered()
+void MainWindow::exitAction_triggered()
 {
     close();
 }
