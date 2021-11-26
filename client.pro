@@ -67,6 +67,7 @@ FORMS += mainwindow.ui \
     qrlogindialog.ui \
     historywindow.ui
 TRANSLATIONS += translations/kutegram_en.ts \
+    translations/kutegram_es.ts \
     translations/kutegram_ru.ts \
     translations/kutegram_uk.ts
 
