@@ -77,6 +77,7 @@ qtcAddDeployment()
 
 include(libqrencode/libqrencode.pri)
 include(library/library.pri)
+include(SlidingStackedWidget/SlidingStackedWidget.pri)
 
 OTHER_FILES += \
     qtc_packaging/debian_harmattan/rules \

@@ -4,3 +4,6 @@
 [submodule "libqrencode"]
 	path = libqrencode
 	url = https://github.com/kutegram/libqrencode.git
+[submodule "SlidingStackedWidget"]
+	path = SlidingStackedWidget
+	url = https://github.com/kutegram/SlidingStackedWidget
