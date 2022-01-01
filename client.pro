@@ -75,7 +75,7 @@ TRANSLATIONS += translations/kutegram_en.ts \
 include(deployment.pri)
 qtcAddDeployment()
 
-include(libqrencode/libqrencode.pri)
+# include(libqrencode/libqrencode.pri)
 include(library/library.pri)
 include(SlidingStackedWidget/SlidingStackedWidget.pri)
 

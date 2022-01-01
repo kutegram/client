@@ -52,11 +52,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&exitAction, SIGNAL(triggered()), this, SLOT(exitAction_triggered()));
     exitAction.setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
+
+#ifdef Q_OS_SYMBIAN
     // Softkeys with icon are on Symbian Belle and higher
     if (QSysInfo::s60Version() > QSysInfo::SV_S60_5_2)
     {
         exitAction.setIcon(QIcon(":/icons/back.svg"));
     }
+#endif
+
     exitAction.setSoftKeyRole(QAction::NegativeSoftKey);
     addAction(&exitAction);
 
