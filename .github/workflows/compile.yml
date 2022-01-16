@@ -1,12 +1,21 @@
-name: Symbian build
+name: Compile artifacts
 
 on:
   push:
+    branches:
+        - 'main'
+        - 'releases/**'
+        - 'master'
+    tags:
+        - '**'
   pull_request:
+    types: [opened, reopened]
   workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
-  build:
+  buildSymbian:
     runs-on: windows-latest
 
     steps:
