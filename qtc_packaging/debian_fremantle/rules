@@ -28,7 +28,7 @@ build-stamp: configure-stamp
 
 	# Add here commands to compile the package.
 	# $(MAKE) # Uncomment this line for use without Qt Creator
-	#docbook-to-man debian/client.sgml > client.1
+	#docbook-to-man debian/kutegram.sgml > kutegram.1
 
 	touch $@
 
@@ -48,8 +48,8 @@ install: build
 	dh_clean -k 
 	dh_installdirs
 
-	# Add here commands to install the package into debian/client.
-	$(MAKE) INSTALL_ROOT="$(CURDIR)"/debian/client install
+	# Add here commands to install the package into debian/kutegram.
+	$(MAKE) INSTALL_ROOT="$(CURDIR)"/debian/kutegram install
 
 
 # Build architecture-independent files here.

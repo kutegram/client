@@ -25,3 +25,8 @@ client_0xE0713D51.mmp
 *.mmp
 obj
 Kutegram
+debian
+configure-stamp
+build-stamp
+*.deb
+*.changes

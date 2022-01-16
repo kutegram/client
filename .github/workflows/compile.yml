@@ -15,7 +15,7 @@ on:
     types: [published]
 
 jobs:
-  buildSymbian:
+  Symbian:
     runs-on: windows-latest
 
     steps:
