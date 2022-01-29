@@ -1,15 +1,15 @@
 import requests
-import sys
+import os
 
-url = 'https://api.telegram.org/bot' + sys.argv[1] + '/sendDocument'
+url = 'https://api.telegram.org/bot' + str(os.environ['BOT_TOKEN']) + '/sendDocument'
 
 f = {
-    'document': (sys.argv[2], open(sys.argv[2], 'rb')),
+    'document': (str(os.environ['UPLOAD_FILE']), open(str(os.environ['UPLOAD_FILE']), 'rb')),
     'caption': (None, """*%s* pushed commit:
                          [%s](https://github.com/$s/commit/$s): `$s`
                          
-                         #kutegram #symbian""" % (sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[4], sys.argv[6])),
-    'chat_id': (None, sys.argv[7]),
+                         #kutegram #symbian""" % (str(os.environ['COMMIT_AUTHOR']), str(os.environ['COMMIT_SHA']), str(os.environ['COMMIT_REPO']), str(os.environ['COMMIT_SHA']), str(os.environ['COMMIT_MESSAGE']))),
+    'chat_id': (None, str(os.environ['BOT_CHANNEL'])),
     'parse_mode': (None, 'MarkdownV2'),
     'disable_notification': (None, 'false'),
     'protect_content': (None, 'false')

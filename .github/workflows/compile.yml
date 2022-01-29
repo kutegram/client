@@ -45,7 +45,14 @@ jobs:
       
       - name: Send to CI channel
         shell: cmd
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          UPLOAD_FILE: Kutegram.sis
+          COMMIT_AUTHOR: ${{ github.event.commits[0].author }}
+          COMMIT_SHA: ${{ github.event.commits[0].id }}
+          COMMIT_REPO: ${{ github.repository.full_name }}
+          COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
+          BOT_CHANNEL: ${{ secrets.TELEGRAM_TO }}
         run: |
           pip install requests
-          pip install sys
-          python telegram-ci.py ${{ secrets.TELEGRAM_TOKEN }} Kutegram.sis ${{ github.event.commits[0].author }} ${{ github.sha }} ${{ github.repository }} ${{ github.event.commits[0].message }} ${{ secrets.TELEGRAM_TO }}
+          python telegram-ci.py
