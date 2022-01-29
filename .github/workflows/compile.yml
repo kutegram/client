@@ -48,7 +48,8 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           UPLOAD_FILE: Kutegram.sis
-          COMMIT_AUTHOR: ${{ github.event.commits[0].author }}
+          COMMIT_AUTHOR: ${{ github.event.commits[0].author.name }}
+          COMMIT_USERNAME: ${{ github.event.commits[0].author.username }}
           COMMIT_SHA: ${{ github.event.commits[0].id }}
           COMMIT_REPO: ${{ github.repository.full_name }}
           COMMIT_MESSAGE: ${{ github.event.commits[0].message }}
