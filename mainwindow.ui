@@ -261,7 +261,6 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Actions</string>
     </property>
-    <addaction name="loginAction"/>
     <addaction name="logoutAction"/>
     <addaction name="separator"/>
     <addaction name="quitAction"/>
@@ -333,22 +332,6 @@ p, li { white-space: pre-wrap; }
   <include location="resources.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>loginAction</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loginAction_triggered()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>130</x>
-     <y>233</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>dialogView</sender>
    <signal>activated(QModelIndex)</signal>
@@ -495,7 +478,6 @@ p, li { white-space: pre-wrap; }
   </connection>
  </connections>
  <slots>
-  <slot>loginAction_triggered()</slot>
   <slot>dialogView_activated(QModelIndex)</slot>
   <slot>logoutAction_triggered()</slot>
   <slot>quitAction_triggered()</slot>

@@ -21,7 +21,6 @@ public:
     virtual ~MainWindow();
 
 public slots:
-    void loginAction_triggered();
     void logoutAction_triggered();
     void quitAction_triggered();
     void aboutAction_triggered();

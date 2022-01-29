@@ -23,8 +23,13 @@ MainWindow::MainWindow(QWidget *parent) :
     exitAction(this)
 {
     ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(client->isLoggedIn());
     ui->introStackedWidget->setCurrentIndex(0);
+
+#if QT_VERSION >= 0x040702
+    ui->phoneEdit->setPlaceholderText(QApplication::translate("MainWindow", "Phone number", 0, QApplication::UnicodeUTF8));
+    ui->codeEdit->setPlaceholderText(QApplication::translate("MainWindow", "Code", 0, QApplication::UnicodeUTF8));
+#endif
 
 #if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
     /**
@@ -83,11 +88,6 @@ MainWindow::~MainWindow()
     client->stop();
     client->deleteLater();
     delete ui;
-}
-
-void MainWindow::loginAction_triggered()
-{
-    client->start();
 }
 
 void MainWindow::logoutAction_triggered()
@@ -196,7 +196,9 @@ void MainWindow::client_stateChanged(State state)
             ui->introStackedWidget->slideInIdx(1);
         }
         break;
-    default:
+    case LOGGED_IN:
+        ui->stackedWidget->slideInIdx(1);
+        if (dialogModel->canFetchMore(QModelIndex())) dialogModel->fetchMore(QModelIndex());
         break;
     }
 }
