@@ -40,8 +40,6 @@ symbian:ICON = kutegram.svg
 # MOBILITY +=
 
 SOURCES += main.cpp mainwindow.cpp \
-    logintypedialog.cpp \
-    qrlogindialog.cpp \
     dialogitemmodel.cpp \
     dialogitemdelegate.cpp \
     flickcharm.cpp \
@@ -51,8 +49,6 @@ SOURCES += main.cpp mainwindow.cpp \
     historyview.cpp \
     avatars.cpp
 HEADERS += mainwindow.h \
-    logintypedialog.h \
-    qrlogindialog.h \
     dialogitemmodel.h \
     dialogitemdelegate.h \
     flickcharm.h \
@@ -63,8 +59,6 @@ HEADERS += mainwindow.h \
     main.h \
     avatars.h
 FORMS += mainwindow.ui \
-    logintypedialog.ui \
-    qrlogindialog.ui \
     historywindow.ui
 TRANSLATIONS += translations/kutegram_en.ts \
     translations/kutegram_es.ts \

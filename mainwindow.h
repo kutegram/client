@@ -27,9 +27,13 @@ public slots:
     void aboutAction_triggered();
     void aboutQt_triggered();
     void dialogView_activated(QModelIndex index);
+    void exitAction_triggered();
+    void introButton_clicked();
+    void codeButton_clicked();
+    void loginButton_clicked();
+    void changeLabel_linkActivated(QString link);
 
     void client_stateChanged(State state);
-    void client_gotLoginToken(qint64 mtm, qint32 expired, QString tokenUrl);
     void client_gotSentCode(qint64 mtm, QString phone_code_hash);
 
     void client_gotSocketError(QAbstractSocket::SocketError error);
@@ -38,13 +42,11 @@ public slots:
     void client_gotMessageError(qint64 mtm, qint32 error_code);
     void client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message, bool handled);
 
-    void exitAction_triggered();
-
 private:
     FlickCharm flickcharm;
     TelegramClient *client;
     Ui::MainWindow *ui;
-    QString phoneNumber;
+    QString phoneCodeHash;
     DialogItemModel *dialogModel;
     QAction exitAction;
 #if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)

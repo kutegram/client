@@ -3,8 +3,6 @@
 
 #include <QtCore/QCoreApplication>
 #include <QInputDialog>
-#include "logintypedialog.h"
-#include "qrlogindialog.h"
 #include "dialogitemdelegate.h"
 #include "dialogitemmodel.h"
 #include "historywindow.h"
@@ -12,15 +10,11 @@
 #include <QMessageBox>
 #include <QtEndian>
 
-#ifndef QT_NO_DEBUG_OUTPUT
-#include <QtDebug>
-#endif
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     client(new TelegramClient),
     ui(new Ui::MainWindow),
-    phoneNumber(),
+    phoneCodeHash(),
     dialogModel(0),
     flickcharm(),
 #if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
@@ -29,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     exitAction(this)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->introStackedWidget->setCurrentIndex(0);
 
 #if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
     /**
@@ -71,7 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dialogView->setItemDelegate(new DialogItemDelegate(ui->dialogView));
 
     connect(client, SIGNAL(stateChanged(State)), this, SLOT(client_stateChanged(State)));
-    connect(client, SIGNAL(gotLoginToken(qint64,qint32,QString)), this, SLOT(client_gotLoginToken(qint64,qint32,QString)));
     connect(client, SIGNAL(gotSentCode(qint64,QString)), this, SLOT(client_gotSentCode(qint64,QString)));
 
     connect(client, SIGNAL(gotSocketError(QAbstractSocket::SocketError)), this, SLOT(client_gotSocketError(QAbstractSocket::SocketError)));
@@ -88,35 +83,6 @@ MainWindow::~MainWindow()
     client->stop();
     client->deleteLater();
     delete ui;
-}
-
-void MainWindow::showTypeDialog()
-{
-    LoginTypeDialog dialog(this);
-
-    switch (dialog.exec()) {
-    case 2:
-    {
-        //QR code
-        client->exportLoginToken();
-        break;
-    }
-    case 3:
-    {
-        //Phone number
-        QInputDialog phoneInput(this);
-        if (phoneInput.exec()) {
-            phoneNumber = phoneInput.textValue();
-            client->sendCode(phoneNumber);
-        }
-
-        break;
-    }
-    default:
-    {
-        break;
-    }
-    }
 }
 
 void MainWindow::loginAction_triggered()
@@ -153,8 +119,29 @@ void MainWindow::aboutQt_triggered()
     QMessageBox::aboutQt(this);
 }
 
+void MainWindow::introButton_clicked()
+{
+    client->start();
+}
+
+void MainWindow::codeButton_clicked()
+{
+    client->sendCode(ui->phoneEdit->text());
+}
+
+void MainWindow::loginButton_clicked()
+{
+    client->signIn(ui->phoneEdit->text(), phoneCodeHash, ui->codeEdit->text());
+}
+
+void MainWindow::changeLabel_linkActivated(QString link)
+{
+    client->reset();
+}
+
 void MainWindow::client_gotSocketError(QAbstractSocket::SocketError error)
 {
+    //TODO: move this to title
     QMessageBox::critical(
                 this,
                 QApplication::translate("MainWindow", "Error", 0, QApplication::UnicodeUTF8),
@@ -201,37 +188,24 @@ void MainWindow::client_gotRPCError(qint64 mtm, qint32 error_code, QString error
 
 void MainWindow::client_stateChanged(State state)
 {
-    //setWindowTitle("Kutegram (ls: " + QString::number(state) + ")");
+    qDebug() << "[D] New state:" << state;
     switch (state) {
     case INITED:
-    {
-        if (!client->isLoggedIn()) showTypeDialog();
+        if (!client->isLoggedIn()) {
+            ui->stackedWidget->slideInIdx(0);
+            ui->introStackedWidget->slideInIdx(1);
+        }
+        break;
+    default:
         break;
     }
-    case LOGGED_IN:
-    {
-        if (dialogModel->canFetchMore(QModelIndex())) dialogModel->fetchMore(QModelIndex());
-        break;
-    }
-    }
-}
-
-void MainWindow::client_gotLoginToken(qint64 mtm, qint32 expired, QString tokenUrl)
-{
-#ifndef QT_NO_DEBUG_OUTPUT
-    qDebug() << "Got qr token url:" << tokenUrl;
-#endif
-
-    QRLoginDialog dialog(tokenUrl, this);
-    dialog.exec();
 }
 
 void MainWindow::client_gotSentCode(qint64 mtm, QString phone_code_hash)
 {
-    QInputDialog phoneInput(this);
-    if (phoneInput.exec()) {
-        client->signIn(phoneNumber, phone_code_hash, phoneInput.textValue());
-    }
+    phoneCodeHash = phone_code_hash;
+    ui->stackedWidget->slideInIdx(0);
+    ui->introStackedWidget->slideInIdx(2);
 }
 
 void MainWindow::dialogView_activated(QModelIndex index)

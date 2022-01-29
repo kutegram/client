@@ -42,3 +42,14 @@ jobs:
         with:
           name: SIS file
           path: Kutegram.sis
+      
+      - name: Send to CI channel
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Pushed a commit ${{ github.event.commits[0].message }}#${{github.sha}} by ${{ github.actor }}.
+            
+            Changed files: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          document: Kutegram.sis
