@@ -15,6 +15,7 @@ QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
 QMAKE_LFLAGS.GCCE += -Tdata 0xC00000
 
 symbian:TARGET.UID3 = 0xE0713D51
+DEFINES += SYMBIAN_UID=0xE0713D51
 
 vendorinfo = \
     "%{\"curoviyxru\"}" \

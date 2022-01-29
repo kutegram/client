@@ -40,16 +40,12 @@ jobs:
       - name: Upload installer
         uses: actions/upload-artifact@v2
         with:
-          name: SIS file
+          name: Symbian^1 installer
           path: Kutegram.sis
       
-      # - name: Send to CI channel
-        # uses: appleboy/telegram-action@master
-        # with:
-          # to: ${{ secrets.TELEGRAM_TO }}
-          # token: ${{ secrets.TELEGRAM_TOKEN }}
-          # message: |
-            # Pushed a commit ${{ github.event.commits[0].message }}#${{github.sha}} by ${{ github.actor }}.
-            
-            # Changed files: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-          # document: Kutegram.sis
+      - name: Send to CI channel
+        shell: cmd
+        run: |
+          pip install requests
+          pip install sys
+          python telegram-ci.py ${{ secrets.TELEGRAM_TOKEN }} Kutegram.sis ${{ github.event.commits[0].author }} ${{ github.sha }} ${{ github.repository }} ${{ github.event.commits[0].message }} ${{ secrets.TELEGRAM_TO }}

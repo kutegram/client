@@ -9,6 +9,7 @@
 #include "main.h"
 #include <QMessageBox>
 #include <QtEndian>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
