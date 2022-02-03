@@ -1,159 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="es_419">
+<TS version="2.0" language="es_ES">
 <context>
     <name>HistoryWindow</name>
     <message>
         <location filename="../historywindow.ui" line="17"/>
         <source>Kutegram</source>
-        <translation>Kutegram</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../historywindow.ui" line="55"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../historyitemdelegate.cpp" line="81"/>
         <source>Loading...</source>
-        <translation>Actualizando...</translation>
+        <translation>Cargando...</translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="21"/>
         <source>Type a message...</source>
-        <translation>Nuevo mensaje...</translation>
+        <translation>Ingresar mensaje...</translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="30"/>
         <source>Options</source>
-        <translation>Config.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="44"/>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation>Vuelve</translation>
     </message>
 </context>
 <context>
     <name>LoginTypeDialog</name>
     <message>
-        <location filename="../logintypedialog.ui" line="17"/>
         <source>Log in</source>
-        <translation>Iniciar sesión</translation>
+        <translation type="obsolete">Log in</translation>
     </message>
     <message>
-        <location filename="../logintypedialog.ui" line="30"/>
         <source>Phone number</source>
-        <translation>Núm. teléfono</translation>
+        <translation type="obsolete">Número de teléfono</translation>
     </message>
     <message>
-        <location filename="../logintypedialog.ui" line="40"/>
         <source>QR-code</source>
-        <translation>Código QR</translation>
+        <translation type="obsolete">QR-code</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="17"/>
-        <location filename="../mainwindow.cpp" line="142"/>
+        <location filename="../mainwindow.ui" line="57"/>
+        <location filename="../mainwindow.cpp" line="113"/>
         <source>Kutegram</source>
-        <translation>Kutegram</translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="69"/>
+        <location filename="../mainwindow.ui" line="269"/>
         <source>Actions</source>
-        <translation>Acceder</translation>
+        <translation>Acciones</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="81"/>
+        <location filename="../mainwindow.ui" line="280"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="91"/>
+        <location filename="../mainwindow.ui" line="103"/>
+        <location filename="../mainwindow.ui" line="290"/>
         <source>Log in</source>
-        <translation>Iniciar sesión</translation>
+        <translation>Entrar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="96"/>
+        <location filename="../mainwindow.ui" line="67"/>
+        <source>Crossplatform Telegram client, based on Qt.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="130"/>
+        <source>Please, choose your country code and enter your phone number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="160"/>
+        <source>Send code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="187"/>
+        <source>Enter a confirmation code:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="200"/>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="207"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;kutegram-change-phone&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Change phone number...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="295"/>
         <source>Quit</source>
-        <translation>Cerrar</translation>
+        <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="104"/>
+        <location filename="../mainwindow.ui" line="303"/>
         <source>Log out</source>
-        <translation>Finalizar sesión</translation>
+        <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="109"/>
+        <location filename="../mainwindow.ui" line="308"/>
         <source>About Kutegram</source>
         <translation>Acerca de Kutegram</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="117"/>
+        <location filename="../mainwindow.ui" line="316"/>
         <source>About Qt</source>
-        <translation>Acerca de Qt</translation>
+        <translation>Acerca Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="39"/>
+        <location filename="../mainwindow.cpp" line="31"/>
+        <source>Phone number</source>
+        <translation type="unfinished">Número de teléfono</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="32"/>
+        <source>Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="41"/>
         <source>Options</source>
-        <translation>Opciones</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="54"/>
+        <location filename="../mainwindow.cpp" line="56"/>
         <source>Exit</source>
-        <translation>Salir</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="143"/>
+        <location filename="../mainwindow.cpp" line="114"/>
         <source>Kutegram by curoviyxru
 An unofficial Qt-based client for Telegram messenger.
 Project&apos;s website: http://kg.curoviyx.ru
 Telegram channel: https://t.me/kutegram
 Telegram chat: https://t.me/kutegramchat</source>
-        <translation>Kutegram hecho por curoviyxru.
-Cliente no oficial de Telegram basado en Qt.
-Web: http://kg.curoviyx.ru
-Canal: https://t.me/s/kutegram
-Chat: https://t.me/kutegramchat</translation>
+        <translation>Kutegram de curoviyxru
+Cuenta no oficial basada en Qt para telegram
+Sitio web del proyecto: http://kg.curoviyx.ru
+Canal de Telegram: https://t.me/kutegram
+Chat de Telegram: https://t.me/kutegramchat</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="156"/>
-        <location filename="../mainwindow.cpp" line="166"/>
-        <location filename="../mainwindow.cpp" line="176"/>
-        <location filename="../mainwindow.cpp" line="192"/>
+        <location filename="../mainwindow.cpp" line="148"/>
+        <location filename="../mainwindow.cpp" line="158"/>
+        <location filename="../mainwindow.cpp" line="168"/>
+        <location filename="../mainwindow.cpp" line="184"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="157"/>
+        <location filename="../mainwindow.cpp" line="149"/>
         <source>Got socket error: %1</source>
-        <translation>Error de conexión: %1</translation>
+        <translation>Got socket error %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="167"/>
+        <location filename="../mainwindow.cpp" line="159"/>
         <source>Got MT error: %1</source>
-        <translation>Error MT: %1</translation>
+        <translation>Got MT error: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="177"/>
+        <location filename="../mainwindow.cpp" line="169"/>
         <source>Got DH error: %1</source>
-        <translation>Error DH: %1</translation>
+        <translation>Got DH error: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="193"/>
+        <location filename="../mainwindow.cpp" line="185"/>
         <source>Got RPC error: %1, %2, %3</source>
-        <translatorcomment>Llamada a procedimiento remoto.</translatorcomment>
-        <translation>Error RPC: %1, %2, %3</translation>
+        <translation>Got RPC error: %1, %2, %3</translation>
     </message>
 </context>
 <context>
     <name>QRLoginDialog</name>
     <message>
-        <location filename="../qrlogindialog.ui" line="17"/>
         <source>QR-code login</source>
-        <translation>Iniciar sesión por Código QR</translation>
+        <translation type="obsolete">QR-code login</translation>
     </message>
 </context>
 </TS>
