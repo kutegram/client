@@ -82,14 +82,38 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog \
-    stylesheet.css \
     qtc_packaging/debian_fremantle/rules \
     qtc_packaging/debian_fremantle/README \
     qtc_packaging/debian_fremantle/copyright \
     qtc_packaging/debian_fremantle/control \
     qtc_packaging/debian_fremantle/compat \
-    qtc_packaging/debian_fremantle/changelog
+    qtc_packaging/debian_fremantle/changelog \
+    stylesheet.css
 
 RESOURCES += \
     resources.qrc \
     translations.qrc
+
+maemo5 {
+    desktopfile.files = client.desktop
+    desktopfile.path = /usr/share/applications/hildon
+    INSTALLS += desktopfile
+}
+
+maemo5 {
+    icon.files = client64.png
+    icon.path = /usr/share/icons/hicolor/64x64/apps
+    INSTALLS += icon
+}
+
+contains(MEEGO_EDITION,harmattan) {
+    desktopfile.files = client_harmattan.desktop
+    desktopfile.path = /usr/share/applications
+    INSTALLS += desktopfile
+}
+
+contains(MEEGO_EDITION,harmattan) {
+    icon.files = client80.png
+    icon.path = /usr/share/icons/hicolor/80x80/apps
+    INSTALLS += icon
+}
