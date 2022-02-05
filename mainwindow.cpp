@@ -137,7 +137,8 @@ void MainWindow::loginButton_clicked()
 
 void MainWindow::changeLabel_linkActivated(QString link)
 {
-    client->reset();
+    ui->stackedWidget->slideInIdx(0);
+    ui->introStackedWidget->slideInIdx(1);
 }
 
 void MainWindow::client_gotSocketError(QAbstractSocket::SocketError error)
