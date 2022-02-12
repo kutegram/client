@@ -48,7 +48,8 @@ SOURCES += main.cpp mainwindow.cpp \
     historyitemmodel.cpp \
     historywindow.cpp \
     historyview.cpp \
-    avatars.cpp
+    avatars.cpp \
+    messagedocument.cpp
 HEADERS += mainwindow.h \
     dialogitemmodel.h \
     dialogitemdelegate.h \
@@ -58,7 +59,8 @@ HEADERS += mainwindow.h \
     historywindow.h \
     historyview.h \
     main.h \
-    avatars.h
+    avatars.h \
+    messagedocument.h
 FORMS += mainwindow.ui \
     historywindow.ui
 TRANSLATIONS += translations/kutegram_en.ts \

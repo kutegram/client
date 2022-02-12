@@ -5,7 +5,7 @@
 #include "library/telegramclient.h"
 #include <QScrollBar>
 
-HistoryWindow::HistoryWindow(TelegramClient *client, TLInputPeer input, QWidget *parent) :
+HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::HistoryWindow),
     flickcharm(),

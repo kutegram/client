@@ -214,7 +214,7 @@ void MainWindow::client_gotSentCode(qint64 mtm, QString phone_code_hash)
 
 void MainWindow::dialogView_activated(QModelIndex index)
 {
-    HistoryWindow* window = new HistoryWindow(client, dialogModel->getInputPeer(index.row()), this);
+    HistoryWindow* window = new HistoryWindow(client, dialogModel->getInputPeerByIndex(index.row()), this);
     setOrientation(window, ScreenOrientationAuto);
     showExpanded(window);
 }

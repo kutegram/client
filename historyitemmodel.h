@@ -3,7 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QMutex>
-#include "library/tlmessages.h"
+#include "tl.h"
 #include <QHash>
 #include <QPixmap>
 
@@ -14,21 +14,22 @@ class HistoryItemModel : public QAbstractItemModel
     Q_OBJECT
 public:
     QList<qint32> history;
-    QHash<qint32, TLMessage> messages;
-    QHash<qint64, TLChat> chats;
-    QHash<qint64, TLUser> users;
-    QHash<qint64, QPixmap> thumbnails; //what about user and chat collision?
+    QList<qint32> replies;
+    QHash<qint32, TObject> messages;
+    QHash<qint64, TObject> chats;
+    QHash<qint64, TObject> users;
+    QHash<qint64, QPixmap> usersThumbnails;
+    QHash<qint64, QPixmap> chatsThumbnails;
     TelegramClient* client;
-    TLInputPeer peer;
+    TObject peer;
     QMutex requestLock;
     bool gotFull;
     qint32 offsetId;
     qint32 offsetDate;
     qint64 requestId;
     qint64 replyRequestId;
-    QList<qint32> replies;
 
-    explicit HistoryItemModel(TelegramClient* cl, TLInputPeer input, QObject *parent = 0);
+    explicit HistoryItemModel(TelegramClient* cl, TObject input, QObject *parent = 0);
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
@@ -44,9 +45,9 @@ public:
 signals:
     
 public slots:
-    void client_gotMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
-    void gotHistoryMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
-    void gotReplyMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    void client_gotMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    void gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    void gotReplyMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
 };
 
 #endif // HISTORYITEMMODEL_H

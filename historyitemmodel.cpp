@@ -5,14 +5,18 @@
 #include <QApplication>
 #include <QFontMetrics>
 #include "avatars.h"
+#include "tlschema.h"
 
-HistoryItemModel::HistoryItemModel(TelegramClient *cl, TLInputPeer input, QObject *parent) :
+using namespace TLType;
+
+HistoryItemModel::HistoryItemModel(TelegramClient *cl, TObject input, QObject *parent) :
     QAbstractItemModel(parent),
     history(),
     messages(),
     users(),
     chats(),
-    thumbnails(),
+    usersThumbnails(),
+    chatsThumbnails(),
     client(cl),
     requestLock(QMutex::Recursive),
     gotFull(),
@@ -23,7 +27,7 @@ HistoryItemModel::HistoryItemModel(TelegramClient *cl, TLInputPeer input, QObjec
     replyRequestId(),
     replies()
 {
-    connect(client, SIGNAL(gotMessages(qint64,qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,QList<TLMessage>,QList<TLChat>,QList<TLUser>,qint32,qint32,bool)));
+    connect(client, SIGNAL(gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)));
 }
 
 QModelIndex HistoryItemModel::index(int row, int column, const QModelIndex& parent) const
@@ -48,43 +52,50 @@ QModelIndex HistoryItemModel::parent(const QModelIndex& index) const
 
 QVariant HistoryItemModel::data(const QModelIndex& index, int role) const
 {
-    TLMessage m = messages[history[index.row()]];
+    TObject m = messages[history[index.row()]];
 
     switch (role) {
     case Qt::DisplayRole:
     {
-        return QVariant::fromValue(m);
+        return m;
     }
     case Qt::DecorationRole:
     {
-        return thumbnails[m.from.id];
+        TObject from = m["from_id"].toMap();
+        switch (ID(from)) {
+        case TLType::PeerChannel:
+        case TLType::PeerChat:
+            return chatsThumbnails[getPeerId(from).toLongLong()];
+        case TLType::PeerUser:
+            return usersThumbnails[getPeerId(from).toLongLong()];
+        }
     }
     case Qt::UserRole:
     {
-        TLPeer from = m.from;
-        switch (from.type) {
+        TObject from = m["from_id"].toMap();
+        switch (ID(from)) {
         case TLType::PeerChannel:
         case TLType::PeerChat:
-            return QVariant::fromValue(chats[from.id]);
+            return chats[getPeerId(from).toLongLong()];
         case TLType::PeerUser:
-            return QVariant::fromValue(users[from.id]);
+            return users[getPeerId(from).toLongLong()];
         }
     }
     case Qt::ToolTipRole:
     {
-        if (m.reply.type)
-            return QVariant::fromValue(messages[m.reply.msgId]);
+        if (ID(m["reply_to"].toMap()))
+            return messages[m["reply_to"].toMap()["reply_to_msg_id"].toInt()];
     }
     case Qt::ToolTipPropertyRole:
     {
-        if (m.reply.type) {
-            TLPeer from = messages[m.reply.msgId].from;
-            switch (from.type) {
+        if (ID(m["reply_to"].toMap())) {
+            TObject from = messages[m["reply_to"].toMap()["reply_to_msg_id"].toInt()]["from_id"].toMap();
+            switch (ID(from)) {
             case TLType::PeerChannel:
             case TLType::PeerChat:
-                return QVariant::fromValue(chats[from.id]);
+                return chats[getPeerId(from).toLongLong()];
             case TLType::PeerUser:
-                return QVariant::fromValue(users[from.id]);
+                return users[getPeerId(from).toLongLong()];
             }
         }
     }
@@ -121,7 +132,7 @@ void HistoryItemModel::fetchMoreUpwards(const QModelIndex& parent)
     requestLock.unlock();
 }
 
-void HistoryItemModel::gotHistoryMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
+void HistoryItemModel::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
 {
     requestId = 0;
 
@@ -131,65 +142,63 @@ void HistoryItemModel::gotHistoryMessages(qint64 mtm, qint32 count, QList<TLMess
     qint32 fH = QApplication::fontMetrics().height();
 
     for (qint32 i = 0; i < c.size(); ++i) {
-        TLChat item = c[i];
-        chats.insert(item.id, item);
+        TObject item = c[i].toMap();
+        chats.insert(item["id"].toLongLong(), item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.title, fH + fH));
+        chatsThumbnails.insert(item["id"].toLongLong(), Avatars::generateThumbnail(item["id"].toLongLong(), item["title"].toString(), fH + fH));
     }
     for (qint32 i = 0; i < u.size(); ++i) {
-        TLUser item = u[i];
-        users.insert(item.id, item);
+        TObject item = u[i].toMap();
+        users.insert(item["id"].toLongLong(), item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.firstName + " " + item.lastName, fH + fH));
+        usersThumbnails.insert(item["id"].toLongLong(), Avatars::generateThumbnail(item["id"].toLongLong(), item["first_name"].toString() + " " + item["last_name"].toString(), fH + fH));
     }
 
     beginInsertRows(QModelIndex(), 0, m.size() - 1);
 
-    for (qint32 i = 0; i < m.size(); ++i) {
-        TLMessage msg = m[i];
-        history.insert(0, msg.id);
-        messages.insert(msg.id, msg);
-        if (!offsetDate || msg.date < offsetDate) {
-            offsetDate = msg.date;
-            offsetId = msg.id;
+    for (qint32 i = m.size() - 1; i >= 0; --i) {
+        TObject msg = m[i].toMap();
+        history.append(msg["id"].toInt());
+        messages.insert(msg["id"].toInt(), msg);
+        if (!offsetDate || msg["date"].toInt() < offsetDate) {
+            offsetDate = msg["date"].toInt();
+            offsetId = msg["id"].toInt();
         }
     }
 
     endInsertRows();
 
-    QList<TLInputMessage> notFoundReplies;
+    TVector notFoundReplies;
     for (qint32 i = 0; i < m.size(); ++i) {
-        TLMessage reply = m[i];
-        if (!reply.reply.type || history.contains(reply.reply.msgId)) continue;
+        TObject reply = m[i].toMap();
+        if (!ID(reply["reply_to"].toMap()) || history.contains(reply["reply_to"].toMap()["reply_to_msg_id"].toInt())) continue;
 
-        TLInputMessage input;
-        input.type = TLType::InputMessageID;
-        input.id = reply.reply.msgId;
+        TObject input = getInputMessage(reply["reply_to"].toMap());
         notFoundReplies.append(input);
-        replies.append(reply.id);
+        replies.append(reply["id"].toInt());
     }
 
     if (!notFoundReplies.isEmpty())
         replyRequestId = client->getMessages(notFoundReplies);
 }
 
-void HistoryItemModel::gotReplyMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
+void HistoryItemModel::gotReplyMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
 {
     replyRequestId = 0;
 
     for (qint32 i = 0; i < m.size(); ++i) {
-        TLMessage msg = m[i];
-        messages.insert(msg.id, msg);
+        TObject msg = m[i].toMap();
+        messages.insert(msg["id"].toInt(), msg);
     }
 
     for (qint32 i = 0; i < c.size(); ++i) {
-        TLChat item = c[i];
-        chats.insert(item.id, item);
+        TObject item = c[i].toMap();
+        chats.insert(item["id"].toLongLong(), item);
     }
 
     for (qint32 i = 0; i < u.size(); ++i) {
-        TLUser item = u[i];
-        users.insert(item.id, item);
+        TObject item = u[i].toMap();
+        users.insert(item["id"].toLongLong(), item);
     }
 
     for (qint32 i = 0; i < replies.size(); ++i) {
@@ -199,7 +208,7 @@ void HistoryItemModel::gotReplyMessages(qint64 mtm, qint32 count, QList<TLMessag
     replies.clear();
 }
 
-void HistoryItemModel::client_gotMessages(qint64 mtm, qint32 count, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
+void HistoryItemModel::client_gotMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
 {
     requestLock.lock();
 

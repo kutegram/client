@@ -3,9 +3,13 @@
 #include <QPainter>
 #include <QApplication>
 #include <QPixmap>
-#include "library/tlmessages.h"
+#include "tl.h"
 #include "avatars.h"
 #include <Qt>
+#include "tlschema.h"
+#include <QDebug>
+
+using namespace TLType;
 
 HistoryItemDelegate::HistoryItemDelegate(QObject *parent) :
     QAbstractItemDelegate(parent)
@@ -25,7 +29,7 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     qint32 padding = 4;
     qint32 cloudPart = fm.height() / 3;
     qint32 spacePadding = fm.width(' ');
-    TLMessage message = index.data().value<TLMessage>();
+    TObject message = index.data().toMap();
 
     QPixmap avatar = index.data(Qt::DecorationRole).value<QPixmap>();
     qint32 avatarSize = fm.height(); avatarSize += avatarSize;
@@ -33,7 +37,7 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     qint32 maxWidth;
     qint32 initWidth = w - cloudPart - cloudPart - padding - padding - padding - avatarSize;
 
-    QRect textRect = fm.boundingRect(x, y, initWidth, h, Qt::TextWordWrap, message.message);
+    QRect textRect = fm.boundingRect(x, y, initWidth, h, Qt::TextWordWrap, message["message"].toString());
     maxWidth = textRect.width();
 
     qint32 contentHeight = textRect.height();
@@ -44,14 +48,19 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
 
     contentHeight += padding + nameFM.height();
 
-    QVariant fromPeer = index.data(Qt::UserRole);
+    TObject fromPeer = index.data(Qt::UserRole).toMap();
 
     QString peerName;
-    TLUser user = qvariant_cast<TLUser>(fromPeer);
-    if (user.type) peerName = user.firstName + " " + user.lastName;
-    else {
-        TLChat chat = qvariant_cast<TLChat>(fromPeer);
-        peerName = chat.title;
+
+    switch (ID(fromPeer)) {
+    case UserEmpty:
+    case User:
+        peerName = fromPeer["first_name"].toString() + " " + fromPeer["last_name"].toString();
+        break;
+    default:
+        //this is a chat, probably.
+        peerName = fromPeer["title"].toString();
+        break;
     }
 
     QString elidedName = nameFM.elidedText(peerName, Qt::ElideRight, qMax(initWidth, maxWidth));
@@ -59,20 +68,27 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
 
     QString replyText, replyPeerName;
 
-    TLMessage replyMessage;
+    TObject replyMessage;
 
-    if (message.reply.type) {
-        replyMessage = index.data(Qt::ToolTipRole).value<TLMessage>();
-        if (replyMessage.type) {
-            replyText = fm.elidedText(replyMessage.message, Qt::ElideLeft, qMax(initWidth, maxWidth) - spacePadding - padding);
+    if (ID(message["reply_to"].toMap())) {
+        replyMessage = index.data(Qt::ToolTipRole).toMap();
+        if (ID(replyMessage)) {
+            replyText = fm.elidedText(replyMessage["message"].toString(), Qt::ElideLeft, qMax(initWidth, maxWidth) - spacePadding - padding);
             maxWidth = qMax(maxWidth, fm.width(replyText) + spacePadding + padding);
 
-            QVariant replyPeer = index.data(Qt::ToolTipPropertyRole);
-            TLUser replyUser = qvariant_cast<TLUser>(replyPeer);
-            if (replyUser.type) replyPeerName = replyUser.firstName + " " + replyUser.lastName;
-            else {
-                TLChat replyChat = qvariant_cast<TLChat>(replyPeer);
-                replyPeerName = replyChat.title;
+            TObject replyPeer = index.data(Qt::ToolTipPropertyRole).toMap();
+
+            QString replyPeerName;
+
+            switch (ID(replyPeer)) {
+            case UserEmpty:
+            case User:
+                replyPeerName = replyPeer["first_name"].toString() + " " + replyPeer["last_name"].toString();
+                break;
+            default:
+                //this is a chat, probably.
+                replyPeerName = replyPeer["title"].toString();
+                break;
             }
 
             replyPeerName = fm.elidedText(replyPeerName, Qt::ElideLeft, qMax(initWidth, maxWidth) - spacePadding - padding);
@@ -117,13 +133,13 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     y += cloudPart;
 
     painter->setFont(nameFont);
-    painter->setPen(Avatars::userColor(message.from.id));
+    painter->setPen(Avatars::userColor(getPeerId(message["from_id"].toMap()).toLongLong()));
     painter->drawText(QRect(x, y, maxWidth, contentHeight), Qt::TextSingleLine, elidedName);
 
     y += padding + nameFM.height();
 
-    if (message.reply.type) {
-        QColor replyPeerColor = Avatars::userColor(replyMessage.from.id);
+    if (ID(message["reply_to"].toMap())) {
+        QColor replyPeerColor = Avatars::userColor(getPeerId(replyMessage["from_id"].toMap()).toLongLong());
         painter->setBrush(replyPeerColor);
         painter->setPen(Qt::transparent);
         painter->drawRect(QRect(x, y, spacePadding, nameFM.height() + padding + fm.height()));
@@ -147,7 +163,7 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
 
     painter->setFont(font);
     painter->setPen(Qt::black);
-    painter->drawText(QRect(x, y, maxWidth, contentHeight), Qt::TextWordWrap, message.message);
+    painter->drawText(QRect(x, y, maxWidth, contentHeight), Qt::TextWordWrap, message["message"].toString());
 
     return QSize();
 }

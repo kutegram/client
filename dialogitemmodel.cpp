@@ -4,12 +4,14 @@
 #include "library/telegramclient.h"
 #include <QFontMetrics>
 #include <QApplication>
+#include "tlschema.h"
+
+using namespace TLType;
 
 DialogItemModel::DialogItemModel(TelegramClient *cl, QObject *parent) :
-    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), avatars(), thumbnails(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(), requestId()
+    QAbstractItemModel(parent), dialogs(), messages(), chats(), users(), usersThumbnails(), chatsThumbnails(), client(cl), requestLock(QMutex::Recursive), offsetId(), offsetDate(), offsetPeer(), gotFull(), requestId()
 {
-    connect(client, SIGNAL(gotDialogs(qint64,qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)), this, SLOT(client_gotDialogs(qint64,qint32,QList<TLDialog>,QList<TLMessage>,QList<TLChat>,QList<TLUser>)));
-    connect(client, SIGNAL(gotFilePart(qint64,TLType::Types,qint32,QByteArray)), this, SLOT(client_gotFilePart(qint64,TLType::Types,qint32,QByteArray)));
+    connect(client, SIGNAL(gotDialogs(qint64,qint32,TVector,TVector,TVector,TVector)), this, SLOT(client_gotDialogs(qint64,qint32,TVector,TVector,TVector,TVector)));
 }
 
 QModelIndex DialogItemModel::index(int row, int column, const QModelIndex &parent) const
@@ -34,57 +36,52 @@ QModelIndex DialogItemModel::parent(const QModelIndex &index) const
 
 QString DialogItemModel::getDialogTitle(qint32 i) const
 {
-    TLDialog d = dialogs[i];
+    TObject peer = dialogs[i]["peer"].toMap();
+    qint64 pid = getPeerId(peer).toLongLong();
 
-    switch (d.peer.type) {
+    switch (ID(peer)) {
     case TLType::PeerChat:
     case TLType::PeerChannel:
-    {
-        return chats[d.peer.id].title;
-    }
+        return chats[pid]["title"].toString();
     case TLType::PeerUser:
-    {
-        return users[d.peer.id].firstName + " " + users[d.peer.id].lastName;
-    }
+        return users[pid]["first_name"].toString() + " " + users[pid]["last_name"].toString();
     }
 
     return QString();
 }
 
-TLInputPeer DialogItemModel::getInputPeer(qint32 i) const
+TObject DialogItemModel::getInputPeerByIndex(qint32 i) const
 {
-    TLDialog d = dialogs[i];
+    TObject peer = dialogs[i]["peer"].toMap();
+    qint64 pid = getPeerId(peer).toLongLong();
 
-    switch (d.peer.type) {
+    switch (ID(peer)) {
     case TLType::PeerChat:
     case TLType::PeerChannel:
-        return TLInputPeer(chats[d.peer.id]);
+        return getInputPeer(chats[pid]);
     case TLType::PeerUser:
-        return TLInputPeer(users[d.peer.id]);
+        return getInputPeer(users[pid]);
     }
+
+    return TObject();
 }
 
 QString DialogItemModel::getMessageString(qint32 i) const
 {
-    TLMessage m = messages[dialogs[i].topMessage];
+    TObject m = messages[dialogs[i]["top_message"].toInt()];
 
-    if (!m.message.isEmpty()) {
-        return m.message;
-    }
-    else if (GETID(m.action)) {
-        return "MessageAction#" + QString::number(GETID(m.action));
-    }
-    else if (GETID(m.media)){
-        return "MessageMedia#" + QString::number(GETID(m.media));
-    }
-    else {
-        return "Message#" + QString::number(m.id);
-    }
+    if (!m["message"].toString().isEmpty())
+        return m["message"].toString();
+    else if (GETID(m["action"].toMap()))
+        return m["action"].toString();
+    else if (GETID(m["media"].toMap()))
+        return m["media"].toString();
+    else return QVariant(m).toString();
 }
 
 qint64 DialogItemModel::getDialogId(qint32 i) const
 {
-    return dialogs[i].peer.id;
+    return getPeerId(dialogs[i]["peer"].toMap()).toLongLong();
 }
 
 QVariant DialogItemModel::data(const QModelIndex &index, int role) const
@@ -97,10 +94,15 @@ QVariant DialogItemModel::data(const QModelIndex &index, int role) const
     }
     case Qt::DecorationRole: //avatar
     {
-        qint64 id = getDialogId(index.row());
-        QPixmap avatar = avatars[id].value<QPixmap>();
-        if (avatar.isNull()) avatar = thumbnails[id];
-        return avatar;
+        TObject from = dialogs[index.row()]["peer"].toMap();
+
+        switch (ID(from)) {
+        case TLType::PeerChannel:
+        case TLType::PeerChat:
+            return chatsThumbnails[getPeerId(from).toLongLong()];
+        case TLType::PeerUser:
+            return usersThumbnails[getPeerId(from).toLongLong()];
+        }
     }
     case Qt::ToolTipRole: //last message
     {
@@ -131,7 +133,7 @@ void DialogItemModel::fetchMore(const QModelIndex &parent)
     requestLock.unlock();
 }
 
-void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog> d, QList<TLMessage> m, QList<TLChat> c, QList<TLUser> u)
+void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, TVector d, TVector m, TVector c, TVector u)
 {
     requestLock.lock();
     if (requestId != mtm) {
@@ -144,58 +146,50 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, QList<TLDialog
     if (!count) gotFull = true;
     else gotFull |= (d.count() != 40);
 
-    for (qint32 i = 0; i < m.size(); ++i) {
-        TLMessage msg = m[i];
-        messages.insert(msg.id, msg);
-    }
+    for (qint32 i = 0; i < m.size(); ++i)
+        messages.insert(m[i].toMap()["id"].toInt(), m[i].toMap());
 
     qint32 fH = QApplication::fontMetrics().height();
     fH += fH;
     fH += 12;
 
     for (qint32 i = 0; i < c.size(); ++i) {
-        TLChat item = c[i];
-        chats.insert(item.id, item);
+        TObject item = c[i].toMap();
+        chats.insert(item["id"].toLongLong(), item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.title, fH));
+        chatsThumbnails.insert(item["id"].toLongLong(), Avatars::generateThumbnail(item["id"].toLongLong(), item["title"].toString(), fH));
     }
     for (qint32 i = 0; i < u.size(); ++i) {
-        TLUser item = u[i];
-        users.insert(item.id, item);
+        TObject item = u[i].toMap();
+        users.insert(item["id"].toLongLong(), item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        thumbnails.insert(item.id, Avatars::generateThumbnail(item.id, item.firstName + " " + item.lastName, fH));
-    }
-
-    for (qint32 i = 0; i < d.size(); ++i) {
-        TLMessage topMessage = messages[d[i].topMessage];
-        if (!offsetDate || topMessage.date < offsetDate) {
-            offsetDate = topMessage.date;
-            offsetId = topMessage.id;
-
-            switch (topMessage.peer.type) {
-            case TLType::PeerChat:
-            case TLType::PeerChannel:
-                offsetPeer = TLInputPeer(chats[topMessage.peer.id]);
-                break;
-            case TLType::PeerUser:
-                offsetPeer = TLInputPeer(users[topMessage.peer.id]);
-                break;
-            }
-        }
+        usersThumbnails.insert(item["id"].toLongLong(), Avatars::generateThumbnail(item["id"].toLongLong(), item["first_name"].toString() + " " + item["last_name"].toString(), fH));
     }
 
     beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);
 
-    dialogs.append(d);
+    for (qint32 i = 0; i < d.size(); ++i) {
+        TObject item = d[i].toMap();
+        TObject topMessage = messages[item["top_message"].toInt()];
+        if (!offsetDate || topMessage["date"].toInt() < offsetDate) {
+            offsetDate = topMessage["date"].toInt();
+            offsetId = topMessage["id"].toInt();
+
+            switch (ID(topMessage["peer"].toMap())) {
+            case TLType::PeerChat:
+            case TLType::PeerChannel:
+                offsetPeer = getInputPeer(chats[getPeerId(topMessage["peer"].toMap()).toLongLong()]);
+                break;
+            case TLType::PeerUser:
+                offsetPeer = getInputPeer(users[getPeerId(topMessage["peer"].toMap()).toLongLong()]);
+                break;
+            }
+        }
+
+        dialogs << item;
+    }
 
     endInsertRows();
 
     requestLock.unlock();
-}
-
-void DialogItemModel::client_gotFilePart(qint64 mtMessageId, TLType::Types type, qint32 mtime, QByteArray bytes)
-{
-    qint64 id = avatars.key(mtMessageId);
-    avatars.insert(id, QPixmap::fromImage(QImage::fromData(bytes)));
-    thumbnails.remove(id);
 }

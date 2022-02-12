@@ -126,7 +126,7 @@
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>Please, choose your country code and enter your phone number.</string>
+               <string>Please, enter your phone number in international format.</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
