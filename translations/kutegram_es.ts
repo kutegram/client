@@ -21,32 +21,32 @@
     <message>
         <location filename="../historywindow.cpp" line="21"/>
         <source>Type a message...</source>
-        <translation>Ingresar mensaje...</translation>
+        <translation>Escribir mensaje...</translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="30"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones</translation>
     </message>
     <message>
         <location filename="../historywindow.cpp" line="44"/>
         <source>Back</source>
-        <translation>Vuelve</translation>
+        <translation>Atrás</translation>
     </message>
 </context>
 <context>
     <name>LoginTypeDialog</name>
     <message>
         <source>Log in</source>
-        <translation type="obsolete">Log in</translation>
+        <translation>Iniciar sesión</translation>
     </message>
     <message>
         <source>Phone number</source>
-        <translation type="obsolete">Número de teléfono</translation>
+        <translation>Núm. de teléfono</translation>
     </message>
     <message>
         <source>QR-code</source>
-        <translation type="obsolete">QR-code</translation>
+        <translation>Código QR</translation>
     </message>
 </context>
 <context>
@@ -61,7 +61,7 @@
     <message>
         <location filename="../mainwindow.ui" line="269"/>
         <source>Actions</source>
-        <translation>Acciones</translation>
+        <translation>Mi cuenta</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="280"/>
@@ -72,32 +72,32 @@
         <location filename="../mainwindow.ui" line="103"/>
         <location filename="../mainwindow.ui" line="290"/>
         <source>Log in</source>
-        <translation>Entrar</translation>
+        <translation>Iniciar sesión</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="67"/>
         <source>Crossplatform Telegram client, based on Qt.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliente de Telegram multiplataforma, basado en Qt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="130"/>
         <source>Please, choose your country code and enter your phone number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, elija el código de su país e ingrese su núm. de teléfono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="160"/>
         <source>Send code</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar código</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="187"/>
         <source>Enter a confirmation code:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingresa tu código de verificación:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="200"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="207"/>
@@ -111,12 +111,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="295"/>
         <source>Quit</source>
-        <translation>Salir</translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="303"/>
         <source>Log out</source>
-        <translation>Salir</translation>
+        <translation>Finalizar sesión</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="308"/>
@@ -126,27 +126,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="316"/>
         <source>About Qt</source>
-        <translation>Acerca Qt</translation>
+        <translation>Acerca de Qt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="31"/>
         <source>Phone number</source>
-        <translation type="unfinished">Número de teléfono</translation>
+        <translation>Núm. de teléfono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="32"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Código</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="41"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurac.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="56"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Salir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="114"/>
@@ -155,9 +155,9 @@ An unofficial Qt-based client for Telegram messenger.
 Project&apos;s website: http://kg.curoviyx.ru
 Telegram channel: https://t.me/kutegram
 Telegram chat: https://t.me/kutegramchat</source>
-        <translation>Kutegram de curoviyxru
-Cuenta no oficial basada en Qt para telegram
-Sitio web del proyecto: http://kg.curoviyx.ru
+        <translation>Kutegram desarrollado por curoviyxru.
+Cliente no oficial de Telegram basado en Qt.
+Sitio web: http://kg.curoviyx.ru
 Canal de Telegram: https://t.me/kutegram
 Chat de Telegram: https://t.me/kutegramchat</translation>
     </message>
@@ -172,29 +172,29 @@ Chat de Telegram: https://t.me/kutegramchat</translation>
     <message>
         <location filename="../mainwindow.cpp" line="149"/>
         <source>Got socket error: %1</source>
-        <translation>Got socket error %1</translation>
+        <translation>Error de conexión: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="159"/>
         <source>Got MT error: %1</source>
-        <translation>Got MT error: %1</translation>
+        <translation>Error de MT: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="169"/>
         <source>Got DH error: %1</source>
-        <translation>Got DH error: %1</translation>
+        <translation>Error de DH: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="185"/>
         <source>Got RPC error: %1, %2, %3</source>
-        <translation>Got RPC error: %1, %2, %3</translation>
+        <translation>Error de RPC: %1, %2, %3</translation>
     </message>
 </context>
 <context>
     <name>QRLoginDialog</name>
     <message>
         <source>QR-code login</source>
-        <translation type="obsolete">QR-code login</translation>
+        <translation>Iniciar sesión con código QR</translation>
     </message>
 </context>
 </TS>
