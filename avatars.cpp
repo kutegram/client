@@ -44,7 +44,7 @@ QPixmap Avatars::generateThumbnail(qint64 id, QString name, qint32 size, qint32 
 
     QFont font;
     font.setBold(true);
-    if (!fontSize) fontSize = size / 3;
+    if (!fontSize) fontSize = size * 0.4;
     font.setPixelSize(fontSize);
     painter.setFont(font);
     painter.setPen(Qt::white);

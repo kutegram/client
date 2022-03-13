@@ -6,6 +6,8 @@
 #include <QFontMetrics>
 #include "avatars.h"
 #include "tlschema.h"
+#include <tl.h>
+#include <QMutexLocker>
 
 using namespace TLType;
 
@@ -28,6 +30,7 @@ HistoryItemModel::HistoryItemModel(TelegramClient *cl, TObject input, QObject *p
     replies()
 {
     connect(client, SIGNAL(gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)));
+    connect(client, SIGNAL(updateNewMessage(TObject,qint32,qint32)), this, SLOT(client_updateNewMessage(TObject,qint32,qint32)));
 }
 
 QModelIndex HistoryItemModel::index(int row, int column, const QModelIndex& parent) const
@@ -219,4 +222,20 @@ void HistoryItemModel::client_gotMessages(qint64 mtm, qint32 count, TVector m, T
     }
 
     requestLock.unlock();
+}
+
+void HistoryItemModel::client_updateNewMessage(TObject message, qint32 pts, qint32 pts_count)
+{
+    QMutexLocker locker(&requestLock);
+
+    //TODO: test PTS sequence
+    //TODO: load needed information
+    if (getPeerId(message["peer_id"].toMap()) != getPeerId(peer)) return;
+
+    beginInsertRows(QModelIndex(), history.size(), history.size());
+
+    history.append(message["id"].toInt());
+    messages.insert(message["id"].toInt(), message);
+
+    endInsertRows();
 }

@@ -9,8 +9,6 @@
 #include "tlschema.h"
 #include <QDebug>
 
-using namespace TLType;
-
 HistoryItemDelegate::HistoryItemDelegate(QObject *parent) :
     QAbstractItemDelegate(parent)
 {
@@ -27,7 +25,7 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     QFont font = QApplication::font();
 
     qint32 padding = 4;
-    qint32 cloudPart = fm.height() / 3;
+    qint32 cloudPart = fm.height() * 0.4;
     qint32 spacePadding = fm.width(' ');
     TObject message = index.data().toMap();
 
@@ -53,8 +51,8 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     QString peerName;
 
     switch (ID(fromPeer)) {
-    case UserEmpty:
-    case User:
+    case TLType::UserEmpty:
+    case TLType::User:
         peerName = fromPeer["first_name"].toString() + " " + fromPeer["last_name"].toString();
         break;
     default:
@@ -81,8 +79,8 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
             QString replyPeerName;
 
             switch (ID(replyPeer)) {
-            case UserEmpty:
-            case User:
+            case TLType::UserEmpty:
+            case TLType::User:
                 replyPeerName = replyPeer["first_name"].toString() + " " + replyPeer["last_name"].toString();
                 break;
             default:

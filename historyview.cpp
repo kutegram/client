@@ -30,9 +30,10 @@ void HistoryView::verticalScrollbarValueChanged(int value)
 
 void HistoryView::verticalScrollbarRangeChanged(int min, int max)
 {
-    qint32 val = verticalScrollBar()->value() + max - min - lastMax + lastMin;
+    qint32 lastVal = verticalScrollBar()->value();
+    qint32 val = lastVal + max - min - lastMax + lastMin;
     if (!lastMin && !lastMax) verticalScrollBar()->setSliderPosition(max);
-    else if (val < max) verticalScrollBar()->setSliderPosition(val);
+    else if (lastVal == lastMax || lastVal == lastMin) verticalScrollBar()->setSliderPosition(val);
 
     lastMin = min;
     lastMax = max;

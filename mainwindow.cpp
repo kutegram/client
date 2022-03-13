@@ -207,9 +207,11 @@ void MainWindow::client_stateChanged(State state)
 
 void MainWindow::client_gotSentCode(qint64 mtm, QString phone_code_hash)
 {
-    phoneCodeHash = phone_code_hash;
-    ui->stackedWidget->slideInIdx(0);
-    ui->introStackedWidget->slideInIdx(2);
+    if (!client->isLoggedIn()) {
+        phoneCodeHash = phone_code_hash;
+        ui->stackedWidget->slideInIdx(0);
+        ui->introStackedWidget->slideInIdx(2);
+    }
 }
 
 void MainWindow::dialogView_activated(QModelIndex index)
