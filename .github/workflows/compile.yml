@@ -32,10 +32,19 @@ jobs:
         run: |
           fillSecrets.bat
       
-      - name: Compile sources
+      - name: Create certificates files
+        shell: cmd
+        env:
+          KUTEGRAM_CERT: ${{ secrets.KUTEGRAM_CERT }}
+          KUTEGRAM_CERT_KEY: ${{ secrets.KUTEGRAM_CERT_KEY }}
+        run: |
+          echo %KUTEGRAM_CERT% | openssl base64 -d -A -out selfsigned.cer
+          echo %KUTEGRAM_CERT_KEY% | openssl base64 -d -A -out selfsigned.key
+      
+      - name: Compile sources and sign package
         shell: cmd
         run: |
-          buildSymbian.bat
+          buildSymbian_signed.bat
 
       - name: Upload installer
         uses: actions/upload-artifact@v2

@@ -11,6 +11,13 @@ client.rss
 client.loc
 client_template.pkg
 client_stub.pkg
+Kutegram_reg.rss
+Kutegram_installer.pkg
+Kutegram_exe.mmp
+Kutegram.rss
+Kutegram.loc
+Kutegram_template.pkg
+Kutegram_stub.pkg
 .make.cache
 *.sis
 ABLD.BAT
@@ -30,3 +37,5 @@ configure-stamp
 build-stamp
 *.deb
 *.changes
+selfsigned.key
+selfsigned.cer

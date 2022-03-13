@@ -20,7 +20,19 @@ DEFINES += SYMBIAN_UID=0xE0713D51
 vendorinfo = \
     "%{\"curoviyxru\"}" \
     ":\"curoviyxru\""
-myDeployment.pkg_prerules = vendorinfo
+
+platform_product_id = S60ProductID
+pkg_platform_dependencies_custom = \
+    "; Default HW/platform dependencies" \
+    "[0x20022E6D],0,0,0,{\"$$platform_product_id\"}"
+pkg_platform_dependencies_custom += \
+    "[0x101F7961],0,0,0,{\"$$platform_product_id\"}" \
+    "[0x102032BE],0,0,0,{\"$$platform_product_id\"}" \
+    "[0x102752AE],0,0,0,{\"$$platform_product_id\"}" \
+    "[0x1028315F],0,0,0,{\"$$platform_product_id\"}" \
+    " "
+
+myDeployment.pkg_prerules = vendorinfo pkg_platform_dependencies_custom
 DEPLOYMENT += myDeployment
 
 # Smart Installer package's UID
