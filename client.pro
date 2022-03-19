@@ -5,6 +5,8 @@ VERSION = 0.0.2
 DATE = $$system(date /t)
 DEFINES += VERSION=\"\\\"$$VERSION\\\"\"
 DEFINES += BUILDDATE=\"\\\"$$DATE\\\"\"
+COMMIT_SHA = $$system(git log --pretty=format:%h -n 1);
+DEFINES += COMMIT_SHA=\"\\\"$$COMMIT_SHA\\\"\"
 
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
@@ -12,12 +14,20 @@ QT += webkit svg
 DEFINES += QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
 
 symbian {
-    TARGET.EPOCHEAPSIZE = 0x40000 0x4000000
-    QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
-    QMAKE_LFLAGS.GCCE += -Tdata 0xC00000
+    TARGET.UID3 = 0xE0713D51
+    DEFINES += SYMBIAN_UID=$$TARGET.UID3
 
-    symbian:TARGET.UID3 = 0xE0713D51
-    DEFINES += SYMBIAN_UID=0xE0713D51
+    TARGET.EPOCHEAPSIZE = 0x40000 0x4000000
+    TARGET.EPOCSTACKSIZE = 0x8000
+    TARGET.EPOCALLOWDLLDATA = 1
+
+    contains(SYMBIAN_VERSION, Symbian3) {
+        DEFINES += SYMBIAN3_READY
+    }
+
+#    QMAKE_CXXFLAGS.CW += -O2
+#    QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
+#    QMAKE_LFLAGS.GCCE += -Tdata 0xC00000
 
     vendorinfo = \
         "%{\"curoviyxru\"}" \
@@ -30,7 +40,6 @@ symbian {
         "[0x20022E6D],0,0,0,{\"$$platform_product_id\"}"
 
     pkg_platform_dependencies_custom += \
-        "[0x101F7961],0,0,0,{\"$$platform_product_id\"}" \
         "[0x102032BE],0,0,0,{\"$$platform_product_id\"}" \
         "[0x102752AE],0,0,0,{\"$$platform_product_id\"}" \
         "[0x1028315F],0,0,0,{\"$$platform_product_id\"}" \

@@ -108,7 +108,7 @@ void showExpanded(QMainWindow* window)
 
 void showAvkonPopup(QString title, QString message)
 {
-#if defined(Q_OS_SYMBIAN)
+#if defined(Q_OS_SYMBIAN) && defined(SYMBIAN3_READY)
     TUid symbianUid = {SYMBIAN_UID};
     TPtrC16 sTitle(reinterpret_cast<const TUint16*>(title.utf16()));
     TPtrC16 sMessage(reinterpret_cast<const TUint16*>(message.utf16()));
