@@ -9,6 +9,51 @@
 #include <QFile>
 #include <QTextStream>
 
+#if defined(Q_OS_SYMBIAN)
+#include <akndiscreetpopup.h>
+#include <avkon.hrh>
+#endif
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+
+    QApplication::setApplicationVersion("0.0.2");
+    QApplication::setApplicationName("Kutegram");
+    QApplication::setOrganizationName("curoviyxru");
+    QApplication::setOrganizationDomain("kg.curoviyx.ru");
+
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    QTextCodec::setCodecForTr(codec);
+    QTextCodec::setCodecForCStrings(codec);
+    QTextCodec::setCodecForLocale(codec);
+
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app.installTranslator(&qtTranslator);
+
+    QTranslator myappTranslator;
+    myappTranslator.load(":/translations/kutegram_" + QLocale::system().name());
+    app.installTranslator(&myappTranslator);
+
+    QFile stylesheetFile(":/stylesheet.css");
+    if (stylesheetFile.open(QFile::ReadOnly)) {
+        app.setStyleSheet(QTextStream(&stylesheetFile).readAll());
+        stylesheetFile.close();
+    }
+
+    MainWindow mainWindow;
+    setOrientation(&mainWindow, ScreenOrientationAuto);
+    showExpanded(&mainWindow);
+
+//    foreach (QWidget* widget, QApplication::allWidgets())
+//        widget->setContextMenuPolicy(Qt::NoContextMenu);
+
+//    app.setQuitOnLastWindowClosed(false);
+
+    return app.exec();
+}
+
 void setOrientation(QMainWindow* window, ScreenOrientation orientation)
 {
 #if defined(Q_OS_SYMBIAN)
@@ -61,42 +106,12 @@ void showExpanded(QMainWindow* window)
 #endif
 }
 
-int main(int argc, char *argv[])
+void showAvkonPopup(QString title, QString message)
 {
-    QApplication app(argc, argv);
-
-    QApplication::setApplicationVersion("0.0.2");
-    QApplication::setApplicationName("Kutegram");
-    QApplication::setOrganizationName("curoviyxru");
-    QApplication::setOrganizationDomain("kg.curoviyx.ru");
-
-    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-    QTextCodec::setCodecForTr(codec);
-    QTextCodec::setCodecForCStrings(codec);
-    QTextCodec::setCodecForLocale(codec);
-
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app.installTranslator(&qtTranslator);
-
-    QTranslator myappTranslator;
-    myappTranslator.load(":/translations/kutegram_" + QLocale::system().name());
-    app.installTranslator(&myappTranslator);
-
-    QFile stylesheetFile(":/stylesheet.css");
-    if (stylesheetFile.open(QFile::ReadOnly)) {
-        app.setStyleSheet(QTextStream(&stylesheetFile).readAll());
-        stylesheetFile.close();
-    }
-
-    MainWindow mainWindow;
-    setOrientation(&mainWindow, ScreenOrientationAuto);
-    showExpanded(&mainWindow);
-
-//    foreach (QWidget* widget, QApplication::allWidgets())
-//        widget->setContextMenuPolicy(Qt::NoContextMenu);
-
-//    app.setQuitOnLastWindowClosed(false);
-
-    return app.exec();
+#if defined(Q_OS_SYMBIAN)
+    TUid symbianUid = {SYMBIAN_UID};
+    TPtrC16 sTitle(reinterpret_cast<const TUint16*>(title.utf16()));
+    TPtrC16 sMessage(reinterpret_cast<const TUint16*>(message.utf16()));
+    TRAP_IGNORE(CAknDiscreetPopup::ShowGlobalPopupL(sTitle, sMessage, KAknsIIDNone, KNullDesC, 0, 0, KAknDiscreetPopupDurationLong, 0, NULL, symbianUid));
+#endif
 }

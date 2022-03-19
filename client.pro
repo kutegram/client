@@ -1,50 +1,69 @@
 TARGET = Kutegram
+TEMPLATE = app
+
 VERSION = 0.0.2
+DATE = $$system(date /t)
+DEFINES += VERSION=\"\\\"$$VERSION\\\"\"
+DEFINES += BUILDDATE=\"\\\"$$DATE\\\"\"
 
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
-# Add files and directories to ship with the application 
-# by adapting the examples below.
-# file1.source = myfile
-# dir1.source = mydir
-DEPLOYMENTFOLDERS = # file1 dir1
-
 QT += webkit svg
+DEFINES += QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
 
-QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
-QMAKE_LFLAGS.GCCE += -Tdata 0xC00000
+symbian {
+    TARGET.EPOCHEAPSIZE = 0x40000 0x4000000
+    QMAKE_LFLAGS.ARMCC += --rw-base 0xC00000
+    QMAKE_LFLAGS.GCCE += -Tdata 0xC00000
 
-symbian:TARGET.UID3 = 0xE0713D51
-DEFINES += SYMBIAN_UID=0xE0713D51
+    symbian:TARGET.UID3 = 0xE0713D51
+    DEFINES += SYMBIAN_UID=0xE0713D51
 
-vendorinfo = \
-    "%{\"curoviyxru\"}" \
-    ":\"curoviyxru\""
+    vendorinfo = \
+        "%{\"curoviyxru\"}" \
+        ":\"curoviyxru\""
 
-platform_product_id = S60ProductID
-pkg_platform_dependencies_custom = \
-    "; Default HW/platform dependencies" \
-    "[0x20022E6D],0,0,0,{\"$$platform_product_id\"}"
-pkg_platform_dependencies_custom += \
-    "[0x101F7961],0,0,0,{\"$$platform_product_id\"}" \
-    "[0x102032BE],0,0,0,{\"$$platform_product_id\"}" \
-    "[0x102752AE],0,0,0,{\"$$platform_product_id\"}" \
-    "[0x1028315F],0,0,0,{\"$$platform_product_id\"}" \
-    " "
+    platform_product_id = S60ProductID
 
-myDeployment.pkg_prerules = vendorinfo pkg_platform_dependencies_custom
-DEPLOYMENT += myDeployment
+    pkg_platform_dependencies_custom = \
+        "; Default HW/platform dependencies" \
+        "[0x20022E6D],0,0,0,{\"$$platform_product_id\"}"
 
-# Smart Installer package's UID
-# This UID is from the protected range 
-# and therefore the package will fail to install if self-signed
-# By default qmake uses the unprotected range value if unprotected UID is defined for the application
-# and 0x2002CCCF value if protected UID is given to the application
-#symbian:DEPLOYMENT.installer_header = 0x2002CCCF
+    pkg_platform_dependencies_custom += \
+        "[0x101F7961],0,0,0,{\"$$platform_product_id\"}" \
+        "[0x102032BE],0,0,0,{\"$$platform_product_id\"}" \
+        "[0x102752AE],0,0,0,{\"$$platform_product_id\"}" \
+        "[0x1028315F],0,0,0,{\"$$platform_product_id\"}" \
+        " "
 
-# Allow network access on Symbian
-symbian:TARGET.CAPABILITY = ReadUserData WriteUserData UserEnvironment NetworkServices LocalServices
-symbian:ICON = kutegram.svg
+    myDeployment.pkg_prerules = vendorinfo pkg_platform_dependencies_custom
+    DEPLOYMENT += myDeployment
+
+    TARGET.CAPABILITY = ReadUserData WriteUserData UserEnvironment NetworkServices LocalServices
+    ICON = kutegram.svg
+
+    LIBS += -lavkon \
+            -laknnotify \
+            -lhwrmlightclient \
+            -lapgrfx \
+            -lcone \
+            -lws32 \
+            -lbitgdi \
+            -lfbscli \
+            -laknskins \
+            -laknskinsrv \
+            -leikcore \
+            -lapmime \
+            -lefsrv \
+            -leuser \
+            -lcommondialogs \
+            -lesock \
+            -lmediaclientaudio \
+            -lprofileengine \
+            -lcntmodel \
+            -lbafl \
+            -lmgfetch
+}
 
 # If your application uses the Qt Mobility libraries, uncomment
 # the following lines and add the respective components to the 
@@ -62,6 +81,7 @@ SOURCES += main.cpp mainwindow.cpp \
     historyview.cpp \
     avatars.cpp \
     messagedocument.cpp
+
 HEADERS += mainwindow.h \
     dialogitemmodel.h \
     dialogitemdelegate.h \
@@ -73,20 +93,14 @@ HEADERS += mainwindow.h \
     main.h \
     avatars.h \
     messagedocument.h
+
 FORMS += mainwindow.ui \
     historywindow.ui
+
 TRANSLATIONS += translations/kutegram_en.ts \
     translations/kutegram_es.ts \
     translations/kutegram_ru.ts \
     translations/kutegram_uk.ts
-
-# Please do not modify the following two lines. Required for deployment.
-include(deployment.pri)
-qtcAddDeployment()
-
-# include(libqrencode/libqrencode.pri)
-include(library/library.pri)
-include(SlidingStackedWidget/SlidingStackedWidget.pri)
 
 OTHER_FILES += \
     qtc_packaging/debian_harmattan/rules \
@@ -108,13 +122,18 @@ RESOURCES += \
     resources.qrc \
     translations.qrc
 
+# include(libqrencode/libqrencode.pri)
+include(library/library.pri)
+include(SlidingStackedWidget/SlidingStackedWidget.pri)
+
+include(deployment.pri)
+qtcAddDeployment()
+
 maemo5 {
     desktopfile.files = client.desktop
     desktopfile.path = /usr/share/applications/hildon
     INSTALLS += desktopfile
-}
 
-maemo5 {
     icon.files = client64.png
     icon.path = /usr/share/icons/hicolor/64x64/apps
     INSTALLS += icon
@@ -124,9 +143,7 @@ contains(MEEGO_EDITION,harmattan) {
     desktopfile.files = client_harmattan.desktop
     desktopfile.path = /usr/share/applications
     INSTALLS += desktopfile
-}
 
-contains(MEEGO_EDITION,harmattan) {
     icon.files = client80.png
     icon.path = /usr/share/icons/hicolor/80x80/apps
     INSTALLS += icon
