@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>stylesheet.css</file>
-        <file>icons/back.svg</file>
-        <file>icons/options.svg</file>
-        <file>client160.png</file>
-        <file>client80.png</file>
-    </qresource>
-</RCC>

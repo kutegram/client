@@ -30,8 +30,8 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 //Requires QT += webkit
-#include <QWebFrame>
-#include <QWebView>
+//#include <QWebFrame>
+//#include <QWebView>
 #include <QDebug>
 
 const int fingerAccuracyThreshold = 10;
@@ -62,6 +62,7 @@ FlickCharm::~FlickCharm()
 }
 void FlickCharm::activateOn(QWidget *widget)
 {
+#ifndef Q_WS_MAEMO_5
     QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
     if (scrollArea) {
         //scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -75,23 +76,26 @@ void FlickCharm::activateOn(QWidget *widget)
         d->flickData[viewport]->state = FlickData::Steady;
         return;
     }
-    QWebView *webView = dynamic_cast<QWebView*>(widget);
-    if (webView) {
-        QWebFrame *frame = webView->page()->mainFrame();
-        //frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
-        //frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
-        webView->installEventFilter(this);
-        d->flickData.remove(webView);
-        d->flickData[webView] = new FlickData;
-        d->flickData[webView]->widget = webView;
-        d->flickData[webView]->state = FlickData::Steady;
-        return;
-    }
+//    QWebView *webView = dynamic_cast<QWebView*>(widget);
+//    if (webView) {
+//        QWebFrame *frame = webView->page()->mainFrame();
+//        //frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
+//        //frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
+//        webView->installEventFilter(this);
+//        d->flickData.remove(webView);
+//        d->flickData[webView] = new FlickData;
+//        d->flickData[webView]->widget = webView;
+//        d->flickData[webView]->state = FlickData::Steady;
+//        return;
+//    }
+
     qWarning() << "FlickCharm only works on QAbstractScrollArea (and derived classes)";
-    qWarning() << "or QWebView (and derived classes)";
+//    qWarning() << "or QWebView (and derived classes)";
+#endif
 }
 void FlickCharm::deactivateFrom(QWidget *widget)
 {
+#ifndef Q_WS_MAEMO_5
     QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
     if (scrollArea) {
         QWidget *viewport = scrollArea->viewport();
@@ -101,13 +105,14 @@ void FlickCharm::deactivateFrom(QWidget *widget)
         d->flickData.remove(viewport);
         return;
     }
-    QWebView *webView = dynamic_cast<QWebView*>(widget);
-    if (webView) {
-        webView->removeEventFilter(this);
-        delete d->flickData[webView];
-        d->flickData.remove(webView);
-        return;
-    }
+//    QWebView *webView = dynamic_cast<QWebView*>(widget);
+//    if (webView) {
+//        webView->removeEventFilter(this);
+//        delete d->flickData[webView];
+//        d->flickData.remove(webView);
+//        return;
+//    }
+#endif
 }
 static QPoint scrollOffset(QWidget *widget)
 {
@@ -117,12 +122,12 @@ static QPoint scrollOffset(QWidget *widget)
         x = scrollArea->horizontalScrollBar()->value();
         y = scrollArea->verticalScrollBar()->value();
     }
-    QWebView *webView = dynamic_cast<QWebView*>(widget);
-    if (webView) {
-        QWebFrame *frame = webView->page()->mainFrame();
-        x = frame->evaluateJavaScript("window.scrollX").toInt();
-        y = frame->evaluateJavaScript("window.scrollY").toInt();
-    }
+//    QWebView *webView = dynamic_cast<QWebView*>(widget);
+//    if (webView) {
+//        QWebFrame *frame = webView->page()->mainFrame();
+//        x = frame->evaluateJavaScript("window.scrollX").toInt();
+//        y = frame->evaluateJavaScript("window.scrollY").toInt();
+//    }
     return QPoint(x, y);
 }
 static void setScrollOffset(QWidget *widget, const QPoint &p)
@@ -132,10 +137,10 @@ static void setScrollOffset(QWidget *widget, const QPoint &p)
         scrollArea->horizontalScrollBar()->setValue(p.x());
         scrollArea->verticalScrollBar()->setValue(p.y());
     }
-    QWebView *webView = dynamic_cast<QWebView*>(widget);
-    QWebFrame *frame = webView ? webView->page()->mainFrame() : 0;
-    if (frame)
-        frame->evaluateJavaScript(QString("window.scrollTo(%1,%2);").arg(p.x()).arg(p.y()));
+//    QWebView *webView = dynamic_cast<QWebView*>(widget);
+//    QWebFrame *frame = webView ? webView->page()->mainFrame() : 0;
+//    if (frame)
+//        frame->evaluateJavaScript(QString("window.scrollTo(%1,%2);").arg(p.x()).arg(p.y()));
 }
 static QPoint deaccelerate(const QPoint &speed, int a = 1, int max = 64)
 {

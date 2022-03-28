@@ -8,13 +8,20 @@
 #include <QLibraryInfo>
 #include <QFile>
 #include <QTextStream>
+#include <QtCore/QtGlobal>
 
 #if defined(Q_OS_SYMBIAN)
 #include <akndiscreetpopup.h>
 #include <avkon.hrh>
 #endif
 
-int main(int argc, char *argv[])
+#ifdef Q_OS_UNIX
+#include <QX11Info>
+#include <X11/Xatom.h>
+#include <X11/Xlib.h>
+#endif
+
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
@@ -36,7 +43,7 @@ int main(int argc, char *argv[])
     myappTranslator.load(":/translations/kutegram_" + QLocale::system().name());
     app.installTranslator(&myappTranslator);
 
-    QFile stylesheetFile(":/stylesheet.css");
+    QFile stylesheetFile(":/styles/stylesheet.css");
     if (stylesheetFile.open(QFile::ReadOnly)) {
         app.setStyleSheet(QTextStream(&stylesheetFile).readAll());
         stylesheetFile.close();
@@ -97,8 +104,22 @@ void setOrientation(QMainWindow* window, ScreenOrientation orientation)
     window->setAttribute(attribute, true);
 }
 
+void writeX11OrientationAngleProperty(QWidget* widget, ScreenOrientationX11 orientation)
+{
+#ifdef Q_WS_X11
+    if (widget) {
+        WId id = widget->winId();
+        Display *display = QX11Info::display();
+        if (!display) return;
+        Atom orientationAngleAtom = XInternAtom(display, "_MEEGOTOUCH_ORIENTATION_ANGLE", False);
+        XChangeProperty(display, id, orientationAngleAtom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)&orientation, 1);
+    }
+#endif
+}
+
 void showExpanded(QMainWindow* window)
 {
+    writeX11OrientationAngleProperty(window);
 #if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR) || defined(Q_WS_MAEMO_5)
     window->showMaximized();
 #else

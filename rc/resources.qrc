@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/hicolor/scalable/back.svg</file>
+        <file>icons/hicolor/scalable/options.svg</file>
+        <file>styles/stylesheet.css</file>
+        <file>icons/hicolor/80x80/apps/kutegram.png</file>
+    </qresource>
+</RCC>

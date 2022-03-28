@@ -32,6 +32,8 @@ client_0xE0713D51.mmp
 *.mmp
 obj
 Kutegram
+kutegram
+client
 debian
 configure-stamp
 build-stamp
@@ -39,3 +41,4 @@ build-stamp
 *.changes
 selfsigned.key
 selfsigned.cer
+data.tar.gz

@@ -104,6 +104,7 @@ void MainWindow::quitAction_triggered()
 void MainWindow::exitAction_triggered()
 {
     close();
+    //_exit(0); //recommendation for Harmattan
 }
 
 void MainWindow::aboutAction_triggered()

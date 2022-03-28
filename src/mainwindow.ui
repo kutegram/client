@@ -34,7 +34,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="resources.qrc">:/client80.png</pixmap>
+           <pixmap resource="../rc/resources.qrc">:/icons/hicolor/80x80/apps/kutegram.png</pixmap>
           </property>
           <property name="scaledContents">
            <bool>false</bool>
@@ -325,7 +325,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../rc/resources.qrc"/>
  </resources>
  <connections>
   <connection>

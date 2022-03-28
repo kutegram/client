@@ -1,6 +1,6 @@
-[submodule "library"]
-	path = library
+[submodule "src/library"]
+	path = src/library
 	url = https://github.com/kutegram/library.git
-[submodule "SlidingStackedWidget"]
-	path = SlidingStackedWidget
+[submodule "src/slidingstackedwidget"]
+	path = src/slidingstackedwidget
 	url = https://github.com/kutegram/SlidingStackedWidget
