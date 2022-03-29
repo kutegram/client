@@ -28,7 +28,8 @@ QString parseHTML(TObject message)
     QStringList items;
     QList<char> count;
 
-    items << message["message"].toString() + ' ';
+    QString originalText = message["message"].toString();
+    items << originalText + ' ';
     count << true;
     TVector entities = message["entities"].toList();
 
@@ -36,23 +37,36 @@ QString parseHTML(TObject message)
         TObject entity = entities[i].toMap();
         qint32 offset = entity["offset"].toInt();
         qint32 length = entity["length"].toInt();
+        QString textPart = originalText.mid(offset, length);
 
         QString sTag;
         QString eTag;
 
         switch (ID(entity)) {
-        case MessageEntityUnknown: //just ignore that.
+        case MessageEntityUnknown: //just ignore it.
+            //sTag = "<unknown>";
+            //eTag = "</unknown>";
             break;
 
         case MessageEntityMention:
+            sTag = "<a href=\"kutegram://profile/" + textPart + "\">";
+            eTag = "</a>";
             break;
         case MessageEntityHashtag:
+            sTag = "<a href=\"kutegram://search/" + textPart + "\">";
+            eTag = "</a>";
             break;
         case MessageEntityBotCommand:
+            sTag = "<a href=\"kutegram://execute/" + textPart + "\">";
+            eTag = "</a>";
             break;
         case MessageEntityUrl:
+            sTag = "<a href=\"" + textPart + "\">";
+            eTag = "</a>";
             break;
         case MessageEntityEmail:
+            sTag = "<a href=\"mailto:" + textPart + "\">";
+            eTag = "</a>";
             break;
 
         case MessageEntityBold:
@@ -67,21 +81,30 @@ QString parseHTML(TObject message)
             sTag = "<code>";
             eTag = "</code>";
             break;
-        case MessageEntityPre:
-            //sTag = "<pre language=\"" + entity["language"].toString() + "\">";
-            sTag = "<pre>";
-            eTag = "</pre>";
+        case MessageEntityPre: //pre causes some issues with paddings
+            sTag = "<code language=\"" + entity["language"].toString() + "\">";
+            eTag = "</code>";
             break;
 
         case MessageEntityTextUrl:
+            sTag = "<a href=\"" + entity["url"].toString() + "\">";
+            eTag = "</a>";
             break;
         case MessageEntityMentionName:
+            sTag = "<a href=\"kutegram://profile/" + entity["user_id"].toString() + "\">";
+            eTag = "</a>";
             break;
         case InputMessageEntityMentionName:
+            sTag = "<a href=\"kutegram://profile/" + getPeerId(entity["user_id"].toMap()).toString() + "\">";
+            eTag = "</a>";
             break;
         case MessageEntityPhone:
+            sTag = "<a href=\"tel:" + textPart + "\">";
+            eTag = "</a>";
             break;
         case MessageEntityCashtag:
+            sTag = "<a href=\"kutegram://search/" + textPart + "\">";
+            eTag = "</a>";
             break;
 
         case MessageEntityUnderline:
@@ -93,12 +116,18 @@ QString parseHTML(TObject message)
             eTag = "</s>";
             break;
         case MessageEntityBlockquote:
+            sTag = "<blockquote>";
+            eTag = "</blockquote>";
             break;
 
         case MessageEntityBankCard:
+            sTag = "<a href=\"kutegram://card/" + textPart + "\">";
+            eTag = "</a>";
             break;
 
         case MessageEntitySpoiler:
+            sTag = "<span style=\"background-color:lightgray;color:lightgray;\">";
+            eTag = "</span>";
             break;
         }
 
@@ -122,15 +151,13 @@ QString parseHTML(TObject message)
             if (jidStart != -1 && jidEnd != -1) break;
         }
 
-        //qDebug() << "[DEBUG]" << message["message"].toString().mid(offset, length);
-
         if (jidStart == -1 || jidEnd == -1) continue;
 
         QString sItem = items[jidStart];
         items[jidStart] = sItem.mid(0, posStart);
         items.insert(jidStart + 1, sTag);
-        items.insert(jidStart + 2, sItem.mid(posStart));
         count.insert(jidStart + 1, false);
+        items.insert(jidStart + 2, sItem.mid(posStart));
         count.insert(jidStart + 2, true);
 
         if (jidEnd == jidStart) posEnd -= posStart;
@@ -139,8 +166,8 @@ QString parseHTML(TObject message)
         QString eItem = items[jidEnd];
         items[jidEnd] = eItem.mid(0, posEnd);
         items.insert(jidEnd + 1, eTag);
-        items.insert(jidEnd + 2, eItem.mid(posEnd));
         count.insert(jidEnd + 1, false);
+        items.insert(jidEnd + 2, eItem.mid(posEnd));
         count.insert(jidEnd + 2, true);
     }
 
@@ -160,18 +187,35 @@ QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const 
     QFontMetrics fm = QApplication::fontMetrics();
     QFont font = QApplication::font();
 
-    qint32 cloudPart = fm.height() * 0.4;
     TObject message = index.data().toMap();
+    TObject fromPeer = index.data(Qt::UserRole).toMap();
+
+    QString peerName;
+    switch (ID(fromPeer)) {
+    case TLType::UserEmpty:
+    case TLType::User:
+        peerName = fromPeer["first_name"].toString() + " " + fromPeer["last_name"].toString();
+        break;
+    default:
+        //this is a chat, probably.
+        peerName = fromPeer["title"].toString();
+        break;
+    }
+    peerName = fm.elidedText(peerName, Qt::ElideRight, w);
 
     QTextDocument doc;
+    doc.setDocumentMargin(0);
     doc.setHtml(parseHTML(message));
     doc.setTextWidth(w);
     doc.setDefaultFont(font);
 
     if (!painter)
-        return QSize(w, doc.size().toSize().height());
+        return QSize(w, fm.lineSpacing() + doc.size().toSize().height());
 
     QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &option, painter);
+
+    painter->drawText(x, y, w, h, Qt::TextSingleLine | Qt::AlignLeft | Qt::AlignTop, peerName);
+    y += fm.lineSpacing();
 
     QPixmap htmlPixmap(doc.size().toSize());
     htmlPixmap.fill(Qt::transparent);
