@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="es_ES">
+<TS version="2.0" language="es_419">
 <context>
     <name>HistoryWindow</name>
     <message>
@@ -14,13 +14,9 @@
         <translation></translation>
     </message>
     <message>
-        <source>Loading...</source>
-        <translation type="obsolete">Cargando...</translation>
-    </message>
-    <message>
         <location filename="../../src/historywindow.cpp" line="21"/>
         <source>Type a message...</source>
-        <translation>Escribir mensaje...</translation>
+        <translation>Escribir mensaje:</translation>
     </message>
     <message>
         <location filename="../../src/historywindow.cpp" line="30"/>
@@ -31,21 +27,6 @@
         <location filename="../../src/historywindow.cpp" line="44"/>
         <source>Back</source>
         <translation>Atrás</translation>
-    </message>
-</context>
-<context>
-    <name>LoginTypeDialog</name>
-    <message>
-        <source>Log in</source>
-        <translation type="obsolete">Iniciar sesión</translation>
-    </message>
-    <message>
-        <source>Phone number</source>
-        <translation type="obsolete">Núm. de teléfono</translation>
-    </message>
-    <message>
-        <source>QR-code</source>
-        <translation type="obsolete">Código QR</translation>
     </message>
 </context>
 <context>
@@ -60,7 +41,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="129"/>
         <source>Please, enter your phone number in international format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingrese su núm. de teléfono.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="196"/>
@@ -69,7 +50,11 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;kutegram://change-phone&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Change phone number...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;kutegram://change-phone&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Cambiar núm. de teléfono...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="258"/>
@@ -90,11 +75,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/mainwindow.ui" line="76"/>
         <source>Crossplatform Telegram client, based on Qt.</source>
-        <translation>Cliente de Telegram multiplataforma, basado en Qt.</translation>
-    </message>
-    <message>
-        <source>Please, choose your country code and enter your phone number.</source>
-        <translation type="obsolete">Por favor, elija el código de su país e ingrese su núm. de teléfono.</translation>
+        <translation>Cliente de Telegram, basado en Qt.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="149"/>
@@ -104,7 +85,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/mainwindow.ui" line="176"/>
         <source>Enter a confirmation code:</source>
-        <translation>Ingresa tu código de verificación:</translation>
+        <translation>Código de verificación:</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="189"/>
@@ -160,7 +141,7 @@ Telegram channel: https://t.me/kutegram
 Telegram chat: https://t.me/kutegramchat</source>
         <translation>Kutegram desarrollado por curoviyxru.
 Cliente no oficial de Telegram basado en Qt.
-Sitio web: http://kg.curoviyx.ru
+Web: http://kg.curoviyx.ru
 Canal de Telegram: https://t.me/kutegram
 Chat de Telegram: https://t.me/kutegramchat</translation>
     </message>
@@ -185,19 +166,12 @@ Chat de Telegram: https://t.me/kutegramchat</translation>
     <message>
         <location filename="../../src/mainwindow.cpp" line="171"/>
         <source>Got DH error: %1</source>
-        <translation>Error de DH: %1</translation>
+        <translation>Error DH: %1</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="187"/>
         <source>Got RPC error: %1, %2, %3</source>
         <translation>Error de RPC: %1, %2, %3</translation>
-    </message>
-</context>
-<context>
-    <name>QRLoginDialog</name>
-    <message>
-        <source>QR-code login</source>
-        <translation type="obsolete">Iniciar sesión con código QR</translation>
     </message>
 </context>
 </TS>
