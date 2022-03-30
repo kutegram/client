@@ -1,20 +1,25 @@
 #include "historywindow.h"
 #include "ui_historywindow.h"
 
-#include "historyitemdelegate.h"
 #include "library/telegramclient.h"
 #include <QScrollBar>
+#include <QMutexLocker>
+#include "messagelabel.h"
 
 HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::HistoryWindow),
     flickcharm(),
     client(client),
-    model(0),
 #if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
     optionsAction(this),
 #endif
-    backAction(this)
+    backAction(this),
+    peer(input),
+    loadMutex(QMutex::Recursive),
+    offsetId(),
+    offsetDate(),
+    requestId()
 {
     ui->setupUi(this);
 #if QT_VERSION >= 0x040702
@@ -54,13 +59,12 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
     backAction.setSoftKeyRole(QAction::NegativeSoftKey);
     addAction(&backAction);
 
-    flickcharm.activateOn(ui->historyView);
+    flickcharm.activateOn(ui->scrollArea);
 
-    ui->historyView->setModel(model = new HistoryItemModel(client, input, ui->historyView));
-    ui->historyView->setItemDelegate(new HistoryItemDelegate(ui->historyView));
+    connect(client, SIGNAL(gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)));
+    connect(client, SIGNAL(updateNewMessage(TObject,qint32,qint32)), this, SLOT(client_updateNewMessage(TObject,qint32,qint32)));
 
-    if (model->canFetchMoreUpwards(QModelIndex())) model->fetchMoreUpwards(QModelIndex());
-    if (model->canFetchMore(QModelIndex())) model->fetchMore(QModelIndex());
+    loadMessages();
 }
 
 HistoryWindow::~HistoryWindow()
@@ -71,11 +75,60 @@ HistoryWindow::~HistoryWindow()
 void HistoryWindow::sendButton_clicked()
 {
     if (ui->messageEdit->text().isEmpty()) return;
-    client->sendMessage(model->peer, ui->messageEdit->text());
+    client->sendMessage(peer, ui->messageEdit->text());
     ui->messageEdit->clear();
 }
 
 void HistoryWindow::backAction_triggered()
 {
     close();
+}
+
+void HistoryWindow::loadMessages()
+{
+    QMutexLocker locker(&loadMutex);
+
+    if (requestId) return;
+    requestId = client->getHistory(peer, offsetId, offsetDate, 0, 40);
+}
+
+void HistoryWindow::client_gotMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
+{
+    QMutexLocker locker(&loadMutex);
+
+    if (mtm == requestId) {
+        gotHistoryMessages(mtm, count, m, c, u, offsetIdOffset, nextRate, inexact);
+    }
+//    else if (mtm == replyRequestId) {
+//        gotReplyMessages(mtm, count, m, c, u, offsetIdOffset, nextRate, inexact);
+//    }
+}
+
+void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
+{
+    for (qint32 i = m.size() - 1; i >= 0; --i) {
+        TObject msg = m[i].toMap();
+        if (!offsetDate || msg["date"].toInt() < offsetDate) {
+            offsetDate = msg["date"].toInt();
+            offsetId = msg["id"].toInt();
+        }
+
+        ui->messagesLayout->addWidget(new MessageLabel(msg, ui->scrollArea_contents));
+    }
+}
+
+void HistoryWindow::client_updateNewMessage(TObject message, qint32 pts, qint32 pts_count)
+{
+//    QMutexLocker locker(&requestLock);
+
+//    //TODO: test PTS sequence
+//    //TODO: load needed information
+//    if (getPeerId(message["peer_id"].toMap()) != getPeerId(peer)) return;
+
+//    beginInsertRows(QModelIndex(), history.size(), history.size());
+
+//    history.append(message["id"].toInt());
+//    messages.insert(message["id"].toInt(), message);
+
+//    endInsertRows();
 }

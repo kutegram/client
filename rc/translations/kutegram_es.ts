@@ -9,22 +9,22 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.ui" line="55"/>
+        <location filename="../../src/historywindow.ui" line="77"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="21"/>
+        <location filename="../../src/historywindow.cpp" line="24"/>
         <source>Type a message...</source>
         <translation>Escribir mensaje:</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="30"/>
+        <location filename="../../src/historywindow.cpp" line="33"/>
         <source>Options</source>
         <translation>Opciones</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="44"/>
+        <location filename="../../src/historywindow.cpp" line="47"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>

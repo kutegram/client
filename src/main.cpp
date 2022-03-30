@@ -43,11 +43,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     myappTranslator.load(":/translations/kutegram_" + QLocale::system().name());
     app.installTranslator(&myappTranslator);
 
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5)
     QFile stylesheetFile(":/styles/stylesheet.css");
     if (stylesheetFile.open(QFile::ReadOnly)) {
         app.setStyleSheet(QTextStream(&stylesheetFile).readAll());
         stylesheetFile.close();
     }
+#endif
 
     MainWindow mainWindow;
     setOrientation(&mainWindow, ScreenOrientationAuto);

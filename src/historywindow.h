@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include "tl.h"
 #include "flickcharm.h"
-#include "historyitemmodel.h"
 #include <QAction>
+#include <QMutex>
 
 namespace Ui {
 class HistoryWindow;
@@ -21,19 +21,30 @@ public:
     explicit HistoryWindow(TelegramClient *client, TObject input, QWidget *parent = 0);
     ~HistoryWindow();
 
+    void loadMessages();
+    void gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    void gotReplyMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+
 public slots:
     void sendButton_clicked();
     void backAction_triggered();
+    void client_gotMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    void client_updateNewMessage(TObject message, qint32 pts, qint32 pts_count);
 
 private:
     Ui::HistoryWindow *ui;
     FlickCharm flickcharm;
     TelegramClient* client;
-    HistoryItemModel* model;
     QAction backAction;
 #if defined(Q_OS_SYMBIAN) && (QT_VERSION < 0x040800)
     QAction optionsAction;
 #endif
+
+    TObject peer;
+    QMutex loadMutex;
+    qint32 offsetId;
+    qint32 offsetDate;
+    qint64 requestId;
 };
 
 #endif // HISTORYWINDOW_H

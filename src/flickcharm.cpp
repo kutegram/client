@@ -62,7 +62,7 @@ FlickCharm::~FlickCharm()
 }
 void FlickCharm::activateOn(QWidget *widget)
 {
-#ifndef Q_WS_MAEMO_5
+#if defined(Q_OS_SYMBIAN) || defined(Q_OS_WINCE)
     QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
     if (scrollArea) {
         //scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -95,7 +95,7 @@ void FlickCharm::activateOn(QWidget *widget)
 }
 void FlickCharm::deactivateFrom(QWidget *widget)
 {
-#ifndef Q_WS_MAEMO_5
+#if defined(Q_OS_SYMBIAN) || defined(Q_OS_WINCE)
     QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
     if (scrollArea) {
         QWidget *viewport = scrollArea->viewport();

@@ -1,22 +1,11 @@
-#include "historyitemdelegate.h"
+#include "messages.h"
 
-#include <QPainter>
-#include <QApplication>
-#include <QPixmap>
-#include <Qt>
+#include <QStringList>
 #include <QDebug>
-#include <QTextDocument>
 #include "tl.h"
-#include "avatars.h"
 #include "tlschema.h"
-#include <QAbstractTextDocumentLayout>
 
 using namespace TLType;
-
-HistoryItemDelegate::HistoryItemDelegate(QObject *parent) :
-    QAbstractItemDelegate(parent)
-{
-}
 
 QString parseHTML(TObject message)
 {
@@ -175,63 +164,4 @@ QString parseHTML(TObject message)
     else items.last().chop(1);
 
     return items.join("").replace('\n', "<br>");
-}
-
-QSize paintContent(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index)
-{
-    qint32 x = option.rect.x();
-    qint32 y = option.rect.y();
-    qint32 w = option.rect.width();
-    qint32 h = option.rect.height();
-
-    QFontMetrics fm = QApplication::fontMetrics();
-    QFont font = QApplication::font();
-
-    TObject message = index.data().toMap();
-    TObject fromPeer = index.data(Qt::UserRole).toMap();
-
-    QString peerName;
-    switch (ID(fromPeer)) {
-    case TLType::UserEmpty:
-    case TLType::User:
-        peerName = fromPeer["first_name"].toString() + " " + fromPeer["last_name"].toString();
-        break;
-    default:
-        //this is a chat, probably.
-        peerName = fromPeer["title"].toString();
-        break;
-    }
-    peerName = fm.elidedText(peerName, Qt::ElideRight, w);
-
-    QTextDocument doc;
-    doc.setDocumentMargin(0);
-    doc.setHtml(parseHTML(message));
-    doc.setTextWidth(w);
-    doc.setDefaultFont(font);
-
-    if (!painter)
-        return QSize(w, fm.lineSpacing() + doc.size().toSize().height());
-
-    QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &option, painter);
-
-    painter->drawText(x, y, w, h, Qt::TextSingleLine | Qt::AlignLeft | Qt::AlignTop, peerName);
-    y += fm.lineSpacing();
-
-    QPixmap htmlPixmap(doc.size().toSize());
-    htmlPixmap.fill(Qt::transparent);
-    QPainter htmlPainter(&htmlPixmap);
-    doc.drawContents(&htmlPainter);
-    painter->drawPixmap(x, y, htmlPixmap);
-
-    return QSize();
-}
-
-void HistoryItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-    paintContent(painter, option, index);
-}
-
-QSize HistoryItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-    return paintContent(0, option, index);
 }

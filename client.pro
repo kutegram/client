@@ -27,24 +27,22 @@ SOURCES += src/main.cpp \
     src/dialogitemmodel.cpp \
     src/dialogitemdelegate.cpp \
     src/flickcharm.cpp \
-    src/historyitemdelegate.cpp \
-    src/historyitemmodel.cpp \
     src/historywindow.cpp \
-    src/historyview.cpp \
     src/avatars.cpp \
-    src/messagedocument.cpp
+    src/messagedocument.cpp \
+    src/messages.cpp \
+    src/messagelabel.cpp
 
 HEADERS += src/mainwindow.h \
     src/dialogitemmodel.h \
     src/dialogitemdelegate.h \
     src/flickcharm.h \
-    src/historyitemdelegate.h \
-    src/historyitemmodel.h \
     src/historywindow.h \
-    src/historyview.h \
     src/main.h \
     src/avatars.h \
-    src/messagedocument.h
+    src/messagedocument.h \
+    src/messages.h \
+    src/messagelabel.h
 
 FORMS += src/mainwindow.ui \
     src/historywindow.ui
