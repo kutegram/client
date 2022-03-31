@@ -2,15 +2,33 @@
 
 #include <QStringList>
 #include <QDebug>
-#include "tl.h"
 #include "tlschema.h"
+#include "avatars.h"
 
 using namespace TLType;
 
-QString parseHTML(TObject message)
+QString peerNameToHtml(TObject peer)
+{
+    QString peerName;
+
+    switch (ID(peer)) {
+    case TLType::UserEmpty:
+    case TLType::User:
+        peerName = peer["first_name"].toString() + " " + peer["last_name"].toString();
+        break;
+    default:
+        //this is a chat, probably.
+        peerName = peer["title"].toString();
+        break;
+    }
+
+    return "<span style=\"font-weight:bold;color:" + userColor(peer["id"].toLongLong()).name() + "\">" + peerName + "</span>";
+}
+
+QString messageToHtml(TObject message)
 {
     if (ID(message) != Message) {
-        qDebug() << "[parseHTML] Invalid object id: object is not a message.";
+        qDebug() << "[messageToHtml] Invalid object id: object is not a message.";
         return QString();
     }
 
@@ -18,7 +36,7 @@ QString parseHTML(TObject message)
     QList<char> count;
 
     QString originalText = message["message"].toString();
-    items << originalText + ' ';
+    items << QString(originalText).replace('<', "&lt;").replace('>', "&gt;") + ' ';
     count << true;
     TVector entities = message["entities"].toList();
 

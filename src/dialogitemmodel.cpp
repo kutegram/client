@@ -157,13 +157,13 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, TVector d, TVe
         TObject item = c[i].toMap();
         chats.insert(item["id"].toLongLong(), item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        chatsThumbnails.insert(item["id"].toLongLong(), Avatars::generateThumbnail(item["id"].toLongLong(), item["title"].toString(), fH));
+        chatsThumbnails.insert(item["id"].toLongLong(), generateThumbnail(item["id"].toLongLong(), item["title"].toString(), fH));
     }
     for (qint32 i = 0; i < u.size(); ++i) {
         TObject item = u[i].toMap();
         users.insert(item["id"].toLongLong(), item);
         //if (item.photo.type) avatars.insert(item.id, client->getFile(TLInputFileLocation(item.photo.photoSmall, TLInputPeer(item), false))); TODO
-        usersThumbnails.insert(item["id"].toLongLong(), Avatars::generateThumbnail(item["id"].toLongLong(), item["first_name"].toString() + " " + item["last_name"].toString(), fH));
+        usersThumbnails.insert(item["id"].toLongLong(), generateThumbnail(item["id"].toLongLong(), item["first_name"].toString() + " " + item["last_name"].toString(), fH));
     }
 
     beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);

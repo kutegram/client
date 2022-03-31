@@ -5,6 +5,11 @@
 #include <QScrollBar>
 #include <QMutexLocker>
 #include "messagelabel.h"
+#include "tlschema.h"
+#include "tl.h"
+#include "main.h"
+
+using namespace TLType;
 
 HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *parent) :
     QMainWindow(parent),
@@ -19,7 +24,10 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
     loadMutex(QMutex::Recursive),
     offsetId(),
     offsetDate(),
-    requestId()
+    requestId(),
+    messages(),
+    chats(),
+    users()
 {
     ui->setupUi(this);
 #if QT_VERSION >= 0x040702
@@ -106,14 +114,38 @@ void HistoryWindow::client_gotMessages(qint64 mtm, qint32 count, TVector m, TVec
 
 void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
 {
+    for (qint32 i = 0; i < c.size(); ++i) {
+        TObject item = c[i].toMap();
+        chats.insert(item["id"].toLongLong(), item);
+    }
+    for (qint32 i = 0; i < u.size(); ++i) {
+        TObject item = u[i].toMap();
+        users.insert(item["id"].toLongLong(), item);
+    }
+
     for (qint32 i = m.size() - 1; i >= 0; --i) {
         TObject msg = m[i].toMap();
+        messages.insert(msg["id"].toInt(), msg);
+
         if (!offsetDate || msg["date"].toInt() < offsetDate) {
             offsetDate = msg["date"].toInt();
             offsetId = msg["id"].toInt();
         }
 
-        ui->messagesLayout->addWidget(new MessageLabel(msg, ui->scrollArea_contents));
+        TObject from = msg["from_id"].toMap();
+        switch (ID(from)) {
+        case PeerChannel:
+        case PeerChat:
+            from = chats[getPeerId(from).toLongLong()];
+            break;
+        case PeerUser:
+            from = users[getPeerId(from).toLongLong()];
+            break;
+        }
+
+        MessageLabel* messageLabel = new MessageLabel(msg, from, ui->scrollArea_contents);
+        connect(messageLabel, SIGNAL(anchorClicked(QUrl)), this, SLOT(messageAnchorClicked(QUrl)));
+        ui->messagesLayout->addWidget(messageLabel);
     }
 }
 
@@ -131,4 +163,10 @@ void HistoryWindow::client_updateNewMessage(TObject message, qint32 pts, qint32 
 //    messages.insert(message["id"].toInt(), message);
 
 //    endInsertRows();
+}
+
+void HistoryWindow::messageAnchorClicked(const QUrl &link)
+{
+    if (link.scheme() == "kutegram") return;
+    openUrl(link);
 }

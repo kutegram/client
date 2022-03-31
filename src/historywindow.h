@@ -6,6 +6,7 @@
 #include "flickcharm.h"
 #include <QAction>
 #include <QMutex>
+#include <QHash>
 
 namespace Ui {
 class HistoryWindow;
@@ -30,6 +31,7 @@ public slots:
     void backAction_triggered();
     void client_gotMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
     void client_updateNewMessage(TObject message, qint32 pts, qint32 pts_count);
+    void messageAnchorClicked(const QUrl &link);
 
 private:
     Ui::HistoryWindow *ui;
@@ -45,6 +47,10 @@ private:
     qint32 offsetId;
     qint32 offsetDate;
     qint64 requestId;
+
+    QHash<qint32, TObject> messages;
+    QHash<qint64, TObject> chats;
+    QHash<qint64, TObject> users;
 };
 
 #endif // HISTORYWINDOW_H

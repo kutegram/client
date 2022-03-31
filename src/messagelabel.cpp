@@ -2,9 +2,10 @@
 
 #include <QAbstractTextDocumentLayout>
 
-MessageLabel::MessageLabel(TObject m, QWidget *parent) :
+MessageLabel::MessageLabel(TObject message, TObject from, QWidget *parent) :
     QTextBrowser(parent),
-    message(m)
+    message(message),
+    from(from)
 {
     //setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
@@ -21,7 +22,7 @@ MessageLabel::MessageLabel(TObject m, QWidget *parent) :
     setTextInteractionFlags(Qt::TextBrowserInteraction);
     setOpenExternalLinks(false);
     setOpenLinks(false);
-    setHtml(parseHTML(m));
+    setHtml(peerNameToHtml(from) + "<br>" + messageToHtml(message));
 }
 
 void MessageLabel::adjustMinimumSize(const QSizeF& size)

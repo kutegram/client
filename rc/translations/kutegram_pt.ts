@@ -9,7 +9,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.ui" line="77"/>
+        <location filename="../../src/historywindow.ui" line="70"/>
         <source>...</source>
         <translation></translation>
     </message>
@@ -18,17 +18,17 @@
         <translation type="obsolete">Carregando...</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="24"/>
+        <location filename="../../src/historywindow.cpp" line="33"/>
         <source>Type a message...</source>
         <translation>Digite a Mensagem...</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="33"/>
+        <location filename="../../src/historywindow.cpp" line="42"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="47"/>
+        <location filename="../../src/historywindow.cpp" line="56"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>

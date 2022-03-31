@@ -3,6 +3,7 @@
 
 #include "tl.h"
 
-QString parseHTML(TObject message);
+QString peerNameToHtml(TObject peer);
+QString messageToHtml(TObject message);
 
 #endif // MESSAGES_H

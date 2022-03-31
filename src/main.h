@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <QString>
+#include <QUrl>
 
 class QWidget;
 class QMainWindow;
@@ -26,5 +27,6 @@ void showExpanded(QMainWindow* window);
 void writeX11OrientationAngleProperty(QWidget* widget, ScreenOrientationX11 orientation = Portrait);
 
 void showAvkonPopup(QString title, QString message);
+void openUrl(const QUrl &url);
 
 #endif // MAIN_H

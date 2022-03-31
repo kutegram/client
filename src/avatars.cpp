@@ -5,7 +5,8 @@
 #include <QFontMetrics>
 #include <QStyle>
 
-QColor Avatars::userColor(qint64 id) {
+QColor userColor(qint64 id)
+{
    return QColor::fromHsl(id % 360, 140, 140);
 }
 
@@ -26,7 +27,7 @@ QString getAvatarText(QString title)
     return result;
 }
 
-QPixmap Avatars::generateThumbnail(qint64 id, QString name, qint32 size, qint32 fontSize)
+QPixmap generateThumbnail(qint64 id, QString name, qint32 size, qint32 fontSize)
 {
     QPixmap pixmap(size, size);
     pixmap.fill(Qt::transparent);
