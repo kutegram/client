@@ -38,23 +38,23 @@ TARGET.CAPABILITY = ReadUserData WriteUserData UserEnvironment NetworkServices L
 ICON = rc/icons/hicolor/scalable/apps/kutegram.svg
 
 LIBS += -lavkon \
-    -laknnotify \
-    -lhwrmlightclient \
+#    -laknnotify \
+#    -lhwrmlightclient \
     -lapgrfx \
     -lcone \
-    -lws32 \
-    -lbitgdi \
-    -lfbscli \
-    -laknskins \
-    -laknskinsrv \
+#    -lws32 \
+#    -lbitgdi \
+#    -lfbscli \
+#    -laknskins \
+#    -laknskinsrv \
     -leikcore \
     -lapmime \
-    -lefsrv \
-    -leuser \
-    -lcommondialogs \
-    -lesock \
-    -lmediaclientaudio \
-    -lprofileengine \
-    -lcntmodel \
-    -lbafl \
-    -lmgfetch
+#    -lefsrv \
+#    -leuser \
+#    -lcommondialogs \
+#    -lesock \
+#    -lmediaclientaudio \
+#    -lprofileengine \
+#    -lcntmodel \
+#    -lbafl \
+#    -lmgfetch
