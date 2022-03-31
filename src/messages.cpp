@@ -133,8 +133,8 @@ QString messageToHtml(TObject message)
             break;
 
         case MessageEntitySpoiler:
-            sTag = "<span style=\"background-color:lightgray;color:lightgray;\">";
-            eTag = "</span>";
+            sTag = "<a href=\"kutegram://spoiler/" + QString::number(i) + "\" style=\"background-color:gray;color:gray;\">";
+            eTag = "</a>";
             break;
         }
 

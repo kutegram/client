@@ -2,6 +2,8 @@ APPNAME = kutegram
 TARGET = kutegram
 TEMPLATE = app
 
+QT += xml
+
 VERSION = 0.0.2
 DATE = $$system(date /t)
 DEFINES += VERSION=\"\\\"$$VERSION\\\"\"
@@ -29,7 +31,6 @@ SOURCES += src/main.cpp \
     src/flickcharm.cpp \
     src/historywindow.cpp \
     src/avatars.cpp \
-    src/messagedocument.cpp \
     src/messages.cpp \
     src/messagelabel.cpp
 
@@ -40,7 +41,6 @@ HEADERS += src/mainwindow.h \
     src/historywindow.h \
     src/main.h \
     src/avatars.h \
-    src/messagedocument.h \
     src/messages.h \
     src/messagelabel.h
 

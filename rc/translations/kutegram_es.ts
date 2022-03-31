@@ -14,17 +14,17 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="33"/>
+        <location filename="../../src/historywindow.cpp" line="38"/>
         <source>Type a message...</source>
         <translation>Escribir mensaje:</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="42"/>
+        <location filename="../../src/historywindow.cpp" line="47"/>
         <source>Options</source>
         <translation>Opciones</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="56"/>
+        <location filename="../../src/historywindow.cpp" line="61"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>

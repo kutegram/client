@@ -18,17 +18,17 @@
         <translation type="obsolete">Загрузка...</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="33"/>
+        <location filename="../../src/historywindow.cpp" line="38"/>
         <source>Type a message...</source>
         <translation>Написать сообщение...</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="42"/>
+        <location filename="../../src/historywindow.cpp" line="47"/>
         <source>Options</source>
         <translation>Функции</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="56"/>
+        <location filename="../../src/historywindow.cpp" line="61"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>

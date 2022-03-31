@@ -4,6 +4,11 @@
 #include "library/telegramclient.h"
 #include <QScrollBar>
 #include <QMutexLocker>
+#include <QTextDocument>
+#include <QTextBlock>
+#include <QDomDocument>
+#include <QDomNodeList>
+#include <QXmlSimpleReader>
 #include "messagelabel.h"
 #include "tlschema.h"
 #include "tl.h"
@@ -167,6 +172,24 @@ void HistoryWindow::client_updateNewMessage(TObject message, qint32 pts, qint32 
 
 void HistoryWindow::messageAnchorClicked(const QUrl &link)
 {
-    if (link.scheme() == "kutegram") return;
-    openUrl(link);
+    if (link.scheme() == "kutegram") {
+        if (link.host() == "spoiler") {
+            MessageLabel* s = static_cast<MessageLabel*>(sender());
+            if (!s) return;
+
+            QDomDocument dom;
+            dom.setContent(s->document()->toHtml(), false);
+            QDomNodeList list = dom.elementsByTagName("a");
+            for (qint32 i = 0; i < list.count(); ++i) {
+                QDomElement node = list.at(i).toElement();
+                if (node.attribute("href") == link.toString()) {
+                    node.removeAttribute("href");
+                    node.firstChildElement("span").setAttribute("style", "background-color:lightgray;");
+                    break;
+                }
+            }
+            s->setHtml(dom.toString(-1));
+        }
+    }
+    else openUrl(link);
 }
