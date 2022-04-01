@@ -8,7 +8,7 @@ class MessageLabel : public QTextBrowser
 {
     Q_OBJECT
 public:
-    explicit MessageLabel(TObject message, TObject from, QWidget *parent = 0);
+    explicit MessageLabel(TObject message, TObject from, TObject replyMessage, TObject replyPeer, QWidget *parent = 0);
     TObject message;
     TObject from;
 signals:

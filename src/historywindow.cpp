@@ -143,22 +143,46 @@ void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVec
             offsetDate = msg["date"].toInt();
             offsetId = msg["id"].toInt();
         }
+    }
 
-        TObject from = msg["from_id"].toMap();
-        switch (ID(from)) {
+    for (qint32 i = 0; i < m.size(); ++i) {
+        addMessageWidget(m[i].toMap(), true);
+    }
+}
+
+void HistoryWindow::addMessageWidget(TObject msg, bool insert)
+{
+    TObject from = msg["from_id"].toMap();
+    switch (ID(from)) {
+    case PeerChannel:
+    case PeerChat:
+        from = chats[getPeerId(from).toLongLong()];
+        break;
+    case PeerUser:
+        from = users[getPeerId(from).toLongLong()];
+        break;
+    }
+
+    TObject replyMessage;
+    TObject replyPeer;
+    if (ID(msg["reply_to"].toMap())) {
+        replyMessage = messages[msg["reply_to"].toMap()["reply_to_msg_id"].toInt()];
+        replyPeer = replyMessage["from_id"].toMap();
+        switch (ID(replyPeer)) {
         case PeerChannel:
         case PeerChat:
-            from = chats[getPeerId(from).toLongLong()];
+            replyPeer = chats[getPeerId(replyPeer).toLongLong()];
             break;
         case PeerUser:
-            from = users[getPeerId(from).toLongLong()];
+            replyPeer = users[getPeerId(replyPeer).toLongLong()];
             break;
         }
-
-        MessageLabel* messageLabel = new MessageLabel(msg, from, ui->scrollArea_contents);
-        connect(messageLabel, SIGNAL(anchorClicked(QUrl)), this, SLOT(messageAnchorClicked(QUrl)));
-        ui->messagesLayout->insertWidget(1, messageLabel);
     }
+
+    MessageLabel* messageLabel = new MessageLabel(msg, from, replyMessage, replyPeer, ui->scrollArea_contents);
+    connect(messageLabel, SIGNAL(anchorClicked(QUrl)), this, SLOT(messageAnchorClicked(QUrl)));
+    if (insert) ui->messagesLayout->insertWidget(1, messageLabel);
+    else ui->messagesLayout->addWidget(messageLabel);
 }
 
 void HistoryWindow::client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_count)
@@ -171,20 +195,7 @@ void HistoryWindow::client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_
 
     messages.insert(msg["id"].toInt(), msg);
 
-    TObject from = msg["from_id"].toMap();
-    switch (ID(from)) {
-    case PeerChannel:
-    case PeerChat:
-        from = chats[getPeerId(from).toLongLong()];
-        break;
-    case PeerUser:
-        from = users[getPeerId(from).toLongLong()];
-        break;
-    }
-
-    MessageLabel* messageLabel = new MessageLabel(msg, from, ui->scrollArea_contents);
-    connect(messageLabel, SIGNAL(anchorClicked(QUrl)), this, SLOT(messageAnchorClicked(QUrl)));
-    ui->messagesLayout->addWidget(messageLabel);
+    addMessageWidget(msg, false);
 }
 
 void HistoryWindow::messageAnchorClicked(const QUrl &link)

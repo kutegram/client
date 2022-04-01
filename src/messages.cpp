@@ -25,6 +25,18 @@ QString peerNameToHtml(TObject peer)
     return "<span style=\"font-weight:bold;color:" + userColor(peer["id"].toLongLong()).name() + "\">" + peerName + "</span>";
 }
 
+QString replyToHtml(TObject reply, TObject replyPeer)
+{
+    if (ID(reply) != Message) {
+        qWarning() << "[replyToHtml] Invalid object." << ID(reply);
+        return QString();
+    }
+
+    QString replyText = reply["message"].toString().replace('\n', " ");
+
+    return "<table><tr><td style=\"background-color:" + userColor(replyPeer["id"].toLongLong()).name() + ";\">&nbsp;</td><td>&nbsp;" + peerNameToHtml(replyPeer) + "<br>&nbsp;" + replyText.mid(0, 50) + (replyText.length() > 50 ? "..." : "") + "</td></tr></table>";
+}
+
 QString messageToHtml(TObject message)
 {
     if (ID(message) != Message) {

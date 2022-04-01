@@ -25,6 +25,7 @@ public:
     void loadMessages();
     void gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
     void gotReplyMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
+    void addMessageWidget(TObject msg, bool insert);
 
 public slots:
     void sendButton_clicked();
