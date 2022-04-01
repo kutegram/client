@@ -166,30 +166,32 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, TVector d, TVe
         usersThumbnails.insert(item["id"].toLongLong(), generateThumbnail(item["id"].toLongLong(), item["first_name"].toString() + " " + item["last_name"].toString(), fH));
     }
 
-    beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);
+    if (!d.isEmpty()) {
+        beginInsertRows(QModelIndex(), dialogs.size(), dialogs.size() + d.size() - 1);
 
-    for (qint32 i = 0; i < d.size(); ++i) {
-        TObject item = d[i].toMap();
-        TObject topMessage = messages[item["top_message"].toInt()];
-        if (!offsetDate || topMessage["date"].toInt() < offsetDate) {
-            offsetDate = topMessage["date"].toInt();
-            offsetId = topMessage["id"].toInt();
+        for (qint32 i = 0; i < d.size(); ++i) {
+            TObject item = d[i].toMap();
+            TObject topMessage = messages[item["top_message"].toInt()];
+            if (!offsetDate || topMessage["date"].toInt() < offsetDate) {
+                offsetDate = topMessage["date"].toInt();
+                offsetId = topMessage["id"].toInt();
 
-            switch (ID(topMessage["peer"].toMap())) {
-            case TLType::PeerChat:
-            case TLType::PeerChannel:
-                offsetPeer = getInputPeer(chats[getPeerId(topMessage["peer"].toMap()).toLongLong()]);
-                break;
-            case TLType::PeerUser:
-                offsetPeer = getInputPeer(users[getPeerId(topMessage["peer"].toMap()).toLongLong()]);
-                break;
+                switch (ID(topMessage["peer_id"].toMap())) {
+                case TLType::PeerChat:
+                case TLType::PeerChannel:
+                    offsetPeer = getInputPeer(chats[getPeerId(topMessage["peer_id"].toMap()).toLongLong()]);
+                    break;
+                case TLType::PeerUser:
+                    offsetPeer = getInputPeer(users[getPeerId(topMessage["peer_id"].toMap()).toLongLong()]);
+                    break;
+                }
             }
+
+            dialogs << item;
         }
 
-        dialogs << item;
+        endInsertRows();
     }
-
-    endInsertRows();
 
     requestLock.unlock();
 }
