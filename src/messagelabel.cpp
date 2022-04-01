@@ -7,8 +7,6 @@ MessageLabel::MessageLabel(TObject message, TObject from, QWidget *parent) :
     message(message),
     from(from)
 {
-    //setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-
     setReadOnly(true);
     setFrameStyle(QFrame::NoFrame);
     QPalette pal = palette();
@@ -27,5 +25,6 @@ MessageLabel::MessageLabel(TObject message, TObject from, QWidget *parent) :
 
 void MessageLabel::adjustMinimumSize(const QSizeF& size)
 {
+    setMaximumHeight(size.height() + 2 * frameWidth());
     setMinimumHeight(size.height() + 2 * frameWidth());
 }
