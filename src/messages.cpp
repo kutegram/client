@@ -28,7 +28,7 @@ QString peerNameToHtml(TObject peer)
 QString messageToHtml(TObject message)
 {
     if (ID(message) != Message) {
-        qDebug() << "[messageToHtml] Invalid object id: object is not a message.";
+        qWarning() << "[messageToHtml] Invalid object." << ID(message);
         return QString();
     }
 
