@@ -152,7 +152,7 @@ void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVec
     }
 }
 
-void HistoryWindow::addMessageWidget(TObject msg, bool insert)
+TObject HistoryWindow::getMessagePeer(TObject msg)
 {
     TObject from = msg["from_id"].toMap();
     switch (ID(from)) {
@@ -165,20 +165,30 @@ void HistoryWindow::addMessageWidget(TObject msg, bool insert)
         break;
     }
 
+    if (ID(from) == 0) {
+        from = msg["peer_id"].toMap();
+        switch (ID(from)) {
+        case PeerChannel:
+        case PeerChat:
+            from = chats[getPeerId(from).toLongLong()];
+            break;
+        case PeerUser:
+            from = users[getPeerId(from).toLongLong()];
+            break;
+        }
+    }
+
+    return from;
+}
+
+void HistoryWindow::addMessageWidget(TObject msg, bool insert)
+{
+    TObject from = getMessagePeer(msg);
     TObject replyMessage;
     TObject replyPeer;
     if (ID(msg["reply_to"].toMap())) {
         replyMessage = messages[msg["reply_to"].toMap()["reply_to_msg_id"].toInt()];
-        replyPeer = replyMessage["from_id"].toMap();
-        switch (ID(replyPeer)) {
-        case PeerChannel:
-        case PeerChat:
-            replyPeer = chats[getPeerId(replyPeer).toLongLong()];
-            break;
-        case PeerUser:
-            replyPeer = users[getPeerId(replyPeer).toLongLong()];
-            break;
-        }
+        replyPeer = getMessagePeer(replyMessage);
     }
 
     MessageLabel* messageLabel = new MessageLabel(msg, from, replyMessage, replyPeer, ui->scrollArea_contents);
