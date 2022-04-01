@@ -22,6 +22,8 @@ QString peerNameToHtml(TObject peer)
         break;
     }
 
+    peerName = peerName.mid(0, 40) + (peerName.length() > 40 ? "..." : "");
+
     return "<span style=\"font-weight:bold;color:" + userColor(peer["id"].toLongLong()).name() + "\">" + peerName + "</span>";
 }
 
@@ -34,7 +36,7 @@ QString replyToHtml(TObject reply, TObject replyPeer)
 
     QString replyText = reply["message"].toString().replace('\n', " ");
 
-    return "<table><tr><td style=\"background-color:" + userColor(replyPeer["id"].toLongLong()).name() + ";\">&nbsp;</td><td>&nbsp;" + peerNameToHtml(replyPeer) + "<br>&nbsp;" + replyText.mid(0, 50) + (replyText.length() > 50 ? "..." : "") + "</td></tr></table>";
+    return "<table><tr><td style=\"background-color:" + userColor(replyPeer["id"].toLongLong()).name() + ";\">&nbsp;</td><td>&nbsp;" + peerNameToHtml(replyPeer) + "<br>&nbsp;" + replyText.mid(0, 40) + (replyText.length() > 40 ? "..." : "") + "</td></tr></table>";
 }
 
 QString messageToHtml(TObject message)
