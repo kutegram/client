@@ -69,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     flickcharm.activateOn(ui->dialogView);
 
     ui->tabBar->setDrawBase(false);
+    ui->tabBar->addTab(QApplication::translate("MainWindow", "All chats", 0, QApplication::UnicodeUTF8));
+
     ui->dialogView->setModel(dialogModel = new DialogItemModel(client, ui->dialogView));
     ui->dialogView->setItemDelegate(new DialogItemDelegate(ui->dialogView));
 
