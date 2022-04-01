@@ -144,7 +144,7 @@ void DialogItemModel::client_gotDialogs(qint64 mtm, qint32 count, TVector d, TVe
     requestId = 0;
 
     if (!count) gotFull = true;
-    else gotFull |= (d.count() != 40);
+    else gotFull |= d.isEmpty();
 
     for (qint32 i = 0; i < m.size(); ++i)
         messages.insert(m[i].toMap()["id"].toInt(), m[i].toMap());

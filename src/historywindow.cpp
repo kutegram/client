@@ -32,7 +32,8 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
     requestId(),
     messages(),
     chats(),
-    users()
+    users(),
+    loadEnds()
 {
     ui->setupUi(this);
 #if QT_VERSION >= 0x040702
@@ -74,6 +75,9 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
 
     flickcharm.activateOn(ui->scrollArea);
 
+    connect(ui->scrollArea->verticalScrollBar(), SIGNAL(sliderReleased()), this, SLOT(sliderReleased()));
+    connect(ui->scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(valueChanged(int)));
+    connect(ui->scrollArea->verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(rangeChanged(int,int)));
     connect(client, SIGNAL(gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)));
     connect(client, SIGNAL(updateNewMessage(TObject,qint32,qint32)), this, SLOT(client_updateNewMessage(TObject,qint32,qint32)));
 
@@ -101,7 +105,7 @@ void HistoryWindow::loadMessages()
 {
     QMutexLocker locker(&loadMutex);
 
-    if (requestId) return;
+    if (requestId || loadEnds) return;
     requestId = client->getHistory(peer, offsetId, offsetDate, 0, 40);
 }
 
@@ -111,6 +115,7 @@ void HistoryWindow::client_gotMessages(qint64 mtm, qint32 count, TVector m, TVec
 
     if (mtm == requestId) {
         gotHistoryMessages(mtm, count, m, c, u, offsetIdOffset, nextRate, inexact);
+        requestId = 0;
     }
 //    else if (mtm == replyRequestId) {
 //        gotReplyMessages(mtm, count, m, c, u, offsetIdOffset, nextRate, inexact);
@@ -119,6 +124,8 @@ void HistoryWindow::client_gotMessages(qint64 mtm, qint32 count, TVector m, TVec
 
 void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
 {
+    if (m.isEmpty()) loadEnds = true;
+
     for (qint32 i = 0; i < c.size(); ++i) {
         TObject item = c[i].toMap();
         chats.insert(item["id"].toLongLong(), item);
@@ -128,7 +135,7 @@ void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVec
         users.insert(item["id"].toLongLong(), item);
     }
 
-    for (qint32 i = m.size() - 1; i >= 0; --i) {
+    for (qint32 i = 0; i < m.size(); ++i) {
         TObject msg = m[i].toMap();
         messages.insert(msg["id"].toInt(), msg);
 
@@ -150,24 +157,34 @@ void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVec
 
         MessageLabel* messageLabel = new MessageLabel(msg, from, ui->scrollArea_contents);
         connect(messageLabel, SIGNAL(anchorClicked(QUrl)), this, SLOT(messageAnchorClicked(QUrl)));
-        ui->messagesLayout->addWidget(messageLabel);
+        ui->messagesLayout->insertWidget(1, messageLabel);
     }
 }
 
-void HistoryWindow::client_updateNewMessage(TObject message, qint32 pts, qint32 pts_count)
+void HistoryWindow::client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_count)
 {
-//    QMutexLocker locker(&requestLock);
+    QMutexLocker locker(&loadMutex);
 
-//    //TODO: test PTS sequence
-//    //TODO: load needed information
-//    if (getPeerId(message["peer_id"].toMap()) != getPeerId(peer)) return;
+    //TODO: test PTS sequence
+    //TODO: load needed information
+    if (getPeerId(msg["peer_id"].toMap()) != getPeerId(peer)) return;
 
-//    beginInsertRows(QModelIndex(), history.size(), history.size());
+    messages.insert(msg["id"].toInt(), msg);
 
-//    history.append(message["id"].toInt());
-//    messages.insert(message["id"].toInt(), message);
+    TObject from = msg["from_id"].toMap();
+    switch (ID(from)) {
+    case PeerChannel:
+    case PeerChat:
+        from = chats[getPeerId(from).toLongLong()];
+        break;
+    case PeerUser:
+        from = users[getPeerId(from).toLongLong()];
+        break;
+    }
 
-//    endInsertRows();
+    MessageLabel* messageLabel = new MessageLabel(msg, from, ui->scrollArea_contents);
+    connect(messageLabel, SIGNAL(anchorClicked(QUrl)), this, SLOT(messageAnchorClicked(QUrl)));
+    ui->messagesLayout->addWidget(messageLabel);
 }
 
 void HistoryWindow::messageAnchorClicked(const QUrl &link)
@@ -192,4 +209,21 @@ void HistoryWindow::messageAnchorClicked(const QUrl &link)
         }
     }
     else openUrl(link);
+}
+
+void HistoryWindow::sliderReleased()
+{
+    if (ui->scrollArea->verticalScrollBar()->value() == ui->scrollArea->verticalScrollBar()->minimum()) {
+        loadMessages();
+    }
+}
+
+void HistoryWindow::rangeChanged(int min, int max)
+{
+    //qDebug() << min << max;
+}
+
+void HistoryWindow::valueChanged(int value)
+{
+    //qDebug() << value;
 }
