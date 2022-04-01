@@ -96,6 +96,8 @@ MainWindow::~MainWindow()
 void MainWindow::logoutAction_triggered()
 {
     client->reset();
+    ui->introStackedWidget->slideInIdx(3);
+    ui->stackedWidget->slideInIdx(0);
 }
 
 void MainWindow::quitAction_triggered()
