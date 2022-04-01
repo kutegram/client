@@ -55,6 +55,9 @@ private:
     QHash<qint32, TObject> messages;
     QHash<qint64, TObject> chats;
     QHash<qint64, TObject> users;
+
+    qint32 lastMin;
+    qint32 lastMax;
 };
 
 #endif // HISTORYWINDOW_H

@@ -33,7 +33,9 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
     messages(),
     chats(),
     users(),
-    loadEnds()
+    loadEnds(),
+    lastMin(),
+    lastMax()
 {
     ui->setupUi(this);
 #if QT_VERSION >= 0x040702
@@ -231,7 +233,14 @@ void HistoryWindow::sliderReleased()
 
 void HistoryWindow::rangeChanged(int min, int max)
 {
-    //qDebug() << min << max;
+    if (ui->scrollArea->verticalScrollBar()->value() == lastMax) {
+        ui->scrollArea->verticalScrollBar()->setValue(max);
+    } else {
+        ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->value() - (lastMax - lastMin) + (max - min));
+    }
+
+    lastMax = max;
+    lastMin = min;
 }
 
 void HistoryWindow::valueChanged(int value)
