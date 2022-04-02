@@ -4,5 +4,6 @@
         <file>icons/hicolor/scalable/options.svg</file>
         <file>styles/stylesheet.css</file>
         <file>icons/hicolor/80x80/apps/kutegram.png</file>
+        <file>icons/hicolor/48x48/apps/kutegram.png</file>
     </qresource>
 </RCC>

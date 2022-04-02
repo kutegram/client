@@ -56,12 +56,14 @@ private:
     qint32 offsetId;
     qint32 offsetDate;
     qint64 requestId;
+    qint64 replyRequestId;
     bool loadEnds;
 
     QHash<qint32, TObject> messages;
     QHash<qint64, TObject> chats;
     QHash<qint64, TObject> users;
     QHash<qint32, MessageLabel*> labels;
+    QHash<qint32, TObject> replies;
 
     qint32 lastMin;
     qint32 lastMax;

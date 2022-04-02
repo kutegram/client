@@ -51,6 +51,7 @@ bool isInSilentMode()
 
 void showChatIcon()
 {
+    //TODO: QSystemTrayIcon
 #if defined(Q_OS_SYMBIAN) && defined(SYMBIAN3_READY)
     static bool chatIconStatus = false;
     if (!chatIconStatus) {
@@ -63,6 +64,7 @@ void showChatIcon()
 
 void hideChatIcon()
 {
+    //TODO: QSystemTrayIcon
 #if defined(Q_OS_SYMBIAN) && defined(SYMBIAN3_READY)
     RProperty iProperty;
     iProperty.Set(KPSUidCoreApplicationUIs, KCoreAppUIsUipInd, ECoreAppUIsDoNotShow);
@@ -96,6 +98,7 @@ void notificationBlink(int device) {
 
 void showSystemNotificationPopup(QString title, QString message)
 {
+     //TODO: only 1 message in 5 seconds
 #if defined(Q_OS_SYMBIAN) && defined(SYMBIAN3_READY)
     static TUid symbianUid = {SYMBIAN_UID};
     TPtrC16 sTitle(reinterpret_cast<const TUint16*>(title.utf16()));
@@ -103,11 +106,14 @@ void showSystemNotificationPopup(QString title, QString message)
     //TODO: icon?
     TRAP_IGNORE(CAknDiscreetPopup::ShowGlobalPopupL(sTitle, sMessage, KAknsIIDNone, KNullDesC, 0, 0, KAknDiscreetPopupDurationLong, 0, NULL, symbianUid));
 #elif !defined(Q_OS_SYMBIAN)
-    QSystemTrayIcon icon;
-    icon.show();
-    icon.setToolTip("Kutegram");
-    icon.showMessage(title, message);
-    icon.hide();
+    static QSystemTrayIcon* icon = 0;
+    if (!icon) {
+        icon = new QSystemTrayIcon();
+        icon->setIcon(QIcon(":/icons/hicolor/48x48/apps/kutegram.png"));
+        icon->setToolTip("Kutegram");
+        icon->show();
+    }
+    icon->showMessage(title, message, QSystemTrayIcon::Information, 2000);
 #endif
 }
 

@@ -2,6 +2,7 @@
 
 #include <QStringList>
 #include <QDebug>
+#include <QApplication>
 #include "tlschema.h"
 #include "avatars.h"
 
@@ -29,14 +30,16 @@ QString peerNameToHtml(TObject peer)
 
 QString replyToHtml(TObject reply, TObject replyPeer)
 {
-    if (ID(reply) != Message) {
+    qint32 id = ID(reply);
+    if (id != Message && id != MessageEmpty) {
         qWarning() << "[replyToHtml] Invalid object." << ID(reply);
         return QString();
     }
 
-    QString replyText = reply["message"].toString().replace('\n', " ");
+    QString replyText = id == MessageEmpty ? QApplication::translate("Messages", "Loading...", 0, QApplication::UnicodeUTF8) : reply["message"].toString().replace('\n', " ");
+    QString peerName = id == MessageEmpty ? replyText : peerNameToHtml(replyPeer);
 
-    return "<table><tr><td style=\"background-color:" + userColor(replyPeer["id"].toLongLong()).name() + ";\">&nbsp;</td><td>&nbsp;" + peerNameToHtml(replyPeer) + "<br>&nbsp;" + replyText.mid(0, 40) + (replyText.length() > 40 ? "..." : "") + "</td></tr></table>";
+    return "<table><tr><td style=\"background-color:" + userColor(replyPeer["id"].toLongLong()).name() + ";\">&nbsp;</td><td>&nbsp;" + peerName + "<br>&nbsp;" + replyText.mid(0, 40) + (replyText.length() > 40 ? "..." : "") + "</td></tr></table>";
 }
 
 QString messageToHtml(TObject message)

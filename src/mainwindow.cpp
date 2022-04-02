@@ -232,6 +232,9 @@ void MainWindow::dialogView_activated(QModelIndex index)
 void MainWindow::client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_count)
 {
     //TODO: improve it.
+    if (getPeerId(msg["from_id"].toMap()).toLongLong() == client->userId() ||
+        getPeerId(msg["peer_id"].toMap()).toLongLong() == client->userId()) return;
+
     showNotification(QApplication::translate("MainWindow", "New message", 0, QApplication::UnicodeUTF8),
             msg["message"].toString().mid(0, 40));
 }

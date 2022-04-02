@@ -30,9 +30,11 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
     offsetId(),
     offsetDate(),
     requestId(),
+    replyRequestId(),
     loadEnds(),
     messages(),
     labels(),
+    replies(),
     chats(),
     users(),
     lastMin(),
@@ -110,7 +112,7 @@ void HistoryWindow::loadMessages()
 {
     QMutexLocker locker(&loadMutex);
 
-    if (requestId || loadEnds) return;
+    if (replyRequestId || requestId || loadEnds) return;
     requestId = client->getHistory(peer, offsetId, offsetDate, 0, 40);
 }
 
@@ -122,9 +124,10 @@ void HistoryWindow::client_gotMessages(qint64 mtm, qint32 count, TVector m, TVec
         gotHistoryMessages(mtm, count, m, c, u, offsetIdOffset, nextRate, inexact);
         requestId = 0;
     }
-//    else if (mtm == replyRequestId) {
-//        gotReplyMessages(mtm, count, m, c, u, offsetIdOffset, nextRate, inexact);
-//    }
+    else if (mtm == replyRequestId) {
+        gotReplyMessages(mtm, count, m, c, u, offsetIdOffset, nextRate, inexact);
+        replyRequestId = 0;
+    }
 }
 
 void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
@@ -140,6 +143,7 @@ void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVec
         users.insert(item["id"].toLongLong(), item);
     }
 
+    TVector notFoundReplies;
     for (qint32 i = 0; i < m.size(); ++i) {
         TObject msg = m[i].toMap();
         messages.insert(msg["id"].toInt(), msg);
@@ -151,8 +155,42 @@ void HistoryWindow::gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVec
     }
 
     for (qint32 i = 0; i < m.size(); ++i) {
-        addMessageWidget(m[i].toMap(), true);
+        TObject msg = m[i].toMap();
+
+        qint32 replyingId = msg["reply_to"].toMap()["reply_to_msg_id"].toInt();
+        if (ID(msg["reply_to"].toMap()) && !ID(messages[replyingId])) {
+            notFoundReplies.append(getInputMessage(msg["reply_to"].toMap()));
+            replies.insert(replyingId, msg);
+            TGOBJECT(emptyMessage, MessageEmpty);
+            messages.insert(replyingId, emptyMessage);
+        }
+
+        addMessageWidget(msg, true);
     }
+
+    if (!notFoundReplies.isEmpty())
+        replyRequestId = client->getMessages(notFoundReplies);
+}
+
+void HistoryWindow::gotReplyMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact)
+{
+    for (qint32 i = 0; i < c.size(); ++i) {
+        TObject item = c[i].toMap();
+        chats.insert(item["id"].toLongLong(), item);
+    }
+
+    for (qint32 i = 0; i < u.size(); ++i) {
+        TObject item = u[i].toMap();
+        users.insert(item["id"].toLongLong(), item);
+    }
+
+    for (qint32 i = 0; i < m.size(); ++i) {
+        TObject msg = m[i].toMap();
+        messages.insert(msg["id"].toInt(), msg);
+        updateMessageWidget(replies[msg["id"].toInt()]);
+    }
+
+    replies.clear();
 }
 
 TObject HistoryWindow::getMessagePeer(TObject msg)
@@ -245,6 +283,9 @@ void HistoryWindow::client_updateEditMessage(TObject msg, qint32 pts, qint32 pts
 void HistoryWindow::client_updateDeleteMessages(TVector msgs, qint32 pts, qint32 pts_count)
 {
     QMutexLocker locker(&loadMutex);
+
+    //TODO: test PTS sequence
+    //TODO: load needed information
 
     for (qint32 i = 0; i < msgs.size(); ++i) {
         qint32 id = msgs[i].toInt();
