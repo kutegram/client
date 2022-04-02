@@ -15,8 +15,8 @@ isEmpty(QMAKE_LRELEASE) {
         !exists($$QMAKE_LRELEASE) { QMAKE_LRELEASE = lrelease }
 }
 
-system($$QMAKE_LUPDATE ..\client.pro)
-system($$QMAKE_LRELEASE ..\client.pro)
+system($$QMAKE_LUPDATE ../client.pro)
+system($$QMAKE_LRELEASE ../client.pro)
 
 #updatets.commands = $$QMAKE_LUPDATE -locations none -noobsolete client.pro
 #QMAKE_EXTRA_TARGETS += updatets
