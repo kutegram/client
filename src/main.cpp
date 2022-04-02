@@ -8,25 +8,7 @@
 #include <QLibraryInfo>
 #include <QFile>
 #include <QTextStream>
-#include <QDesktopServices>
-#include <QtCore/QtGlobal>
-
-#if defined(Q_OS_SYMBIAN)
-#include <avkon.hrh> // KAknDiscreetPopupDurationLong
-#include <eikenv.h> // CEikonEnv
-#include <apgcli.h> // RApaLsSession
-#include <apgtask.h> // TApaTaskList, TApaTask
-#endif
-
-#ifdef SYMBIAN3_READY
-#include <akndiscreetpopup.h>
-#endif
-
-#if defined(Q_OS_UNIX) && !defined(Q_OS_SYMBIAN)
-#include <QX11Info>
-#include <X11/Xatom.h>
-#include <X11/Xlib.h>
-#endif
+#include "devicehelper.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -113,19 +95,6 @@ void setOrientation(QMainWindow* window, ScreenOrientation orientation)
     window->setAttribute(attribute, true);
 }
 
-void writeX11OrientationAngleProperty(QWidget* widget, ScreenOrientationX11 orientation)
-{
-#ifdef Q_WS_X11
-    if (widget) {
-        WId id = widget->winId();
-        Display *display = QX11Info::display();
-        if (!display) return;
-        Atom orientationAngleAtom = XInternAtom(display, "_MEEGOTOUCH_ORIENTATION_ANGLE", False);
-        XChangeProperty(display, id, orientationAngleAtom, XA_CARDINAL, 32, PropModeReplace, (unsigned char*)&orientation, 1);
-    }
-#endif
-}
-
 void showExpanded(QMainWindow* window)
 {
     writeX11OrientationAngleProperty(window);
@@ -133,73 +102,5 @@ void showExpanded(QMainWindow* window)
     window->showMaximized();
 #else
     window->show();
-#endif
-}
-
-void showAvkonPopup(QString title, QString message)
-{
-#if defined(Q_OS_SYMBIAN) && defined(SYMBIAN3_READY)
-    TUid symbianUid = {SYMBIAN_UID};
-    TPtrC16 sTitle(reinterpret_cast<const TUint16*>(title.utf16()));
-    TPtrC16 sMessage(reinterpret_cast<const TUint16*>(message.utf16()));
-    TRAP_IGNORE(CAknDiscreetPopup::ShowGlobalPopupL(sTitle, sMessage, KAknsIIDNone, KNullDesC, 0, 0, KAknDiscreetPopupDurationLong, 0, NULL, symbianUid));
-#endif
-}
-
-void openUrl(const QUrl &url)
-{
-#ifdef Q_OS_SYMBIAN
-    TUid KUidBrowser = {0x10008D39};
-    _LIT(KBrowserPrefix, "4 " );
-
-    // convert url to encoded version of QString
-    QString encUrl(QString::fromUtf8(url.toEncoded()));
-    // using qt_QString2TPtrC() based on
-    // <http://qt.gitorious.org/qt/qt/blobs/4.7/src/corelib/kernel/qcore_symbian_p.h#line102>
-    TPtrC tUrl(TPtrC16(static_cast<const TUint16*>(encUrl.utf16()), encUrl.length()));
-
-    // Following code based on
-    // <http://www.developer.nokia.com/Community/Wiki/Launch_default_web_browser_using_Symbian_C%2B%2B>
-
-    // create a session with apparc server
-    RApaLsSession appArcSession;
-    User::LeaveIfError(appArcSession.Connect());
-    CleanupClosePushL<RApaLsSession>(appArcSession);
-
-    // get the default application uid for application/x-web-browse
-    TDataType mimeDatatype(_L8("application/x-web-browse"));
-    TUid handlerUID;
-    appArcSession.AppForDataType(mimeDatatype, handlerUID);
-
-    // if UiD not found, use the native browser
-    if (handlerUID.iUid == 0 || handlerUID.iUid == -1)
-        handlerUID = KUidBrowser;
-
-    // Following code based on
-    // <http://qt.gitorious.org/qt/qt/blobs/4.7/src/gui/util/qdesktopservices_s60.cpp#line213>
-
-    HBufC* buf16 = HBufC::NewLC(tUrl.Length() + KBrowserPrefix.iTypeLength);
-    buf16->Des().Copy(KBrowserPrefix); // Prefix used to launch correct browser view
-    buf16->Des().Append(tUrl);
-
-    TApaTaskList taskList(CCoeEnv::Static()->WsSession());
-    TApaTask task = taskList.FindApp(handlerUID);
-    if (task.Exists()) {
-        // Switch to existing browser instance
-        task.BringToForeground();
-        HBufC8* param8 = HBufC8::NewLC(buf16->Length());
-        param8->Des().Append(buf16->Des());
-        task.SendMessage(TUid::Uid( 0 ), *param8); // Uid is not used
-        CleanupStack::PopAndDestroy(param8);
-    } else {
-        // Start a new browser instance
-        TThreadId id;
-        appArcSession.StartDocument(*buf16, handlerUID, id);
-    }
-
-    CleanupStack::PopAndDestroy(buf16);
-    CleanupStack::PopAndDestroy(&appArcSession);
-#else
-    QDesktopServices::openUrl(url);
 #endif
 }

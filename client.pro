@@ -32,7 +32,8 @@ SOURCES += src/main.cpp \
     src/historywindow.cpp \
     src/avatars.cpp \
     src/messages.cpp \
-    src/messagelabel.cpp
+    src/messagelabel.cpp \
+    src/devicehelper.cpp
 
 HEADERS += src/mainwindow.h \
     src/dialogitemmodel.h \
@@ -42,7 +43,8 @@ HEADERS += src/mainwindow.h \
     src/main.h \
     src/avatars.h \
     src/messages.h \
-    src/messagelabel.h
+    src/messagelabel.h \
+    src/devicehelper.h
 
 FORMS += src/mainwindow.ui \
     src/historywindow.ui

@@ -9,7 +9,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.ui" line="70"/>
+        <location filename="../../src/historywindow.ui" line="87"/>
         <source>...</source>
         <translation></translation>
     </message>
@@ -18,17 +18,17 @@
         <translation type="obsolete">Завантаження...</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="38"/>
+        <location filename="../../src/historywindow.cpp" line="42"/>
         <source>Type a message...</source>
         <translation>Написати повідомлення...</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="47"/>
+        <location filename="../../src/historywindow.cpp" line="51"/>
         <source>Options</source>
         <translation>Опції</translation>
     </message>
     <message>
-        <location filename="../../src/historywindow.cpp" line="61"/>
+        <location filename="../../src/historywindow.cpp" line="65"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
@@ -53,7 +53,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="17"/>
         <location filename="../../src/mainwindow.ui" line="66"/>
-        <location filename="../../src/mainwindow.cpp" line="114"/>
+        <location filename="../../src/mainwindow.cpp" line="118"/>
         <source>Kutegram</source>
         <translation></translation>
     </message>
@@ -78,18 +78,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="258"/>
+        <location filename="../../src/mainwindow.ui" line="261"/>
         <source>Actions</source>
         <translation>Дії</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="269"/>
+        <location filename="../../src/mainwindow.ui" line="272"/>
         <source>Help</source>
         <translation>Допомога</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="102"/>
-        <location filename="../../src/mainwindow.ui" line="279"/>
+        <location filename="../../src/mainwindow.ui" line="282"/>
         <source>Log in</source>
         <translation>Авторизуватись</translation>
     </message>
@@ -113,22 +113,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="284"/>
+        <location filename="../../src/mainwindow.ui" line="287"/>
         <source>Quit</source>
         <translation type="unfinished">Вийти</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="292"/>
+        <location filename="../../src/mainwindow.ui" line="295"/>
         <source>Log out</source>
         <translation>Вийти з акауту</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="297"/>
+        <location filename="../../src/mainwindow.ui" line="300"/>
         <source>About Kutegram</source>
         <translation>Про Kutegram</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="305"/>
+        <location filename="../../src/mainwindow.ui" line="308"/>
         <source>About Qt</source>
         <translation>Про Qt</translation>
     </message>
@@ -148,7 +148,12 @@ p, li { white-space: pre-wrap; }
         <translation>Опції</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="115"/>
+        <location filename="../../src/mainwindow.cpp" line="72"/>
+        <source>All chats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="119"/>
         <source>Kutegram by curoviyxru
 An unofficial Qt-based client for Telegram messenger.
 Project&apos;s website: http://kg.curoviyx.ru
@@ -161,30 +166,30 @@ Telegram chat: https://t.me/kutegramchat</source>
 Чат Telegram: https://t.me/kutegramchat</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="150"/>
-        <location filename="../../src/mainwindow.cpp" line="160"/>
-        <location filename="../../src/mainwindow.cpp" line="170"/>
-        <location filename="../../src/mainwindow.cpp" line="186"/>
+        <location filename="../../src/mainwindow.cpp" line="154"/>
+        <location filename="../../src/mainwindow.cpp" line="164"/>
+        <location filename="../../src/mainwindow.cpp" line="174"/>
+        <location filename="../../src/mainwindow.cpp" line="190"/>
         <source>Error</source>
         <translation>Помилка</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="151"/>
+        <location filename="../../src/mainwindow.cpp" line="155"/>
         <source>Got socket error: %1</source>
         <translation>Помилка сокету: %1</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="161"/>
+        <location filename="../../src/mainwindow.cpp" line="165"/>
         <source>Got MT error: %1</source>
         <translation>Помилка МТ: %1</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="171"/>
+        <location filename="../../src/mainwindow.cpp" line="175"/>
         <source>Got DH error: %1</source>
         <translation>Помилка DH: %1</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="187"/>
+        <location filename="../../src/mainwindow.cpp" line="191"/>
         <source>Got RPC error: %1, %2, %3</source>
         <translation>Помилка RPC: %1, %2, %3</translation>
     </message>

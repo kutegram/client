@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QtEndian>
 #include <QDebug>
+#include "devicehelper.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -82,6 +83,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(client, SIGNAL(gotDHError(bool)), this, SLOT(client_gotDHError(bool)));
     connect(client, SIGNAL(gotMessageError(qint64,qint32)), this, SLOT(client_gotMessageError(qint64,qint32)));
     connect(client, SIGNAL(gotRPCError(qint64,qint32,QString,bool)), this, SLOT(client_gotRPCError(qint64,qint32,QString,bool)));
+
+    connect(client, SIGNAL(updateNewMessage(TObject,qint32,qint32)), this, SLOT(client_updateNewMessage(TObject,qint32,qint32)));
 
     if (client->isLoggedIn()) client->start();
 }
@@ -224,4 +227,11 @@ void MainWindow::dialogView_activated(QModelIndex index)
     HistoryWindow* window = new HistoryWindow(client, dialogModel->getInputPeerByIndex(index.row()), this);
     setOrientation(window, ScreenOrientationAuto);
     showExpanded(window);
+}
+
+void MainWindow::client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_count)
+{
+    //TODO: improve it.
+    showNotification(QApplication::translate("MainWindow", "New message", 0, QApplication::UnicodeUTF8),
+            msg["message"].toString().mid(0, 40));
 }

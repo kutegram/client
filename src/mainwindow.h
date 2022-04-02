@@ -41,6 +41,8 @@ public slots:
     void client_gotMessageError(qint64 mtm, qint32 error_code);
     void client_gotRPCError(qint64 mtm, qint32 error_code, QString error_message, bool handled);
 
+    void client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_count);
+
 private:
     FlickCharm flickcharm;
     TelegramClient *client;

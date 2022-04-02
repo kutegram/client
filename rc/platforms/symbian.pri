@@ -10,7 +10,7 @@ TARGET.EPOCSTACKSIZE = 0x08000
 #TARGET.EPOCALLOWDLLDATA = 1
 
 contains(SYMBIAN_VERSION, Symbian3) {
-    DEFINES += SYMBIAN3_READY
+    DEFINES += SYMBIAN3_READY=1
 }
 
 #QMAKE_CXXFLAGS.CW += -O2
@@ -39,7 +39,6 @@ ICON = rc/icons/hicolor/scalable/apps/kutegram.svg
 
 LIBS += -lavkon \
 #    -laknnotify \
-#    -lhwrmlightclient \
     -lapgrfx \
     -lcone \
 #    -lws32 \
@@ -58,3 +57,7 @@ LIBS += -lavkon \
 #    -lcntmodel \
 #    -lbafl \
 #    -lmgfetch
+
+contains(SYMBIAN_VERSION, Symbian3) {
+    LIBS += -lhwrmlightclient
+}

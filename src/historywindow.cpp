@@ -12,7 +12,7 @@
 #include "messagelabel.h"
 #include "tlschema.h"
 #include "tl.h"
-#include "main.h"
+#include "devicehelper.h"
 
 using namespace TLType;
 
