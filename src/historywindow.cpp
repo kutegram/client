@@ -30,10 +30,11 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
     offsetId(),
     offsetDate(),
     requestId(),
+    loadEnds(),
     messages(),
+    labels(),
     chats(),
     users(),
-    loadEnds(),
     lastMin(),
     lastMax()
 {
@@ -82,6 +83,8 @@ HistoryWindow::HistoryWindow(TelegramClient *client, TObject input, QWidget *par
     connect(ui->scrollArea->verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(rangeChanged(int,int)));
     connect(client, SIGNAL(gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)), this, SLOT(client_gotMessages(qint64,qint32,TVector,TVector,TVector,qint32,qint32,bool)));
     connect(client, SIGNAL(updateNewMessage(TObject,qint32,qint32)), this, SLOT(client_updateNewMessage(TObject,qint32,qint32)));
+    connect(client, SIGNAL(updateEditMessage(TObject,qint32,qint32)), this, SLOT(client_updateEditMessage(TObject,qint32,qint32)));
+    connect(client, SIGNAL(updateDeleteMessages(TVector,qint32,qint32)), this, SLOT(client_updateDeleteMessages(TVector,qint32,qint32)));
 
     loadMessages();
 }
@@ -193,8 +196,24 @@ void HistoryWindow::addMessageWidget(TObject msg, bool insert)
 
     MessageLabel* messageLabel = new MessageLabel(msg, from, replyMessage, replyPeer, ui->scrollArea_contents);
     connect(messageLabel, SIGNAL(anchorClicked(QUrl)), this, SLOT(messageAnchorClicked(QUrl)));
+    labels.insert(msg["id"].toInt(), messageLabel);
     if (insert) ui->messagesLayout->insertWidget(1, messageLabel);
     else ui->messagesLayout->addWidget(messageLabel);
+}
+
+void HistoryWindow::updateMessageWidget(TObject msg)
+{
+    TObject from = getMessagePeer(msg);
+    TObject replyMessage;
+    TObject replyPeer;
+    if (ID(msg["reply_to"].toMap())) {
+        replyMessage = messages[msg["reply_to"].toMap()["reply_to_msg_id"].toInt()];
+        replyPeer = getMessagePeer(replyMessage);
+    }
+
+    MessageLabel* messageLabel = labels[msg["id"].toInt()];
+    if (!messageLabel) return;
+    messageLabel->setMessage(msg, from, replyMessage, replyPeer);
 }
 
 void HistoryWindow::client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_count)
@@ -208,6 +227,34 @@ void HistoryWindow::client_updateNewMessage(TObject msg, qint32 pts, qint32 pts_
     messages.insert(msg["id"].toInt(), msg);
 
     addMessageWidget(msg, false);
+}
+
+void HistoryWindow::client_updateEditMessage(TObject msg, qint32 pts, qint32 pts_count)
+{
+    QMutexLocker locker(&loadMutex);
+
+    //TODO: test PTS sequence
+    //TODO: load needed information
+    if (getPeerId(msg["peer_id"].toMap()) != getPeerId(peer)) return;
+
+    messages.insert(msg["id"].toInt(), msg);
+
+    updateMessageWidget(msg);
+}
+
+void HistoryWindow::client_updateDeleteMessages(TVector msgs, qint32 pts, qint32 pts_count)
+{
+    QMutexLocker locker(&loadMutex);
+
+    for (qint32 i = 0; i < msgs.size(); ++i) {
+        qint32 id = msgs[i].toInt();
+        messages.remove(id);
+        MessageLabel* messageLabel = labels[id];
+        labels.remove(id);
+        if (!messageLabel) continue;
+        ui->messagesLayout->removeWidget(messageLabel);
+        messageLabel->deleteLater();
+    }
 }
 
 void HistoryWindow::messageAnchorClicked(const QUrl &link)

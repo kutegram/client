@@ -2,10 +2,12 @@
 
 #include <QAbstractTextDocumentLayout>
 
-MessageLabel::MessageLabel(TObject message, TObject from, TObject replyMessage, TObject replyPeer, QWidget *parent) :
+MessageLabel::MessageLabel(TObject message, TObject peer, TObject replyMessage, TObject replyPeer, QWidget *parent) :
     QTextBrowser(parent),
-    message(message),
-    from(from)
+    message(),
+    peer(),
+    replyMessage(),
+    replyPeer()
 {
     setReadOnly(true);
     setFrameStyle(QFrame::NoFrame);
@@ -21,15 +23,25 @@ MessageLabel::MessageLabel(TObject message, TObject from, TObject replyMessage, 
     setOpenExternalLinks(false);
     setOpenLinks(false);
 
-    QString html = peerNameToHtml(from);
-    if (ID(message) != 0) html += replyToHtml(replyMessage, replyPeer);
-    html += "<br>" + messageToHtml(message);
-
-    setHtml(html);
+    setMessage(message, peer, replyMessage, replyPeer);
 }
 
 void MessageLabel::adjustMinimumSize(const QSizeF& size)
 {
     setMaximumHeight(size.height() + 2 * frameWidth());
     setMinimumHeight(size.height() + 2 * frameWidth());
+}
+
+void MessageLabel::setMessage(TObject message, TObject peer, TObject replyMessage, TObject replyPeer)
+{
+    this->message = message;
+    this->peer = peer;
+    this->replyMessage = replyMessage;
+    this->replyPeer = replyPeer;
+
+    QString html = peerNameToHtml(peer);
+    if (ID(message) != 0) html += replyToHtml(replyMessage, replyPeer);
+    html += "<br>" + messageToHtml(message);
+
+    setHtml(html);
 }

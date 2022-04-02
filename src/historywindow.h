@@ -13,6 +13,7 @@ class HistoryWindow;
 }
 
 class TelegramClient;
+class MessageLabel;
 
 class HistoryWindow : public QMainWindow
 {
@@ -26,6 +27,7 @@ public:
     void gotHistoryMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
     void gotReplyMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
     void addMessageWidget(TObject msg, bool insert);
+    void updateMessageWidget(TObject msg);
     TObject getMessagePeer(TObject msg);
 
 public slots:
@@ -33,6 +35,8 @@ public slots:
     void backAction_triggered();
     void client_gotMessages(qint64 mtm, qint32 count, TVector m, TVector c, TVector u, qint32 offsetIdOffset, qint32 nextRate, bool inexact);
     void client_updateNewMessage(TObject message, qint32 pts, qint32 pts_count);
+    void client_updateEditMessage(TObject message, qint32 pts, qint32 pts_count);
+    void client_updateDeleteMessages(TVector messages, qint32 pts, qint32 pts_count);
     void messageAnchorClicked(const QUrl &link);
     void sliderReleased();
     void valueChanged(int value);
@@ -53,9 +57,11 @@ private:
     qint32 offsetDate;
     qint64 requestId;
     bool loadEnds;
+
     QHash<qint32, TObject> messages;
     QHash<qint64, TObject> chats;
     QHash<qint64, TObject> users;
+    QHash<qint32, MessageLabel*> labels;
 
     qint32 lastMin;
     qint32 lastMax;

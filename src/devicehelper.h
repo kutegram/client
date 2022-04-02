@@ -8,6 +8,7 @@
 //TODO: Maemo Vibration Example
 //TODO: desktop notification
 //TODO: notifications
+//TODO: check if app minimized
 
 enum ScreenOrientationX11
 {
