@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Softkeys with icon are on Symbian Belle and higher
     if (QSysInfo::s60Version() > QSysInfo::SV_S60_5_2)
     {
-        optionsAction.setIcon(QIcon(":/icons/options.svg"));
+        optionsAction.setIcon(QIcon(":/rc/icons/hicolor/scalable/options.svg"));
     }
     optionsAction.setSoftKeyRole(QAction::PositiveSoftKey);
     addAction(&optionsAction);
@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Softkeys with icon are on Symbian Belle and higher
     if (QSysInfo::s60Version() > QSysInfo::SV_S60_5_2)
     {
-        exitAction.setIcon(QIcon(":/icons/back.svg"));
+        exitAction.setIcon(QIcon(":/rc/icons/hicolor/scalable/back.svg"));
     }
 #endif
 
