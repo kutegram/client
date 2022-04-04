@@ -78,7 +78,7 @@ void playNotification(QString path)
 
 void setAppHiddenState(bool state)
 {
-#if defined(Q_OS_SYMBIAN)
+#if defined(Q_OS_SYMBIAN) && defined(SYMBIAN3_READY)
     static CAknAppUi* appUi = dynamic_cast<CAknAppUi*>(CEikonEnv::Static()->AppUi());
     appUi->HideApplicationFromFSW(state);
 #endif
@@ -129,7 +129,7 @@ void showNotification(QString title, QString message)
 void openUrl(const QUrl &url)
 {
 #ifdef Q_OS_SYMBIAN
-    static TUid KUidBrowser = {0x10008D39};
+    TUid KUidBrowser = {0x10008D39};
     _LIT(KBrowserPrefix, "4 " );
 
     // convert url to encoded version of QString
@@ -186,7 +186,7 @@ void openUrl(const QUrl &url)
 
 void writeX11OrientationAngleProperty(QWidget* widget, ScreenOrientationX11 orientation)
 {
-#ifdef Q_WS_X11
+#if defined(Q_OS_UNIX) && !defined(Q_OS_SYMBIAN)
     if (widget) {
         WId id = widget->winId();
         Display *display = QX11Info::display();
