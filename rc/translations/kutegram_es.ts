@@ -135,7 +135,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/mainwindow.cpp" line="72"/>
         <source>All chats</source>
-        <translation type="unfinished"></translation>
+        <translation>Conversaciones</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="119"/>
