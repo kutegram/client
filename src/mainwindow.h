@@ -4,7 +4,7 @@
 #include <QtGui/QMainWindow>
 #include <QModelIndex>
 #include "flickcharm.h"
-#include "library/telegramclient.h"
+#include "telegramclient.h"
 #include <QAction>
 
 namespace Ui {

@@ -1,7 +1,7 @@
 #include "historywindow.h"
 #include "ui_historywindow.h"
 
-#include "library/telegramclient.h"
+#include "telegramclient.h"
 #include <QScrollBar>
 #include <QMutexLocker>
 #include <QTextDocument>

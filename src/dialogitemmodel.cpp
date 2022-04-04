@@ -1,7 +1,7 @@
 #include "dialogitemmodel.h"
 
 #include "avatars.h"
-#include "library/telegramclient.h"
+#include "telegramclient.h"
 #include <QFontMetrics>
 #include <QApplication>
 #include "tlschema.h"
