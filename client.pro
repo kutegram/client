@@ -7,7 +7,7 @@ QT += xml
 VERSION = 0.0.2
 DATE = $$system(date /t)
 DEFINES += VERSION=\"\\\"$$VERSION\\\"\"
-DEFINES += BUILDDATE=\"\\\"$$DATE\\\"\"
+# DEFINES += BUILDDATE=\"\\\"$$DATE\\\"\"
 COMMIT_SHA = $$system(git log --pretty=format:%h -n 1);
 DEFINES += COMMIT_SHA=\"\\\"$$COMMIT_SHA\\\"\"
 
